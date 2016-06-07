@@ -7,6 +7,33 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */; };
+		366B56061D06A8B300C3B2B8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56051D06A8B300C3B2B8 /* CoreAudio.framework */; };
+		366B56081D06A9BB00C3B2B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */; };
+		366B562D1D06AE2D00C3B2B8 /* EZAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B560B1D06AE2D00C3B2B8 /* EZAudio.m */; };
+		366B562E1D06AE2D00C3B2B8 /* EZAudioDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B560D1D06AE2D00C3B2B8 /* EZAudioDevice.m */; };
+		366B562F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B560F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m */; };
+		366B56301D06AE2D00C3B2B8 /* EZAudioFFT.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56111D06AE2D00C3B2B8 /* EZAudioFFT.m */; };
+		366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56131D06AE2D00C3B2B8 /* EZAudioFile.m */; };
+		366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56151D06AE2D00C3B2B8 /* EZAudioFloatConverter.m */; };
+		366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56171D06AE2D00C3B2B8 /* EZAudioFloatData.m */; };
+		366B56341D06AE2D00C3B2B8 /* EZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B561B1D06AE2D00C3B2B8 /* EZAudioPlayer.m */; };
+		366B56351D06AE2D00C3B2B8 /* EZAudioPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B561D1D06AE2D00C3B2B8 /* EZAudioPlot.m */; };
+		366B56361D06AE2D00C3B2B8 /* EZAudioPlotGL.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B561F1D06AE2D00C3B2B8 /* EZAudioPlotGL.m */; };
+		366B56371D06AE2D00C3B2B8 /* EZAudioUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56211D06AE2D00C3B2B8 /* EZAudioUtilities.m */; };
+		366B56381D06AE2D00C3B2B8 /* EZMicrophone.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56231D06AE2D00C3B2B8 /* EZMicrophone.m */; };
+		366B56391D06AE2D00C3B2B8 /* EZOutput.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56251D06AE2D00C3B2B8 /* EZOutput.m */; };
+		366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56271D06AE2D00C3B2B8 /* EZPlot.m */; };
+		366B563B1D06AE2D00C3B2B8 /* EZRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 366B56291D06AE2D00C3B2B8 /* EZRecorder.m */; };
+		366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 366B562A1D06AE2D00C3B2B8 /* Info.plist */; };
+		366B563D1D06AE2D00C3B2B8 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 366B562B1D06AE2D00C3B2B8 /* TPCircularBuffer.c */; };
+		366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */; };
+		366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56421D06C46300C3B2B8 /* AudioPlotView.swift */; };
+		366B56441D06D75900C3B2B8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CA1D05691700F66593 /* OpenGLES.framework */; };
+		366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */; };
+		366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56471D06E1A800C3B2B8 /* AudioOutput.swift */; };
+		366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */; };
+		366B564D1D06EAD200C3B2B8 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */; };
 		367BF4971D0568FA00F66593 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4961D0568FA00F66593 /* AppDelegate.swift */; };
 		367BF4991D0568FA00F66593 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4981D0568FA00F66593 /* ViewController.swift */; };
 		367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367BF49A1D0568FA00F66593 /* Main.storyboard */; };
@@ -14,6 +41,14 @@
 		367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367BF49F1D0568FA00F66593 /* LaunchScreen.storyboard */; };
 		367BF4AC1D0568FA00F66593 /* SampleMusicPlayerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4AB1D0568FA00F66593 /* SampleMusicPlayerTests.swift */; };
 		367BF4B71D0568FA00F66593 /* SampleMusicPlayerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4B61D0568FA00F66593 /* SampleMusicPlayerUITests.swift */; };
+		367BF4C51D05690800F66593 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4C41D05690800F66593 /* UIKit.framework */; };
+		367BF4C71D05690E00F66593 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4C61D05690E00F66593 /* QuartzCore.framework */; };
+		367BF4C91D05691200F66593 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4C81D05691200F66593 /* CoreGraphics.framework */; };
+		367BF4CD1D05691C00F66593 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CC1D05691C00F66593 /* Foundation.framework */; };
+		367BF4D01D056B2400F66593 /* BandsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4CF1D056B2400F66593 /* BandsView.swift */; };
+		367BF4D31D056CDA00F66593 /* InstrumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D21D056CDA00F66593 /* InstrumentView.swift */; };
+		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
+		367BF4D71D0587B100F66593 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D61D0587B100F66593 /* PlayerViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +69,52 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Samba-drum-beat-115-bpm.wav"; path = "Resources/Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
+		366B56051D06A8B300C3B2B8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		366B56091D06AE2D00C3B2B8 /* SampleMusicPlayer-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SampleMusicPlayer-Bridging-Header.h"; sourceTree = "<group>"; };
+		366B560A1D06AE2D00C3B2B8 /* EZAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudio.h; path = Libs/EZAudio/EZAudio.h; sourceTree = "<group>"; };
+		366B560B1D06AE2D00C3B2B8 /* EZAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudio.m; path = Libs/EZAudio/EZAudio.m; sourceTree = "<group>"; };
+		366B560C1D06AE2D00C3B2B8 /* EZAudioDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioDevice.h; path = Libs/EZAudio/EZAudioDevice.h; sourceTree = "<group>"; };
+		366B560D1D06AE2D00C3B2B8 /* EZAudioDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioDevice.m; path = Libs/EZAudio/EZAudioDevice.m; sourceTree = "<group>"; };
+		366B560E1D06AE2D00C3B2B8 /* EZAudioDisplayLink.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioDisplayLink.h; path = Libs/EZAudio/EZAudioDisplayLink.h; sourceTree = "<group>"; };
+		366B560F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioDisplayLink.m; path = Libs/EZAudio/EZAudioDisplayLink.m; sourceTree = "<group>"; };
+		366B56101D06AE2D00C3B2B8 /* EZAudioFFT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioFFT.h; path = Libs/EZAudio/EZAudioFFT.h; sourceTree = "<group>"; };
+		366B56111D06AE2D00C3B2B8 /* EZAudioFFT.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioFFT.m; path = Libs/EZAudio/EZAudioFFT.m; sourceTree = "<group>"; };
+		366B56121D06AE2D00C3B2B8 /* EZAudioFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioFile.h; path = Libs/EZAudio/EZAudioFile.h; sourceTree = "<group>"; };
+		366B56131D06AE2D00C3B2B8 /* EZAudioFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioFile.m; path = Libs/EZAudio/EZAudioFile.m; sourceTree = "<group>"; };
+		366B56141D06AE2D00C3B2B8 /* EZAudioFloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioFloatConverter.h; path = Libs/EZAudio/EZAudioFloatConverter.h; sourceTree = "<group>"; };
+		366B56151D06AE2D00C3B2B8 /* EZAudioFloatConverter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioFloatConverter.m; path = Libs/EZAudio/EZAudioFloatConverter.m; sourceTree = "<group>"; };
+		366B56161D06AE2D00C3B2B8 /* EZAudioFloatData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioFloatData.h; path = Libs/EZAudio/EZAudioFloatData.h; sourceTree = "<group>"; };
+		366B56171D06AE2D00C3B2B8 /* EZAudioFloatData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioFloatData.m; path = Libs/EZAudio/EZAudioFloatData.m; sourceTree = "<group>"; };
+		366B56181D06AE2D00C3B2B8 /* EZAudioiOS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioiOS.h; path = Libs/EZAudio/EZAudioiOS.h; sourceTree = "<group>"; };
+		366B56191D06AE2D00C3B2B8 /* EZAudioOSX.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioOSX.h; path = Libs/EZAudio/EZAudioOSX.h; sourceTree = "<group>"; };
+		366B561A1D06AE2D00C3B2B8 /* EZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioPlayer.h; path = Libs/EZAudio/EZAudioPlayer.h; sourceTree = "<group>"; };
+		366B561B1D06AE2D00C3B2B8 /* EZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioPlayer.m; path = Libs/EZAudio/EZAudioPlayer.m; sourceTree = "<group>"; };
+		366B561C1D06AE2D00C3B2B8 /* EZAudioPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioPlot.h; path = Libs/EZAudio/EZAudioPlot.h; sourceTree = "<group>"; };
+		366B561D1D06AE2D00C3B2B8 /* EZAudioPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioPlot.m; path = Libs/EZAudio/EZAudioPlot.m; sourceTree = "<group>"; };
+		366B561E1D06AE2D00C3B2B8 /* EZAudioPlotGL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioPlotGL.h; path = Libs/EZAudio/EZAudioPlotGL.h; sourceTree = "<group>"; };
+		366B561F1D06AE2D00C3B2B8 /* EZAudioPlotGL.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioPlotGL.m; path = Libs/EZAudio/EZAudioPlotGL.m; sourceTree = "<group>"; };
+		366B56201D06AE2D00C3B2B8 /* EZAudioUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZAudioUtilities.h; path = Libs/EZAudio/EZAudioUtilities.h; sourceTree = "<group>"; };
+		366B56211D06AE2D00C3B2B8 /* EZAudioUtilities.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZAudioUtilities.m; path = Libs/EZAudio/EZAudioUtilities.m; sourceTree = "<group>"; };
+		366B56221D06AE2D00C3B2B8 /* EZMicrophone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZMicrophone.h; path = Libs/EZAudio/EZMicrophone.h; sourceTree = "<group>"; };
+		366B56231D06AE2D00C3B2B8 /* EZMicrophone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZMicrophone.m; path = Libs/EZAudio/EZMicrophone.m; sourceTree = "<group>"; };
+		366B56241D06AE2D00C3B2B8 /* EZOutput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZOutput.h; path = Libs/EZAudio/EZOutput.h; sourceTree = "<group>"; };
+		366B56251D06AE2D00C3B2B8 /* EZOutput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZOutput.m; path = Libs/EZAudio/EZOutput.m; sourceTree = "<group>"; };
+		366B56261D06AE2D00C3B2B8 /* EZPlot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZPlot.h; path = Libs/EZAudio/EZPlot.h; sourceTree = "<group>"; };
+		366B56271D06AE2D00C3B2B8 /* EZPlot.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZPlot.m; path = Libs/EZAudio/EZPlot.m; sourceTree = "<group>"; };
+		366B56281D06AE2D00C3B2B8 /* EZRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EZRecorder.h; path = Libs/EZAudio/EZRecorder.h; sourceTree = "<group>"; };
+		366B56291D06AE2D00C3B2B8 /* EZRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EZRecorder.m; path = Libs/EZAudio/EZRecorder.m; sourceTree = "<group>"; };
+		366B562A1D06AE2D00C3B2B8 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = Libs/EZAudio/Info.plist; sourceTree = "<group>"; };
+		366B562B1D06AE2D00C3B2B8 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TPCircularBuffer.c; path = Libs/EZAudio/TPCircularBuffer.c; sourceTree = "<group>"; };
+		366B562C1D06AE2D00C3B2B8 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Libs/EZAudio/TPCircularBuffer.h; sourceTree = "<group>"; };
+		366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioDisplayLink.swift; path = Components/AudioDisplayLink.swift; sourceTree = "<group>"; };
+		366B56421D06C46300C3B2B8 /* AudioPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlotView.swift; path = Components/AudioPlotView.swift; sourceTree = "<group>"; };
+		366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = Components/AudioPlayer.swift; sourceTree = "<group>"; };
+		366B56471D06E1A800C3B2B8 /* AudioOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioOutput.swift; path = Components/AudioOutput.swift; sourceTree = "<group>"; };
+		366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFileManager.swift; path = Components/AudioFileManager.swift; sourceTree = "<group>"; };
+		366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TPCircularBuffer.c; path = Components/TPCircularBuffer.c; sourceTree = "<group>"; };
+		366B564C1D06EAD200C3B2B8 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Components/TPCircularBuffer.h; sourceTree = "<group>"; };
 		367BF4931D0568FA00F66593 /* SampleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		367BF4961D0568FA00F66593 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		367BF4981D0568FA00F66593 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -47,6 +128,15 @@
 		367BF4B21D0568FA00F66593 /* SampleMusicPlayerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SampleMusicPlayerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		367BF4B61D0568FA00F66593 /* SampleMusicPlayerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SampleMusicPlayerUITests.swift; sourceTree = "<group>"; };
 		367BF4B81D0568FA00F66593 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		367BF4C41D05690800F66593 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		367BF4C61D05690E00F66593 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		367BF4C81D05691200F66593 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		367BF4CA1D05691700F66593 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		367BF4CC1D05691C00F66593 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		367BF4CF1D056B2400F66593 /* BandsView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BandsView.swift; path = Views/BandsView.swift; sourceTree = "<group>"; };
+		367BF4D21D056CDA00F66593 /* InstrumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentView.swift; path = Views/InstrumentView.swift; sourceTree = "<group>"; };
+		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
+		367BF4D61D0587B100F66593 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = ViewControllers/PlayerViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +144,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				366B56441D06D75900C3B2B8 /* OpenGLES.framework in Frameworks */,
+				366B56081D06A9BB00C3B2B8 /* AVFoundation.framework in Frameworks */,
+				366B56061D06A8B300C3B2B8 /* CoreAudio.framework in Frameworks */,
+				367BF4CD1D05691C00F66593 /* Foundation.framework in Frameworks */,
+				367BF4C91D05691200F66593 /* CoreGraphics.framework in Frameworks */,
+				367BF4C71D05690E00F66593 /* QuartzCore.framework in Frameworks */,
+				367BF4C51D05690800F66593 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,9 +171,74 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		366B56041D069A0200C3B2B8 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		366B563E1D06AE3300C3B2B8 /* EZAudio */ = {
+			isa = PBXGroup;
+			children = (
+				366B560A1D06AE2D00C3B2B8 /* EZAudio.h */,
+				366B560B1D06AE2D00C3B2B8 /* EZAudio.m */,
+				366B560C1D06AE2D00C3B2B8 /* EZAudioDevice.h */,
+				366B560D1D06AE2D00C3B2B8 /* EZAudioDevice.m */,
+				366B560E1D06AE2D00C3B2B8 /* EZAudioDisplayLink.h */,
+				366B560F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m */,
+				366B56101D06AE2D00C3B2B8 /* EZAudioFFT.h */,
+				366B56111D06AE2D00C3B2B8 /* EZAudioFFT.m */,
+				366B56121D06AE2D00C3B2B8 /* EZAudioFile.h */,
+				366B56131D06AE2D00C3B2B8 /* EZAudioFile.m */,
+				366B56141D06AE2D00C3B2B8 /* EZAudioFloatConverter.h */,
+				366B56151D06AE2D00C3B2B8 /* EZAudioFloatConverter.m */,
+				366B56161D06AE2D00C3B2B8 /* EZAudioFloatData.h */,
+				366B56171D06AE2D00C3B2B8 /* EZAudioFloatData.m */,
+				366B56181D06AE2D00C3B2B8 /* EZAudioiOS.h */,
+				366B56191D06AE2D00C3B2B8 /* EZAudioOSX.h */,
+				366B561A1D06AE2D00C3B2B8 /* EZAudioPlayer.h */,
+				366B561B1D06AE2D00C3B2B8 /* EZAudioPlayer.m */,
+				366B561C1D06AE2D00C3B2B8 /* EZAudioPlot.h */,
+				366B561D1D06AE2D00C3B2B8 /* EZAudioPlot.m */,
+				366B561E1D06AE2D00C3B2B8 /* EZAudioPlotGL.h */,
+				366B561F1D06AE2D00C3B2B8 /* EZAudioPlotGL.m */,
+				366B56201D06AE2D00C3B2B8 /* EZAudioUtilities.h */,
+				366B56211D06AE2D00C3B2B8 /* EZAudioUtilities.m */,
+				366B56221D06AE2D00C3B2B8 /* EZMicrophone.h */,
+				366B56231D06AE2D00C3B2B8 /* EZMicrophone.m */,
+				366B56241D06AE2D00C3B2B8 /* EZOutput.h */,
+				366B56251D06AE2D00C3B2B8 /* EZOutput.m */,
+				366B56261D06AE2D00C3B2B8 /* EZPlot.h */,
+				366B56271D06AE2D00C3B2B8 /* EZPlot.m */,
+				366B56281D06AE2D00C3B2B8 /* EZRecorder.h */,
+				366B56291D06AE2D00C3B2B8 /* EZRecorder.m */,
+				366B562A1D06AE2D00C3B2B8 /* Info.plist */,
+				366B562B1D06AE2D00C3B2B8 /* TPCircularBuffer.c */,
+				366B562C1D06AE2D00C3B2B8 /* TPCircularBuffer.h */,
+			);
+			name = EZAudio;
+			sourceTree = "<group>";
+		};
+		366B56411D06C10900C3B2B8 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */,
+				366B564C1D06EAD200C3B2B8 /* TPCircularBuffer.h */,
+				366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */,
+				366B56421D06C46300C3B2B8 /* AudioPlotView.swift */,
+				366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */,
+				366B56471D06E1A800C3B2B8 /* AudioOutput.swift */,
+				366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */,
+			);
+			name = Components;
+			sourceTree = "<group>";
+		};
 		367BF48A1D0568FA00F66593 = {
 			isa = PBXGroup;
 			children = (
+				367BF4CE1D05692000F66593 /* Frameworks */,
 				367BF4951D0568FA00F66593 /* SampleMusicPlayer */,
 				367BF4AA1D0568FA00F66593 /* SampleMusicPlayerTests */,
 				367BF4B51D0568FA00F66593 /* SampleMusicPlayerUITests */,
@@ -97,12 +259,19 @@
 		367BF4951D0568FA00F66593 /* SampleMusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				366B563E1D06AE3300C3B2B8 /* EZAudio */,
+				366B56041D069A0200C3B2B8 /* Resources */,
 				367BF4961D0568FA00F66593 /* AppDelegate.swift */,
 				367BF4981D0568FA00F66593 /* ViewController.swift */,
 				367BF49A1D0568FA00F66593 /* Main.storyboard */,
 				367BF49D1D0568FA00F66593 /* Assets.xcassets */,
 				367BF49F1D0568FA00F66593 /* LaunchScreen.storyboard */,
 				367BF4A21D0568FA00F66593 /* Info.plist */,
+				367BF4D11D056B2A00F66593 /* Views */,
+				367BF4D41D056F1A00F66593 /* Utils.swift */,
+				367BF4D61D0587B100F66593 /* PlayerViewController.swift */,
+				366B56091D06AE2D00C3B2B8 /* SampleMusicPlayer-Bridging-Header.h */,
+				366B56411D06C10900C3B2B8 /* Components */,
 			);
 			path = SampleMusicPlayer;
 			sourceTree = "<group>";
@@ -123,6 +292,29 @@
 				367BF4B81D0568FA00F66593 /* Info.plist */,
 			);
 			path = SampleMusicPlayerUITests;
+			sourceTree = "<group>";
+		};
+		367BF4CE1D05692000F66593 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */,
+				366B56051D06A8B300C3B2B8 /* CoreAudio.framework */,
+				367BF4CC1D05691C00F66593 /* Foundation.framework */,
+				367BF4CA1D05691700F66593 /* OpenGLES.framework */,
+				367BF4C81D05691200F66593 /* CoreGraphics.framework */,
+				367BF4C61D05690E00F66593 /* QuartzCore.framework */,
+				367BF4C41D05690800F66593 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		367BF4D11D056B2A00F66593 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				367BF4CF1D056B2400F66593 /* BandsView.swift */,
+				367BF4D21D056CDA00F66593 /* InstrumentView.swift */,
+			);
+			name = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -230,7 +422,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
+				366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */,
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
+				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -256,8 +450,34 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				366B563D1D06AE2D00C3B2B8 /* TPCircularBuffer.c in Sources */,
+				366B56301D06AE2D00C3B2B8 /* EZAudioFFT.m in Sources */,
+				366B56371D06AE2D00C3B2B8 /* EZAudioUtilities.m in Sources */,
+				366B56381D06AE2D00C3B2B8 /* EZMicrophone.m in Sources */,
+				366B563B1D06AE2D00C3B2B8 /* EZRecorder.m in Sources */,
+				366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */,
+				366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */,
+				366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */,
+				366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */,
+				366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */,
+				366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */,
+				366B56391D06AE2D00C3B2B8 /* EZOutput.m in Sources */,
+				366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */,
+				366B56351D06AE2D00C3B2B8 /* EZAudioPlot.m in Sources */,
+				366B564D1D06EAD200C3B2B8 /* TPCircularBuffer.c in Sources */,
+				366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */,
+				366B562D1D06AE2D00C3B2B8 /* EZAudio.m in Sources */,
+				366B562F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m in Sources */,
+				367BF4D51D056F1A00F66593 /* Utils.swift in Sources */,
+				366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */,
 				367BF4991D0568FA00F66593 /* ViewController.swift in Sources */,
+				366B56341D06AE2D00C3B2B8 /* EZAudioPlayer.m in Sources */,
+				366B562E1D06AE2D00C3B2B8 /* EZAudioDevice.m in Sources */,
+				367BF4D01D056B2400F66593 /* BandsView.swift in Sources */,
 				367BF4971D0568FA00F66593 /* AppDelegate.swift in Sources */,
+				366B56361D06AE2D00C3B2B8 /* EZAudioPlotGL.m in Sources */,
+				367BF4D31D056CDA00F66593 /* InstrumentView.swift in Sources */,
+				367BF4D71D0587B100F66593 /* PlayerViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -349,7 +569,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -389,7 +609,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -401,10 +621,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SampleMusicPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.elinext.SampleMusicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SampleMusicPlayer/SampleMusicPlayer-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -412,10 +636,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SampleMusicPlayer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.elinext.SampleMusicPlayer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "SampleMusicPlayer/SampleMusicPlayer-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -484,6 +711,7 @@
 				367BF4BD1D0568FA00F66593 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		367BF4BE1D0568FA00F66593 /* Build configuration list for PBXNativeTarget "SampleMusicPlayerTests" */ = {
 			isa = XCConfigurationList;
@@ -492,6 +720,7 @@
 				367BF4C01D0568FA00F66593 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		367BF4C11D0568FA00F66593 /* Build configuration list for PBXNativeTarget "SampleMusicPlayerUITests" */ = {
 			isa = XCConfigurationList;
@@ -500,6 +729,7 @@
 				367BF4C31D0568FA00F66593 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

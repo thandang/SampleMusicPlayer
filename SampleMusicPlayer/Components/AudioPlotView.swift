@@ -11,26 +11,50 @@ import GLKit
 import OpenGLES.ES2
 
 struct AudioPoint {
-    let x: GLfloat
-    let y: GLfloat
+    var x: GLfloat
+    var y: GLfloat
 }
 
 struct AudioGLPlotInfo {
-    let interpolated: Bool
-    let point: AudioPoint
-    let plotHistoryInfo: PlotHistoryInfo
-    let pointCount: UInt32
+    var interpolated: Bool
+    var points: [AudioPoint]
+    var plotHistoryInfo: PlotHistoryInfo?
+    var pointCount: Int
     var vob: GLuint
     var vab: GLuint
+    init() {
+        interpolated = false
+        pointCount = 0
+        points = []
+        vob = 0
+        vab = 0
+    }
 }
 
 struct PlotHistoryInfo {
-    let buffer: float2
-    let bufferSize: Int
+    var buffer: float2
+    var bufferSize: Int
 }
 
 class AudioPlotView: GLKView {
-    var color: UIColor?
+    var myColor: UIColor? {
+        didSet {
+            if let _ = myColor {
+                let colorRef = myColor!.CGColor
+                let componentCount = CGColorGetNumberOfComponents(colorRef)
+                if (componentCount == 4) {
+                    let components: UnsafePointer<CGFloat>  = CGColorGetComponents(colorRef)
+                    let red = components[0]
+                    let green = components[1]
+                    let blue = components[2]
+                    let alpha = components[3]
+                    baseEffect?.constantColor = GLKVector4Make(Float(red), Float(green), Float(blue), Float(alpha))
+                }
+            } else {
+                baseEffect?.constantColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
+            }
+        }
+    }
     var gain: float2?
     var souldFill: Bool = false
     
@@ -58,27 +82,29 @@ class AudioPlotView: GLKView {
      *  Clear screen
      */
     func clear() {
-        
+        var empltyBuffer:[Float] = []
+        empltyBuffer[0] = 0.0
+        setSampleData(empltyBuffer, length: 1)
+        display()
     }
     
     /**
      Pause drawing
      */
     func pauseDrawing() {
-        
+        displayLink?.stop()
     }
     
     /**
      *  Resume drawing
      */
     func resumeDrawing() {
-        
+        displayLink?.start()
     }
     
     func setupOpenGL() {
         baseEffect = GLKBaseEffect()
-//        baseEffect?.useConstantColor = GL_TRUE
-        
+        baseEffect?.useConstantColor = GLboolean(GL_TRUE)
 
         drawableColorFormat = .RGBA8888
         drawableDepthFormat = .Format24
@@ -86,61 +112,116 @@ class AudioPlotView: GLKView {
         drawableMultisample = .Multisample4X
         opaque = false
         enableSetNeedsDisplay = false
-        
-        
-        
-        
-        
+ 
         if let _ = info {
             glGenBuffers(1, &info!.vob)
-//            glBindBuffer(GL_ARRAY_BUFFER, info!.vob)
-            
+            glBindBuffer(GLenum(GL_ARRAY_BUFFER), info!.vob)
+            glBufferData(GLenum(GL_ARRAY_BUFFER), info!.pointCount * sizeof(AudioPoint), &info!.points, GLenum(GL_STREAM_DRAW))
+            self.frame = frame
         }
-        
-    
-//
-//    glBindBuffer(GL_ARRAY_BUFFER, info.vbo);
-//    glBufferData(GL_ARRAY_BUFFER, info
-//    self.info->pointCount * sizeof(EZAudioPlotGLPoint),
-//    self.info->points,
-//    GL_STREAM_DRAW);
-//    #if !TARGET_OS_IPHONE
-//    [self.openGLContext unlock];
-//    #endif
-//    self.frame = self.frame;
     }
 }
 
 extension AudioPlotView {
+    
+    override func drawRect(rect: CGRect) {
+        redraw()
+    }
+    
     /**
      *  Redrawing With Points
      */
-    func redrawingWithPoint(points: AudioPoint,
+    func redrawingWithPoint(points: [AudioPoint],
                             pointsCount count: UInt32,
                             baseEffect effect:GLKBaseEffect,
                             vertexBufferObject vbo: GLuint,
                             vertexArrayBuffer vab: GLuint,
                             interpolated interd: Bool,
                             mird mirrored: Bool,
-                            gn gain: float2) {
+                            gn gain: Float) {
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        let mode = GLenum(GL_TRIANGLE_STRIP)
+        let interpolatedFator = interd ? 2.0 : 1.0
+        let xScale = 2.0 / (Double(count) / interpolatedFator)
+        let yScale = 1.0 * gain
+        
+        var transform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
+        transform = GLKMatrix4Scale(transform, Float(xScale), yScale, 0.0)
+        baseEffect?.transform.modelviewMatrix = transform
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo);
+        baseEffect?.prepareToDraw()
+        glEnableVertexAttribArray(GLuint(GLKVertexAttrib.Position.rawValue));
+        glVertexAttribPointer(GLuint(GLKVertexAttrib.Position.rawValue),
+                              2,
+                              GLenum(GL_FLOAT),
+                              GLboolean(GL_FALSE),
+                              GLsizei(sizeof(AudioPoint)),
+                              nil);
+        glDrawArrays(mode, 0, GLsizei(count));
+//        if (mirrored)
+//        {
+//            baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, M_PI, 1.0f, 0.0f, 0.0f);
+//            [baseEffect prepareToDraw];
+//            glDrawArrays(mode, 0, pointCount);
+//        }
         
     }
     
     func setup() {
+        info = AudioGLPlotInfo()
+        memset(&info, 0, sizeof(AudioGLPlotInfo))
         
+        info?.interpolated = true
+        myColor = UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
+        displayLink = AudioDisplayLink.init(delegate: self)
+        displayLink?.start()
     }
     
     func redraw() {
+        guard let ino = info else {
+            return
+        }
         
+        redrawingWithPoint(ino.points, pointsCount: UInt32(ino.pointCount), baseEffect: baseEffect!, vertexBufferObject: ino.vob, vertexArrayBuffer: ino.vab, interpolated: ino.interpolated, mird: true, gn: 1)
+    }
+
+    /**
+     Update buffer when playing music
+     
+     - parameter buffer: buffer data
+     - parameter size:   buffer size, it's UInt32 type but we expect Int type
+     */
+    func updateBuffer(buffer: [Float], bufferSize size: UInt32) {
+        setSampleData(buffer, length: Int(size)) //Becareful when cast type
     }
     
-    func updateBuffer(buffer: float2, bufferSize size: UInt32) {
+    func setSampleData(data: [Float], length: Int) {
+        let pointCount = length * 2
+        var points = info?.points
+        if let _ = points {
+            for i in 0...length {
+                points![i * 2].x = Float(i)
+                points![i * 2 + 1].x = Float(i)
+                var yValue: Float = data[i]
+                if yValue < 0 {
+                    yValue *= 1
+                }
+                points![i * 2].y = yValue
+                points![i * 2 + 1].y = 0.0
+            }
+        }
         
+        points![0].y = 0.0
+        points![pointCount - 1].y = 0.0
+        info?.pointCount = pointCount
+        info?.interpolated = true
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), (info?.vob)!)
+        glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, pointCount * sizeof(AudioPoint), (info?.points)!)
     }
 }
 
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
-        
+        display()
     }
 }

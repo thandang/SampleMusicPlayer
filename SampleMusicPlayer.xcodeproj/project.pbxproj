@@ -33,7 +33,6 @@
 		366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */; };
 		366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56471D06E1A800C3B2B8 /* AudioOutput.swift */; };
 		366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */; };
-		366B564D1D06EAD200C3B2B8 /* TPCircularBuffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */; };
 		367BF4971D0568FA00F66593 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4961D0568FA00F66593 /* AppDelegate.swift */; };
 		367BF4991D0568FA00F66593 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4981D0568FA00F66593 /* ViewController.swift */; };
 		367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367BF49A1D0568FA00F66593 /* Main.storyboard */; };
@@ -113,8 +112,6 @@
 		366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = Components/AudioPlayer.swift; sourceTree = "<group>"; };
 		366B56471D06E1A800C3B2B8 /* AudioOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioOutput.swift; path = Components/AudioOutput.swift; sourceTree = "<group>"; };
 		366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFileManager.swift; path = Components/AudioFileManager.swift; sourceTree = "<group>"; };
-		366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = TPCircularBuffer.c; path = Components/TPCircularBuffer.c; sourceTree = "<group>"; };
-		366B564C1D06EAD200C3B2B8 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Components/TPCircularBuffer.h; sourceTree = "<group>"; };
 		367BF4931D0568FA00F66593 /* SampleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		367BF4961D0568FA00F66593 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		367BF4981D0568FA00F66593 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +168,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		360B907A1D07CBEE00784E03 /* ObjectiveC */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = ObjectiveC;
+			sourceTree = "<group>";
+		};
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -224,13 +228,12 @@
 		366B56411D06C10900C3B2B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				366B564B1D06EAD200C3B2B8 /* TPCircularBuffer.c */,
-				366B564C1D06EAD200C3B2B8 /* TPCircularBuffer.h */,
 				366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */,
 				366B56421D06C46300C3B2B8 /* AudioPlotView.swift */,
 				366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */,
 				366B56471D06E1A800C3B2B8 /* AudioOutput.swift */,
 				366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */,
+				360B907A1D07CBEE00784E03 /* ObjectiveC */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -464,7 +467,6 @@
 				366B56391D06AE2D00C3B2B8 /* EZOutput.m in Sources */,
 				366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */,
 				366B56351D06AE2D00C3B2B8 /* EZAudioPlot.m in Sources */,
-				366B564D1D06EAD200C3B2B8 /* TPCircularBuffer.c in Sources */,
 				366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */,
 				366B562D1D06AE2D00C3B2B8 /* EZAudio.m in Sources */,
 				366B562F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m in Sources */,
@@ -569,7 +571,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -609,7 +611,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -621,6 +623,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SampleMusicPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -636,6 +639,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = SampleMusicPlayer/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;

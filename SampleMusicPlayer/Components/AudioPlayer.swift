@@ -18,6 +18,8 @@ enum AudioPlayState{
     case PlayUnknown
 }
 
+//MARK - Notification
+
 class AudioPlayer: NSObject {
     
     

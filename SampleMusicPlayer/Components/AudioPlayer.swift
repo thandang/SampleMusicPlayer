@@ -21,6 +21,8 @@ enum AudioPlayState{
 //MARK - Notification
 
 class AudioPlayer: NSObject {
+    
+    
     func playAudio(audioFile: AudioFileManager) {
         
     }

@@ -13,6 +13,11 @@ import OpenGLES.ES2
 struct AudioPoint {
     var x: GLfloat
     var y: GLfloat
+    
+    init() {
+        x = 0.0
+        y = 0.0
+    }
 }
 
 struct AudioGLPlotInfo {
@@ -20,13 +25,13 @@ struct AudioGLPlotInfo {
     var points: [AudioPoint]
     var plotHistoryInfo: PlotHistoryInfo?
     var pointCount: Int
-    var vob: GLuint
+    var vbo: GLuint
     var vab: GLuint
     init() {
         interpolated = false
         pointCount = 0
         points = []
-        vob = 0
+        vbo = 0
         vab = 0
     }
 }
@@ -57,6 +62,7 @@ class AudioPlotView: GLKView {
     }
     var gain: float2?
     var souldFill: Bool = false
+    let DefaultMaxBufferLength = 8192
     
     private var baseEffect: GLKBaseEffect?
     private var displayLink: AudioDisplayLink?
@@ -75,6 +81,15 @@ class AudioPlotView: GLKView {
     override init(frame: CGRect, context: EAGLContext) {
         super.init(frame: frame, context: context)
         setup()
+    }
+    
+    deinit {
+        displayLink?.stop()
+        if  let _ = info {
+            glDeleteBuffers(1, &info!.vbo)
+            free(&info!.points)
+            free(&info!)
+        }
     }
     
     
@@ -114,8 +129,8 @@ class AudioPlotView: GLKView {
         enableSetNeedsDisplay = false
  
         if let _ = info {
-            glGenBuffers(1, &info!.vob)
-            glBindBuffer(GLenum(GL_ARRAY_BUFFER), info!.vob)
+            glGenBuffers(1, &info!.vbo)
+            glBindBuffer(GLenum(GL_ARRAY_BUFFER), info!.vbo)
             glBufferData(GLenum(GL_ARRAY_BUFFER), info!.pointCount * sizeof(AudioPoint), &info!.points, GLenum(GL_STREAM_DRAW))
             self.frame = frame
         }
@@ -170,7 +185,7 @@ extension AudioPlotView {
     func setup() {
         info = AudioGLPlotInfo()
         memset(&info, 0, sizeof(AudioGLPlotInfo))
-        
+        info?.pointCount = DefaultMaxBufferLength
         info?.interpolated = true
         myColor = UIColor(colorLiteralRed: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         displayLink = AudioDisplayLink.init(delegate: self)
@@ -182,7 +197,7 @@ extension AudioPlotView {
             return
         }
         
-        redrawingWithPoint(ino.points, pointsCount: UInt32(ino.pointCount), baseEffect: baseEffect!, vertexBufferObject: ino.vob, vertexArrayBuffer: ino.vab, interpolated: ino.interpolated, mird: true, gn: 1)
+        redrawingWithPoint(ino.points, pointsCount: UInt32(ino.pointCount), baseEffect: baseEffect!, vertexBufferObject: ino.vbo, vertexArrayBuffer: ino.vab, interpolated: ino.interpolated, mird: true, gn: 1)
     }
 
     /**
@@ -215,7 +230,7 @@ extension AudioPlotView {
         points![pointCount - 1].y = 0.0
         info?.pointCount = pointCount
         info?.interpolated = true
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), (info?.vob)!)
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), (info?.vbo)!)
         glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, pointCount * sizeof(AudioPoint), (info?.points)!)
     }
 }

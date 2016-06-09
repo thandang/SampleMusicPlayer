@@ -48,6 +48,7 @@
 		367BF4D31D056CDA00F66593 /* InstrumentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D21D056CDA00F66593 /* InstrumentView.swift */; };
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
 		367BF4D71D0587B100F66593 /* PlayerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D61D0587B100F66593 /* PlayerViewController.swift */; };
+		369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369770A01D0964A800988AB6 /* AudioFloatConverter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +135,7 @@
 		367BF4D21D056CDA00F66593 /* InstrumentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InstrumentView.swift; path = Views/InstrumentView.swift; sourceTree = "<group>"; };
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		367BF4D61D0587B100F66593 /* PlayerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlayerViewController.swift; path = ViewControllers/PlayerViewController.swift; sourceTree = "<group>"; };
+		369770A01D0964A800988AB6 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 				366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */,
 				366B56471D06E1A800C3B2B8 /* AudioOutput.swift */,
 				366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */,
+				369770A01D0964A800988AB6 /* AudioFloatConverter.swift */,
 				360B907A1D07CBEE00784E03 /* ObjectiveC */,
 			);
 			name = Components;
@@ -473,6 +476,7 @@
 				367BF4D51D056F1A00F66593 /* Utils.swift in Sources */,
 				366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */,
 				367BF4991D0568FA00F66593 /* ViewController.swift in Sources */,
+				369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */,
 				366B56341D06AE2D00C3B2B8 /* EZAudioPlayer.m in Sources */,
 				366B562E1D06AE2D00C3B2B8 /* EZAudioDevice.m in Sources */,
 				367BF4D01D056B2400F66593 /* BandsView.swift in Sources */,

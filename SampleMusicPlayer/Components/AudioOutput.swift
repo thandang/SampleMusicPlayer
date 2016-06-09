@@ -16,6 +16,12 @@ struct AudioNodeInfo {
 }
 
 struct AudioOutputInfo {
+    // stream format params
+    var inputFormat: AudioStreamBasicDescription?
+    var clientFormat: AudioStreamBasicDescription?
+    
+    var floatData: [Float]?
+    
     var converterNodeInfo: AudioNodeInfo?
     var mixerNodeInfo: AudioNodeInfo?
     var outputNodeInfo: AudioNodeInfo?
@@ -23,24 +29,6 @@ struct AudioOutputInfo {
 }
 
 //MARK - Callback
-
-
-//OSStatus EZOutputConverterInputCallback(void                       *inRefCon,
-//                                        AudioUnitRenderActionFlags *ioActionFlags,
-//                                        const AudioTimeStamp       *inTimeStamp,
-//                                        UInt32					    inBusNumber,
-//                                        UInt32					    inNumberFrames,
-//                                        AudioBufferList            *ioData);
-
-//------------------------------------------------------------------------------
-
-//OSStatus EZOutputGraphRenderCallback(void                       *inRefCon,
-//                                     AudioUnitRenderActionFlags *ioActionFlags,
-//                                     const AudioTimeStamp       *inTimeStamp,
-//                                     UInt32					     inBusNumber,
-//                                     UInt32                      inNumberFrames,
-//                                     AudioBufferList            *ioData);
-
 typealias OutputGraphRenderCallback = (inRedCon: UnsafeMutablePointer<Void>, ioActionFlags: UnsafeMutablePointer<AudioUnitRenderActionFlags>, inTimestamp: UnsafePointer<AudioTimeStamp>, inBusNumber: UInt32, inNumberFrames: UInt32, ioData: UnsafeMutablePointer<AudioBufferList>) -> OSStatus
 
 
@@ -51,9 +39,9 @@ class AudioOutput: NSObject {
     private var info: AudioOutputInfo?
     var datasource: AudioOutputDataSource?
     var delegate: AudioOutputDelegate?
+    var floatConverter: AudioFloatConverter?
     
     let OutputMaximumFramesPerSlide: UInt32 = 4096
-    let OutputDefaultSampleRate: Float64 = 44100.0
     
     var grapRenderCallback: OutputGraphRenderCallback = { red, actionFlags, timestamp, busNumber, numberFrames, ioData in
         
@@ -61,10 +49,10 @@ class AudioOutput: NSObject {
     }
     
     var converterInputCallback: OutputConverterInputCallback = { red, actionFlags, timestamp, busNumber, numberFrames, ioData in
-        
+        //Do something here
         return noErr
     }
-        
+    
     
     override init() {
         super.init()
@@ -76,7 +64,6 @@ class AudioOutput: NSObject {
         delegate = delegate_
         datasource = datasource_
         setup()
-        
     }
     
     func setup() {
@@ -157,11 +144,28 @@ class AudioOutput: NSObject {
         //
         // Add a node input callback for the converter node
         //
-        var  converterCallback: AURenderCallbackStruct = AURenderCallbackStruct(inputProc: converterInputCallback, inputProcRefCon: self)
-//        converterCallback.inputProc = EZOutputConverterInputCallback;
-//        converterCallback.inputProcRefCon = (__bridge void *)(self);
-        AUGraphSetNodeInputCallback(graph_!, (convertInfo!.node)!, 0, &converterCallback)
         
+        var converterCallback: AURenderCallbackStruct = AURenderCallbackStruct(inputProc: { (context, actionFlags, timestamp, bus, frames, data) -> OSStatus in
+           let output: AudioOutput = Utils.bridgeBack(context)
+            
+            //
+            // Try to ask the data source for audio data to fill out the output's
+            // buffer list
+            //
+            let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
+            if let _ = output.datasource {
+                let frames: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
+                let targetTimestamp = unsafeBitCast(timestamp, AudioTimeStamp.self)
+                return output.datasource!.output(output, shouldFillAudioBufferList: bufferList,
+                    withNumerOfFrames: frames, timestamp: targetTimestamp)
+            } else {
+                memset(bufferList.mBuffers.mData, 0, Int(bufferList.mBuffers.mDataByteSize))
+            }
+
+            return noErr
+            }, inputProcRefCon: Utils.bridge(self))
+        AUGraphSetNodeInputCallback(graph_!, (convertInfo!.node)!, 0, &converterCallback)
+
         //
         // Set stream formats
         //
@@ -190,94 +194,75 @@ class AudioOutput: NSObject {
         //
         // Add render callback
         //
-//        AudioUnitAddRenderNotify((mixerInfo!.audioUnit)!, OutputGraphRenderCallback, self)
         
+        AudioUnitAddRenderNotify((mixerInfo!.audioUnit)!, { (context, actionFlags, timestamp, bus, frames, data) -> OSStatus in
+            
+            let output: AudioOutput = Utils.bridgeBack(context)
+            
+            if let _ = output.delegate {
+                let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
+                let frames: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
+                output.floatConverter?.convertDataFromAudioBufferList(bufferList, frames: frames, buffers: output.info!.floatData!)
+                output.delegate?.output(output, playedAudio: (output.info?.floatData)!, withBufferSize: frames, numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
+            }
+          
+            return noErr
+            }, Utils.bridge(self))
+    }
+    
+    func setClientFormat(clientFormat: AudioStreamBasicDescription) {
+        if let _ = floatConverter {
+            floatConverter = nil
+            //Free float buffer
+            //        if (self.floatConverter)
+            //        {
+            //            self.floatConverter = nil;
+            //            [EZAudioUtilities freeFloatBuffers:self.info->floatData
+            //                numberOfChannels:self.clientFormat.mChannelsPerFrame];
+            //        }
+        }
+        
+        guard let targetInfo = info else {
+            return
+        }
+        var targetClient = targetInfo.clientFormat
+        info?.clientFormat = clientFormat
+        AudioUnitSetProperty((info?.converterNodeInfo!.audioUnit)!,
+                             kAudioUnitProperty_StreamFormat,
+                             kAudioUnitScope_Output, 0, &targetClient,
+                             UInt32(sizeof(AudioStreamBasicDescription)))
+        
+        
+        AudioUnitSetProperty((info?.mixerNodeInfo!.audioUnit)!, kAudioUnitProperty_StreamFormat,
+                             kAudioUnitScope_Input, 0, &targetClient, UInt32(sizeof(AudioStreamBasicDescription)))
+        
+        
+        floatConverter = AudioFloatConverter(inputFormat_: clientFormat)
+//        
+//        self.floatConverter = [[EZAudioFloatConverter alloc] initWithInputFormat:clientFormat];
+//        self.info->floatData = [EZAudioUtilities floatBuffersWithNumberOfFrames:EZOutputMaximumFramesPerSlice
+//        numberOfChannels:clientFormat.mChannelsPerFrame];
     }
     
     func startPlayback() {
-//        AUGraphStart(info.)
+        AUGraphStart((info?.graph)!)
     }
     
     func stopPlayback() {
-        
+        AUGraphStop((info?.graph)!)
     }
     
     
     func connectOUtputOfSourceNode(sourceNode: AUNode, sourceNodeOutputBus: UInt32, destinateNode: AUNode, destinateNodeBus: UInt32, inGraph: AUGraph) -> OSStatus {
         return -1
     }
-    
-    //MARK - Callback implementation
-//    func OutputConverterInputCallbac(inRedCon: Void, ioActionFlags: AudioUnitRenderActionFlags, inTimestamp: AudioTimeStamp, inBusNumber: UInt32, inNumberFrames: UInt32, ioData: AudioBufferList) -> OSStatus {
-//        let output: AudioOutput = (inRedCon as? AudioOutput)!
-        
-//        EZOutput *output = (__bridge EZOutput *)inRefCon;
-        
-        //
-        // Try to ask the data source for audio data to fill out the output's
-        // buffer list
-        //
-//        if ([output.dataSource respondsToSelector:@selector(output:shouldFillAudioBufferList:withNumberOfFrames:timestamp:)])
-//        {
-//            return [output.dataSource output:output
-//                shouldFillAudioBufferList:ioData
-//                withNumberOfFrames:inNumberFrames
-//                timestamp:inTimeStamp];
-//        }
-//        else
-//        {
-//            //
-//            // Silence if there is nothing to output
-//            //
-//            for (int i = 0; i < ioData->mNumberBuffers; i++)
-//            {
-//                memset(ioData->mBuffers[i].mData,
-//                    0,
-//                    ioData->mBuffers[i].mDataByteSize);
-//            }
-//        }
-//        return noErr
-//    }
-    
-//    func OutputGraphRenderCallback(inRedCon: Void, ioActionFlags: AudioUnitRenderActionFlags, inTimestamp: AudioTimeStamp, inBusNumber: UInt32, inNumberFrames: UInt32, ioData: AudioBufferList) -> OSStatus {
-//    return noErr
-//    }
-    
-    func defaultClientFormat() -> AudioStreamBasicDescription {
-        var asbd: AudioStreamBasicDescription = AudioStreamBasicDescription()
-        let floatByteSize  = UInt32(sizeof(Float));
-        asbd.mBitsPerChannel   = 8 * floatByteSize;
-        asbd.mBytesPerFrame    = floatByteSize;
-        asbd.mChannelsPerFrame = 2;
-        asbd.mFormatFlags      = kAudioFormatFlagIsFloat|kAudioFormatFlagIsNonInterleaved;
-        asbd.mFormatID         = kAudioFormatLinearPCM;
-        asbd.mFramesPerPacket  = 1;
-        asbd.mBytesPerPacket   = asbd.mFramesPerPacket * asbd.mBytesPerFrame;
-        asbd.mSampleRate       = OutputDefaultSampleRate;
-        return asbd;
-    }
-    
-    func defaultInputFormark() -> AudioStreamBasicDescription {
-        var asbd: AudioStreamBasicDescription = AudioStreamBasicDescription()
-        let floatByteSize  = UInt32(sizeof(Float));
-        asbd.mChannelsPerFrame = 2;
-        asbd.mBitsPerChannel   = 8 * floatByteSize;
-        asbd.mBytesPerFrame    = asbd.mChannelsPerFrame * floatByteSize;
-        asbd.mFramesPerPacket  = 1;
-        asbd.mBytesPerPacket   = asbd.mFramesPerPacket * asbd.mBytesPerFrame;
-        asbd.mFormatFlags      = kAudioFormatFlagIsFloat;
-        asbd.mFormatID         = kAudioFormatLinearPCM;
-        asbd.mSampleRate       = OutputDefaultSampleRate;
-        asbd.mReserved         = 0;
-        return asbd;
-    }
 }
 
 protocol AudioOutputDataSource {
-    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: UnsafePointer<AudioTimeStamp>) -> OSStatus
+    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: AudioBufferList, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus
     
 }
 
 protocol AudioOutputDelegate {
-    func output(output: AudioOutput, playedAudio buffer: Float, withBufferSize size: UInt32, numberOfChannels chanels: UInt32)
+    func output(output: AudioOutput, playedAudio buffer: [Float], withBufferSize size: UInt32, numberOfChannels chanels: UInt32)
 }

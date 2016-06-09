@@ -173,13 +173,6 @@ extension AudioPlotView {
                               GLsizei(sizeof(AudioPoint)),
                               nil);
         glDrawArrays(mode, 0, GLsizei(count));
-//        if (mirrored)
-//        {
-//            baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, M_PI, 1.0f, 0.0f, 0.0f);
-//            [baseEffect prepareToDraw];
-//            glDrawArrays(mode, 0, pointCount);
-//        }
-        
     }
     
     func setup() {

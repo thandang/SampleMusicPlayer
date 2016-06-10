@@ -19,15 +19,20 @@ public class Utils {
     
     
     static func audioBufferListWithNumerOfFrames (frames: UInt32, channels: UInt32) -> AudioBufferList {
-        let lastItem = channels - 1
-        //TODO: warning
-        var audioBufferList = malloc(sizeof(AudioBufferList) + sizeof(AudioBuffer) * Int(lastItem)) as? AudioBufferList
-        audioBufferList?.mNumberBuffers = channels
+//        let lastItem = channels - 1
+//        let audioBufferList = malloc(sizeof(AudioBufferList) + sizeof(AudioBuffer) * Int(lastItem))
+//        var targetBufferList = unsafeBitCast(audioBufferList, AudioBufferList.self)
+        
+//        var targetBufferList = Utils.bridgeBack(audioBufferList)
+        
+//        targetBufferList.mNumberBuffers = channels
         let bufferSize = sizeof(Float) * Int(frames)
-        audioBufferList?.mBuffers.mNumberChannels = 1
-        audioBufferList?.mBuffers.mDataByteSize = UInt32(bufferSize)
-        audioBufferList?.mBuffers.mData = calloc(bufferSize, 1)
-        return audioBufferList!
+        var audioBuffer = AudioBuffer()
+        audioBuffer.mData = calloc(bufferSize, 1)
+        audioBuffer.mNumberChannels = 1
+        audioBuffer.mDataByteSize = UInt32(bufferSize)
+        let audioBufferList = AudioBufferList(mNumberBuffers: channels, mBuffers: audioBuffer)
+        return audioBufferList
     }
     
     static func defaultClientFormat() -> AudioStreamBasicDescription {
@@ -75,6 +80,18 @@ public class Utils {
         asbd.mReserved         = 0;
         return asbd;
     }
+    
+//    static func floatBufferWithNumberOfFrames(frames: UInt32, channels: UInt32) -> [Float] {
+//    static func floatBufferWithNumberOfFrames(frames: UInt32, channels: UInt32) -> [Float]? {
+//        var size = sizeof(Float) * Int(channels);
+//        var buffers:[Float] = []
+//        for i in 0...Int(channels) {
+//            size = sizeof(Float) * Int(frames)
+////            buffers[i] = malloc(size)
+//        }
+//        return buffers;
+//    }
+    
     
     static func bridge<T : AnyObject>(obj : T) -> UnsafeMutablePointer<Void> {
         return UnsafeMutablePointer(Unmanaged.passUnretained(obj).toOpaque())

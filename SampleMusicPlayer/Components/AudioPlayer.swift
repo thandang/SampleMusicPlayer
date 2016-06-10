@@ -64,7 +64,7 @@ extension AudioPlayer: AudioOutputDelegate {
 }
 
 extension AudioPlayer: AudioOutputDataSource {
-    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: AudioBufferList, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus {
+    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus {
         guard let audo = audioFile else {
             return noErr
         }

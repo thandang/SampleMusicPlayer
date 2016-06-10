@@ -53,7 +53,6 @@ class AudioFloatConverter: NSObject {
         let isVBR = sizePerPacket == 0
         if isVBR {
             var maxOutputPacketSize:UInt32 = 0
-//            var propSize: UInt32 = sizeof(UInt32)
             var propSize: UInt32 = 0
             let status: OSStatus = AudioConverterGetProperty(info.converterRef!, kAudioConverterPropertyMaximumOutputPacketSize, &propSize, &maxOutputPacketSize)
             if status != noErr {
@@ -71,17 +70,13 @@ class AudioFloatConverter: NSObject {
         info.floatAudioBufferList = Utils.audioBufferListWithNumerOfFrames(packetsPerBuffer, channels: info.outputFormat!.mChannelsPerFrame)
     }
     
-    func convertDataFromAudioBufferList(audioBufferList: AudioBufferList, frames: UInt32, buffers: [Float]) {
+    func convertDataFromAudioBufferList(audioBufferList: UnsafeMutablePointer<AudioBufferList>, frames: UInt32, buffers: [Float]) {
         if (frames != 0) {
             //
             // Make sure the data size coming in is consistent with the number
             // of frames we're actually getting
             //
             var copyFrames = frames
-            
-            var copyAudioBufferList = audioBufferList
-            copyAudioBufferList.mBuffers.mDataByteSize = frames * info.inputFormat!.mBytesPerFrame
-            
             
             AudioConverterFillComplexBuffer(info.converterRef!, { (convertRef, numberDataPackets, data, outDataPacketDescription, userData) -> OSStatus in
                 var sourceBuffer = unsafeBitCast(userData, AudioBufferList.self)
@@ -93,7 +88,7 @@ class AudioFloatConverter: NSObject {
                 free(&sourceBuffer)
                 
                 return noErr
-                }, &copyAudioBufferList, &copyFrames, &info.floatAudioBufferList!, &info.packetDescription!)
+                }, audioBufferList, &copyFrames, &info.floatAudioBufferList!, &info.packetDescription!)
 
 //            // Copy the converted buffers into the float buffer array stored
 //            // in memory

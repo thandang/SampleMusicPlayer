@@ -121,7 +121,7 @@ class AudioOutput: NSObject {
         // Make node connections
         //
         
-        let status =  connectOUtputOfSourceNode((convertInfo!.node)!, sourceNodeOutputBus: 0, destinateNode: (mixerInfo!.node)!, destinateNodeBus: 0, inGraph: graph_!)
+        connectOUtputOfSourceNode((convertInfo!.node)!, sourceNodeOutputBus: 0, destinateNode: (mixerInfo!.node)!, destinateNodeBus: 0, inGraph: graph_!)
         
         
         //
@@ -154,10 +154,10 @@ class AudioOutput: NSObject {
             //
             let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
             if let _ = output.datasource {
-                let frames: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
+                let frames_: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
                 let targetTimestamp = unsafeBitCast(timestamp, AudioTimeStamp.self)
-                return output.datasource!.output(output, shouldFillAudioBufferList: bufferList,
-                    withNumerOfFrames: frames, timestamp: targetTimestamp)
+                return output.datasource!.output(output, shouldFillAudioBufferList: data,
+                    withNumerOfFrames: frames_, timestamp: targetTimestamp)
             } else {
                 memset(bufferList.mBuffers.mData, 0, Int(bufferList.mBuffers.mDataByteSize))
             }
@@ -169,8 +169,9 @@ class AudioOutput: NSObject {
         //
         // Set stream formats
         //
-//        [self setClientFormat:[self defaultClientFormat]];
-//        [self setInputFormat:[self defaultInputFormat]];
+        setClientFormat(Utils.defaultClientFormat())
+        setInputFormat(Utils.defaultInputFormark())
+        
         
         //
         // Use the default device
@@ -202,7 +203,7 @@ class AudioOutput: NSObject {
             if let _ = output.delegate {
                 let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
                 let frames: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
-                output.floatConverter?.convertDataFromAudioBufferList(bufferList, frames: frames, buffers: output.info!.floatData!)
+                output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
                 output.delegate?.output(output, playedAudio: (output.info?.floatData)!, withBufferSize: frames, numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
             }
           
@@ -213,13 +214,7 @@ class AudioOutput: NSObject {
     func setClientFormat(clientFormat: AudioStreamBasicDescription) {
         if let _ = floatConverter {
             floatConverter = nil
-            //Free float buffer
-            //        if (self.floatConverter)
-            //        {
-            //            self.floatConverter = nil;
-            //            [EZAudioUtilities freeFloatBuffers:self.info->floatData
-            //                numberOfChannels:self.clientFormat.mChannelsPerFrame];
-            //        }
+            //Free buffer
         }
         
         guard let targetInfo = info else {
@@ -238,10 +233,14 @@ class AudioOutput: NSObject {
         
         
         floatConverter = AudioFloatConverter(inputFormat_: clientFormat)
-//        
-//        self.floatConverter = [[EZAudioFloatConverter alloc] initWithInputFormat:clientFormat];
-//        self.info->floatData = [EZAudioUtilities floatBuffersWithNumberOfFrames:EZOutputMaximumFramesPerSlice
-//        numberOfChannels:clientFormat.mChannelsPerFrame];
+//        info?.floatData = Utils.floatBufferWithNumberOfFrames(OutputMaximumFramesPerSlide, channels: clientFormat.mChannelsPerFrame)
+//        info?.floatData = EZAudioUtilities.floatBuffersWithNumberOfFrames(OutputMaximumFramesPerSlide, numberOfChannels: clientFormat.mChannelsPerFrame)
+    }
+    
+    func setInputFormat(inputFormat: AudioStreamBasicDescription) {
+        info?.inputFormat = inputFormat
+        var copyInputFormat = inputFormat
+        AudioUnitSetProperty((info?.converterNodeInfo!.audioUnit)!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &copyInputFormat, UInt32(sizeof(AudioStreamBasicDescription)))
     }
     
     func startPlayback() {
@@ -259,7 +258,7 @@ class AudioOutput: NSObject {
 }
 
 protocol AudioOutputDataSource {
-    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: AudioBufferList, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus
+    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus
     
 }
 

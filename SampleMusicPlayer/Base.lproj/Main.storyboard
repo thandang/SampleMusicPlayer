@@ -17,20 +17,20 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Erw-V9-vqP" customClass="AudioPlotView" customModule="SampleMusicPlayer" customModuleProvider="target">
-                                <rect key="frame" x="20" y="28" width="560" height="552"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Erw-V9-vqP" customClass="EZAudioPlotGL">
+                                <rect key="frame" x="0.0" y="28" width="600" height="552"/>
                                 <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
-                        <outlet property="bandsVIew" destination="Erw-V9-vqP" id="KEH-ML-2AO"/>
+                        <outlet property="bandsVIew" destination="Erw-V9-vqP" id="mwz-WI-2ym"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="407" y="311"/>
+            <point key="canvasLocation" x="224" y="269"/>
         </scene>
     </scenes>
 </document>

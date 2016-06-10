@@ -299,14 +299,18 @@ typedef struct
 
 - (void)setSampleData:(float *)data length:(int)length
 {
-    int pointCount = self.shouldFill ? length * 2 : length;
+    int pointCount = length;
     EZAudioPlotGLPoint *points = self.info->points;
     for (int i = 0; i < length; i++)
     {
         if (self.shouldFill)
         {
-            points[i * 2].x = points[i * 2 + 1].x = i;
-            points[i * 2].y = data[i];
+            points[i * 2].x = points[i * 2 + 1].x = i + 1;
+            GLfloat yValue = data[i];
+            if (yValue < 0) {
+                yValue *= -1;
+            }
+            points[i * 2].y = yValue;
             points[i * 2 + 1].y = 0.0f;
         }
         else
@@ -484,7 +488,7 @@ typedef struct
 {
     glClear(GL_COLOR_BUFFER_BIT);
 //    GLenum mode = interpolated ? GL_TRIANGLE_STRIP : GL_LINE_STRIP;
-    GLenum mode = interpolated ? GL_POINTS : GL_LINE_STRIP;
+    GLenum mode = interpolated ? GL_TRIANGLE_STRIP : GL_LINE_STRIP;
     float interpolatedFactor = interpolated ? 2.0f : 1.0f;
     float xscale = 2.0f / ((float)pointCount / interpolatedFactor);
     float yscale = 1.0f * gain;

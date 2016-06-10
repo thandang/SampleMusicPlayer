@@ -23,9 +23,7 @@ struct AudioPoint {
 
 struct AudioGLPlotInfo {
     var interpolated: Bool
-//    var points: [AudioPoint]
     var points: UnsafeMutablePointer<AudioPoint>?
-    var plotHistoryInfo: PlotHistoryInfo?
     var pointCount: Int
     var vbo: GLuint
     var vab: GLuint
@@ -35,11 +33,6 @@ struct AudioGLPlotInfo {
         vbo = 0
         vab = 0
     }
-}
-
-struct PlotHistoryInfo {
-    var buffer: float2
-    var bufferSize: Int
 }
 
 class AudioPlotView: GLKView {
@@ -57,7 +50,7 @@ class AudioPlotView: GLKView {
                     baseEffect?.constantColor = GLKVector4Make(Float(red), Float(green), Float(blue), Float(alpha))
                 }
             } else {
-                baseEffect?.constantColor = GLKVector4Make(0.0, 0.0, 0.0, 0.0)
+                baseEffect?.constantColor = GLKVector4Make(1.0, 1.0, 1.0, 1.0)
             }
         }
     }
@@ -92,7 +85,7 @@ class AudioPlotView: GLKView {
     
     func setup() {
         info = AudioGLPlotInfo()
-//        memset(&info, 0, sizeof(AudioGLPlotInfo))
+        memset(&info, 0, sizeof(AudioGLPlotInfo))
         info.pointCount = DefaultMaxBufferLength
         
         info.points = UnsafeMutablePointer<AudioPoint>.alloc(DefaultMaxBufferLength * sizeof(AudioPoint)) //allocate memory
@@ -101,7 +94,7 @@ class AudioPlotView: GLKView {
         setupOpenGL()
         
         myColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        let bgColor = UIColor(red: 0.57, green: 0.82, blue: 0.48, alpha: 1.0)
+        let bgColor = UIColor(red: 0.3, green: 0.3, blue: 0.33, alpha: 1.0)
         self.backgroundColor = bgColor
         let colorRef = bgColor.CGColor
         let componentCount = CGColorGetNumberOfComponents(colorRef)
@@ -121,9 +114,13 @@ class AudioPlotView: GLKView {
     func setupOpenGL() {
         baseEffect = GLKBaseEffect()
         baseEffect.useConstantColor = GLboolean(GL_TRUE)
+        baseEffect.light0.enabled = GLboolean(GL_TRUE)
         
-        let ctx = EAGLContext(API: .OpenGLES2)
-        EAGLContext.setCurrentContext(ctx)
+        glEnable(GLenum(GL_DEPTH_TEST))
+        
+        
+        localContext = EAGLContext(API: .OpenGLES2)
+        EAGLContext.setCurrentContext(localContext)
         
         drawableColorFormat = .RGBA8888
         drawableDepthFormat = .Format24
@@ -202,6 +199,7 @@ extension AudioPlotView {
                             mird mirrored: Bool,
                             gn gain: Float) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        
         let mode = GLenum(GL_TRIANGLE_STRIP)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)

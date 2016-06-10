@@ -299,13 +299,14 @@ typedef struct
 
 - (void)setSampleData:(float *)data length:(int)length
 {
-    int pointCount = length;
+    int pointCount = 256;
     EZAudioPlotGLPoint *points = self.info->points;
     for (int i = 0; i < length; i++)
     {
         if (self.shouldFill)
         {
-            points[i * 2].x = points[i * 2 + 1].x = i + 1;
+            points[i * 2].x = i + 1;
+            points[i * 2 + 1].x = i + 3;
             GLfloat yValue = data[i];
             if (yValue < 0) {
                 yValue *= -1;

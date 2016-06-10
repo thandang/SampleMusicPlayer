@@ -55,7 +55,7 @@ class AudioPlotView: GLKView {
         }
     }
     var gain: float2?
-    var souldFill: Bool = false
+    var shouldFill: Bool = false
     let DefaultMaxBufferLength = 8192
     
     private var baseEffect: GLKBaseEffect!
@@ -79,8 +79,11 @@ class AudioPlotView: GLKView {
     }
     
     override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
         redraw()
+    }
+    
+    override func drawLayer(layer: CALayer, inContext ctx: CGContext) {
+        super.drawLayer(layer, inContext: ctx)
     }
     
     func setup() {
@@ -205,7 +208,7 @@ extension AudioPlotView {
         let xScale = 2.0 / (Double(count) / interpolatedFator)
         let yScale = 1.0 * gain
         var transform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
-        transform = GLKMatrix4Scale(transform, Float(xScale), yScale, 0.0)
+        transform = GLKMatrix4Scale(transform, Float(xScale), yScale, 1.0)
         baseEffect.transform.modelviewMatrix = transform
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo);
         baseEffect.prepareToDraw()
@@ -222,6 +225,7 @@ extension AudioPlotView {
             baseEffect.prepareToDraw()
             glDrawArrays(mode, 0, GLsizei(count));
         }
+        
     }
     
     /**
@@ -230,7 +234,7 @@ extension AudioPlotView {
      - parameter buffer: buffer data
      - parameter size:   buffer size, it's UInt32 type but we expect Int type
      */
-    func updateBuffer(buffer: UnsafeMutablePointer<Float>, bufferSize size: UInt32) {
+    func updateBuffer(buffer: UnsafeMutablePointer<Float>, withBufferSize size: UInt32) {
         setSampleData(buffer, length: Int(size))
     }
     
@@ -252,7 +256,7 @@ extension AudioPlotView {
             info?.pointCount = length
             info?.interpolated = true
             glBindBuffer(GLenum(GL_ARRAY_BUFFER), (info?.vbo)!)
-            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, length * sizeof(AudioPoint), points!)
+            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, length * sizeof(AudioPoint), info.points!)
         }
     }
 }
@@ -262,7 +266,7 @@ extension AudioPlotView {
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-            drawRect(frame)
+            display()
         }
     }
 }

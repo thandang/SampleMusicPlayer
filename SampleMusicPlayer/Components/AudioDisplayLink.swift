@@ -20,6 +20,7 @@ class AudioDisplayLink: NSObject {
     }
     
     func setup() {
+        isStopped = true
         displayLink = CADisplayLink(target: self, selector: #selector(update))
         displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
     }
@@ -38,7 +39,7 @@ class AudioDisplayLink: NSObject {
      */
     func start() {
         if let _ = displayLink {
-            displayLink?.paused = false
+            displayLink!.paused = false
             isStopped = false
         }
     }
@@ -48,7 +49,7 @@ class AudioDisplayLink: NSObject {
      */
     func stop() {
         if let _ = displayLink {
-            displayLink?.paused = true
+            displayLink!.paused = true
             isStopped = true
         }
     }

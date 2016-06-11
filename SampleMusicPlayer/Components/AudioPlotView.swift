@@ -59,7 +59,7 @@ class AudioPlotView: GLKView {
     let DefaultMaxBufferLength = 8192
     
     private var baseEffect: GLKBaseEffect!
-    private var displayLink: AudioDisplayLink?
+    var displayLink: AudioDisplayLink?
     private var info: AudioGLPlotInfo!
     private var localContext: EAGLContext!
     
@@ -75,15 +75,12 @@ class AudioPlotView: GLKView {
 
     override init(frame: CGRect, context: EAGLContext) {
         super.init(frame: frame, context: context)
+        localContext = context
         setup()
     }
     
     override func drawRect(rect: CGRect) {
         redraw()
-    }
-    
-    override func drawLayer(layer: CALayer, inContext ctx: CGContext) {
-        super.drawLayer(layer, inContext: ctx)
     }
     
     func setup() {
@@ -97,7 +94,7 @@ class AudioPlotView: GLKView {
         setupOpenGL()
         
         myColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
-        let bgColor = UIColor(red: 0.3, green: 0.3, blue: 0.33, alpha: 1.0)
+        let bgColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
         self.backgroundColor = bgColor
         let colorRef = bgColor.CGColor
         let componentCount = CGColorGetNumberOfComponents(colorRef)
@@ -117,12 +114,8 @@ class AudioPlotView: GLKView {
     func setupOpenGL() {
         baseEffect = GLKBaseEffect()
         baseEffect.useConstantColor = GLboolean(GL_TRUE)
-        baseEffect.light0.enabled = GLboolean(GL_TRUE)
+//        baseEffect.light0.enabled = GLboolean(GL_TRUE)
         
-        glEnable(GLenum(GL_DEPTH_TEST))
-        
-        
-        localContext = EAGLContext(API: .OpenGLES2)
         EAGLContext.setCurrentContext(localContext)
         
         drawableColorFormat = .RGBA8888
@@ -140,7 +133,6 @@ class AudioPlotView: GLKView {
                          info!.points!,
                          GLenum(GL_STREAM_DRAW))
         }
-        frame = frame
     }
     
     deinit {
@@ -187,7 +179,7 @@ extension AudioPlotView {
             return
         }
         
-        redrawingWithPoint(ino.points!, pointsCount: UInt32(ino.pointCount), baseEffect: baseEffect!, vertexBufferObject: ino.vbo, vertexArrayBuffer: ino.vab, interpolated: ino.interpolated, mird: true, gn: 1.0)
+        redrawingWithPoint(ino.points!, pointsCount: UInt32(ino.pointCount), baseEffect: baseEffect!, vertexBufferObject: ino.vbo, vertexArrayBuffer: ino.vab, interpolated: ino.interpolated, mird: false, gn: 1.0)
     }
 
     /**
@@ -203,7 +195,7 @@ extension AudioPlotView {
                             gn gain: Float) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
-        let mode = GLenum(GL_TRIANGLE_STRIP)
+        let mode = GLenum(GL_TRIANGLES)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)
         let yScale = 1.0 * gain
@@ -219,6 +211,7 @@ extension AudioPlotView {
                               GLboolean(GL_FALSE),
                               GLsizei(sizeof(AudioPoint)),
                               nil);
+        glPointSize(10.0)
         glDrawArrays(mode, 0, GLsizei(count));
         if mirrored == true {
             baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, Float(M_PI), 1.0, 0.0, 0.0);
@@ -246,7 +239,7 @@ extension AudioPlotView {
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]
                 if yValue < 0 {
-                    yValue *= 1
+                    yValue *= -1
                 }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
@@ -256,7 +249,7 @@ extension AudioPlotView {
             info?.pointCount = length
             info?.interpolated = true
             glBindBuffer(GLenum(GL_ARRAY_BUFFER), (info?.vbo)!)
-            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, length * sizeof(AudioPoint), info.points!)
+            glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, length * sizeof(AudioPoint), points!)
         }
     }
 }

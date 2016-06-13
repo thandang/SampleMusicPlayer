@@ -11,22 +11,27 @@ import AudioToolbox
 
 
 struct AudioFileInfo {
-    var audioFileID: AudioFileID?
+    var audioFileID: AudioFileID
     var clientFormant: AudioStreamBasicDescription?
     var duration: NSTimeInterval?
-    var extAudioFileRef: ExtAudioFileRef?
+    var extAudioFileRef: ExtAudioFileRef
     var fileFortmat: AudioStreamBasicDescription?
     var frames: Int64?
     var sourceURL: CFURLRef?
+    init() {
+        audioFileID = AudioFileID()
+        extAudioFileRef = ExtAudioFileRef()
+        frames = Int64()
+    }
 }
 
 class AudioFileManager: NSObject {
     var lock: pthread_mutex_t?
     var info: AudioFileInfo?
     var floatConverter: AudioFloatConverter?
-    var floatData: [Float]?
+    var floatData: UnsafeMutablePointer<UnsafeMutablePointer<Float>>?
     
-    var url: String?
+    private var localUrl: NSURL?
     var delegate: AudioFileDelegate?
     var clientFormat: AudioStreamBasicDescription? {
         didSet {
@@ -60,7 +65,7 @@ class AudioFileManager: NSObject {
                 if status != noErr {
                     maxOutputPacketSize = 2048
                 }
-//                floatData = Utils.floatBufferWithNumberOfFrames(1024, channels: clientFormat!.mChannelsPerFrame)
+                floatData = Utils.floatBufferWithNumberOfFrames(1024, channels: clientFormat!.mChannelsPerFrame)
             }
         }
     }
@@ -80,6 +85,10 @@ class AudioFileManager: NSObject {
     
     init(url: NSURL?) {
         super.init()
+        info = AudioFileInfo()
+        info?.fileFortmat = Utils.defaultClientFormat()
+        info?.sourceURL = url
+        localUrl = url
         setup()
     }
     
@@ -93,27 +102,38 @@ class AudioFileManager: NSObject {
     
     func setup() {
         let urlRef = info?.sourceURL
-        let url = urlRef as? NSURL
-        let fileExist = NSFileManager.defaultManager().fileExistsAtPath((url?.path)!)
+        let fileExist = NSFileManager.defaultManager().fileExistsAtPath((localUrl?.path)!)
         var extFileRef = info?.extAudioFileRef
         if fileExist {
-            ExtAudioFileOpenURL(url!, &extFileRef!)
+            guard let ref = urlRef else {
+                return
+            }
+            if extFileRef != nil {
+                ExtAudioFileOpenURL(ref, &extFileRef!)
+            }
+            
         }
         
         //
         // Get the underlying AudioFileID
         //
         
-        let propSize: UInt32 = 0
+        var propSize = UnsafeMutablePointer<UInt32>.alloc(sizeof(AudioFileID))
         var audioFileId = info?.audioFileID
-        ExtAudioFileSetProperty((info?.extAudioFileRef)!, kExtAudioFileProperty_AudioFile, propSize, &audioFileId!)
+        
+        guard let ext = extFileRef else {
+            return
+        }
+        ExtAudioFileGetProperty(ext, kExtAudioFileProperty_AudioFile, propSize, &audioFileId)
         
         var fileFormat = info?.fileFortmat
-        ExtAudioFileSetProperty((info?.extAudioFileRef)!, kExtAudioFileProperty_FileDataFormat, propSize, &fileFormat!)
+        propSize = UnsafeMutablePointer<UInt32>.alloc(sizeof(AudioStreamBasicDescription))
+        ExtAudioFileGetProperty(ext, kExtAudioFileProperty_FileDataFormat, propSize, &fileFormat!)
         
-        let newProp = sizeof(Int64)
+        
         var infoFrame = info?.frames
-        ExtAudioFileSetProperty((info?.extAudioFileRef)!, kExtAudioFileProperty_FileLengthFrames, UInt32(newProp), &infoFrame!)
+        propSize = UnsafeMutablePointer<UInt32>.alloc(sizeof(Int64))
+        ExtAudioFileGetProperty(ext, kExtAudioFileProperty_FileLengthFrames, propSize, &infoFrame)
         
         let sampleRate = info?.fileFortmat!.mSampleRate
         let interval = (info?.frames)! / Int64(sampleRate!)
@@ -135,7 +155,6 @@ class AudioFileManager: NSObject {
 }
 
 protocol AudioFileDelegate {
-    func audioFile(file: AudioFileManager, buffer: [Float], bufferSize: UInt32, numberChanels: UInt32)
-//    func audioFile(file: AudioFileManager, buffer: AutoreleasingUnsafeMutablePointer<Float>, bufferSize: UInt32, numberChanels: UInt32)
+    func audioFile(file: AudioFileManager, buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, bufferSize: UInt32, numberChanels: UInt32)
 }
 

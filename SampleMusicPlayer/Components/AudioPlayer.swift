@@ -23,7 +23,7 @@ enum AudioPlayState{
 
 
 protocol AudioPlayerDelegate {
-    func audioPlayer(player: AudioPlayer, buffer: [Float], bufferSize: UInt32, numberOfChanels: UInt32, audioFile: AudioFileManager)
+    func audioPlayer(player: AudioPlayer, buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, bufferSize: UInt32, numberOfChanels: UInt32, audioFile: AudioFileManager)
 }
 class AudioPlayer: NSObject {
     var output: AudioOutput?
@@ -55,7 +55,7 @@ class AudioPlayer: NSObject {
 }
 
 extension AudioPlayer: AudioOutputDelegate {
-    func output(output: AudioOutput, playedAudio buffer: [Float], withBufferSize size: UInt32, numberOfChannels chanels: UInt32) {
+    func output(output: AudioOutput, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize size: UInt32, numberOfChannels chanels: UInt32) {
         guard let del = delegate else {
             return
         }

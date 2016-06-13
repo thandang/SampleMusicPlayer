@@ -18,20 +18,17 @@ let OutputDefaultSampleRate: Float64 = 44100.0
 public class Utils {
     
     
-    static func audioBufferListWithNumerOfFrames (frames: UInt32, channels: UInt32) -> AudioBufferList {
-//        let lastItem = channels - 1
-//        let audioBufferList = malloc(sizeof(AudioBufferList) + sizeof(AudioBuffer) * Int(lastItem))
-//        var targetBufferList = unsafeBitCast(audioBufferList, AudioBufferList.self)
+    static func audioBufferListWithNumerOfFrames (frames: UInt32, channels: UInt32) -> UnsafeMutablePointer<AudioBufferList> {
+        let lastItem = channels - 1
+        let audioBufferList = UnsafeMutablePointer<AudioBufferList>.alloc(sizeof(AudioBufferList) + sizeof(AudioBuffer) * Int(lastItem))
         
-//        var targetBufferList = Utils.bridgeBack(audioBufferList)
-        
-//        targetBufferList.mNumberBuffers = channels
         let bufferSize = sizeof(Float) * Int(frames)
         var audioBuffer = AudioBuffer()
         audioBuffer.mData = calloc(bufferSize, 1)
         audioBuffer.mNumberChannels = 1
         audioBuffer.mDataByteSize = UInt32(bufferSize)
-        let audioBufferList = AudioBufferList(mNumberBuffers: channels, mBuffers: audioBuffer)
+        var targetBufferList = AudioBufferList(mNumberBuffers: channels, mBuffers: audioBuffer)
+        audioBufferList.assignFrom(&targetBufferList, count: 1)
         return audioBufferList
     }
     
@@ -81,16 +78,15 @@ public class Utils {
         return asbd;
     }
     
-//    static func floatBufferWithNumberOfFrames(frames: UInt32, channels: UInt32) -> [Float] {
-//    static func floatBufferWithNumberOfFrames(frames: UInt32, channels: UInt32) -> [Float]? {
-//        var size = sizeof(Float) * Int(channels);
-//        var buffers:[Float] = []
-//        for i in 0...Int(channels) {
-//            size = sizeof(Float) * Int(frames)
-////            buffers[i] = malloc(size)
-//        }
-//        return buffers;
-//    }
+    static func floatBufferWithNumberOfFrames(frames: UInt32, channels: UInt32) -> UnsafeMutablePointer<UnsafeMutablePointer<Float>> {
+        var size = sizeof(Float) * Int(channels);
+        let buffers:UnsafeMutablePointer<UnsafeMutablePointer<Float>> = UnsafeMutablePointer<UnsafeMutablePointer<Float>>.alloc(size)
+        for i in 0...Int(channels) {
+            size = sizeof(Float) * Int(frames)
+            buffers[i] = UnsafeMutablePointer<Float>.alloc(size)
+        }
+        return buffers;
+    }
     
     
     static func bridge<T : AnyObject>(obj : T) -> UnsafeMutablePointer<Void> {

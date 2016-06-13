@@ -13,6 +13,10 @@ import AVFoundation
 struct AudioNodeInfo {
     var audioUnit: AudioUnit?
     var node: AUNode?
+    init() {
+        audioUnit = AudioUnit()
+        node = AUNode()
+    }
 }
 
 struct AudioOutputInfo {
@@ -20,12 +24,18 @@ struct AudioOutputInfo {
     var inputFormat: AudioStreamBasicDescription?
     var clientFormat: AudioStreamBasicDescription?
     
-    var floatData: [Float]?
+    var floatData: UnsafeMutablePointer<UnsafeMutablePointer<Float>>?
     
     var converterNodeInfo: AudioNodeInfo?
     var mixerNodeInfo: AudioNodeInfo?
     var outputNodeInfo: AudioNodeInfo?
     var graph: AUGraph?
+    init() {
+        graph = AUGraph()
+        converterNodeInfo = AudioNodeInfo()
+        mixerNodeInfo = AudioNodeInfo()
+        outputNodeInfo = AudioNodeInfo()
+    }
 }
 
 //MARK - Callback
@@ -233,8 +243,7 @@ class AudioOutput: NSObject {
         
         
         floatConverter = AudioFloatConverter(inputFormat_: clientFormat)
-//        info?.floatData = Utils.floatBufferWithNumberOfFrames(OutputMaximumFramesPerSlide, channels: clientFormat.mChannelsPerFrame)
-//        info?.floatData = EZAudioUtilities.floatBuffersWithNumberOfFrames(OutputMaximumFramesPerSlide, numberOfChannels: clientFormat.mChannelsPerFrame)
+        info?.floatData = Utils.floatBufferWithNumberOfFrames(OutputMaximumFramesPerSlide, channels: clientFormat.mChannelsPerFrame)
     }
     
     func setInputFormat(inputFormat: AudioStreamBasicDescription) {
@@ -263,5 +272,5 @@ protocol AudioOutputDataSource {
 }
 
 protocol AudioOutputDelegate {
-    func output(output: AudioOutput, playedAudio buffer: [Float], withBufferSize size: UInt32, numberOfChannels chanels: UInt32)
+    func output(output: AudioOutput, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize size: UInt32, numberOfChannels chanels: UInt32)
 }

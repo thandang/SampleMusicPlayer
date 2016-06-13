@@ -11,7 +11,7 @@ import CoreAudioKit
 
 struct AudioFloatConverterInfo {
     var converterRef: AudioConverterRef?
-    var floatAudioBufferList: AudioBufferList?
+    var floatAudioBufferList: UnsafeMutablePointer<AudioBufferList>?
     var inputFormat: AudioStreamBasicDescription?
     var outputFormat: AudioStreamBasicDescription?
     var packetDescription: AudioStreamPacketDescription?
@@ -70,7 +70,7 @@ class AudioFloatConverter: NSObject {
         info.floatAudioBufferList = Utils.audioBufferListWithNumerOfFrames(packetsPerBuffer, channels: info.outputFormat!.mChannelsPerFrame)
     }
     
-    func convertDataFromAudioBufferList(audioBufferList: UnsafeMutablePointer<AudioBufferList>, frames: UInt32, buffers: [Float]) {
+    func convertDataFromAudioBufferList(audioBufferList: UnsafeMutablePointer<AudioBufferList>, frames: UInt32, buffers: UnsafeMutablePointer<UnsafeMutablePointer<Float>>) {
         if (frames != 0) {
             //
             // Make sure the data size coming in is consistent with the number
@@ -88,13 +88,13 @@ class AudioFloatConverter: NSObject {
                 free(&sourceBuffer)
                 
                 return noErr
-                }, audioBufferList, &copyFrames, &info.floatAudioBufferList!, &info.packetDescription!)
+                }, audioBufferList, &copyFrames, &info.floatAudioBufferList![0], &info.packetDescription!)
 
 //            // Copy the converted buffers into the float buffer array stored
 //            // in memory
 //            //
             var copyBuffer = buffers
-            memcpy(&copyBuffer, info.floatAudioBufferList!.mBuffers.mData, Int(info.floatAudioBufferList!.mBuffers.mDataByteSize))
+            memcpy(&copyBuffer, info.floatAudioBufferList![0].mBuffers.mData, Int(info.floatAudioBufferList![0].mBuffers.mDataByteSize))
         }
     }
 }

@@ -115,6 +115,7 @@ class AudioPlotView: GLKView {
         baseEffect = GLKBaseEffect()
         baseEffect.useConstantColor = GLboolean(GL_TRUE)
 //        baseEffect.light0.enabled = GLboolean(GL_TRUE)
+//        baseEffect.light0.diffuseColor = GLKVector4Make(0.4, 0.4, 0.4, 1.0)
         
         EAGLContext.setCurrentContext(localContext)
         
@@ -211,7 +212,6 @@ extension AudioPlotView {
                               GLboolean(GL_FALSE),
                               GLsizei(sizeof(AudioPoint)),
                               nil);
-        glPointSize(10.0)
         glDrawArrays(mode, 0, GLsizei(count));
         if mirrored == true {
             baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, Float(M_PI), 1.0, 0.0, 0.0);

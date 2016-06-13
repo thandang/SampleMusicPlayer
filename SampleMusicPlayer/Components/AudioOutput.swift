@@ -11,10 +11,10 @@ import AudioToolbox
 import AVFoundation
 
 struct AudioNodeInfo {
-    var audioUnit: AudioUnit?
-    var node: AUNode?
+    var audioUnit: AudioUnit
+    var node: AUNode
     init() {
-        audioUnit = AudioUnit()
+        audioUnit = nil
         node = AUNode()
     }
 }
@@ -26,12 +26,12 @@ struct AudioOutputInfo {
     
     var floatData: UnsafeMutablePointer<UnsafeMutablePointer<Float>>?
     
-    var converterNodeInfo: AudioNodeInfo?
-    var mixerNodeInfo: AudioNodeInfo?
-    var outputNodeInfo: AudioNodeInfo?
-    var graph: AUGraph?
+    var converterNodeInfo: AudioNodeInfo
+    var mixerNodeInfo: AudioNodeInfo
+    var outputNodeInfo: AudioNodeInfo
+    var graph: AUGraph
     init() {
-        graph = AUGraph()
+        graph = nil
         converterNodeInfo = AudioNodeInfo()
         mixerNodeInfo = AudioNodeInfo()
         outputNodeInfo = AudioNodeInfo()
@@ -81,9 +81,8 @@ class AudioOutput: NSObject {
         memset(&info, 0, sizeof(AudioOutputInfo))
         var graph_ = info?.graph
         
-        if let _ = graph_ {
-            NewAUGraph(&graph_!)
-        }
+        NewAUGraph(&graph_!)
+        
         
         var converterDescription: AudioComponentDescription = AudioComponentDescription()
         
@@ -91,10 +90,7 @@ class AudioOutput: NSObject {
         converterDescription.componentSubType = kAudioUnitSubType_AUConverter;
         converterDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
         var convertInfo = info?.converterNodeInfo
-        if let _ = convertInfo {
-            AUGraphAddNode((info?.graph)!, &converterDescription, &(convertInfo!.node)!)
-        }
-        
+        AUGraphAddNode(graph_!, &converterDescription, &convertInfo!.node)
         
         //
         // Add mixer node
@@ -105,10 +101,7 @@ class AudioOutput: NSObject {
         
         mixerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
         var mixerInfo = info?.mixerNodeInfo
-        if let _ = graph_, _ = mixerInfo {
-            AUGraphAddNode(graph_!, &mixerDescription, &(mixerInfo!.node)!)
-        }
-        
+        AUGraphAddNode(graph_!, &mixerDescription, &mixerInfo!.node)
         
         //
         // Add output node
@@ -118,37 +111,36 @@ class AudioOutput: NSObject {
         outputDescription.componentSubType = kAudioUnitSubType_RemoteIO
         outputDescription.componentManufacturer = kAudioUnitManufacturer_Apple
         var outputInfo = info?.outputNodeInfo
-        if let _ = graph_, _ = outputInfo {
-            AUGraphAddNode(graph_!, &outputDescription, &(outputInfo!.node)!)
-        }
+        AUGraphAddNode(graph_!, &outputDescription, &outputInfo!.node)
         
         //
         // Open the graph
         //
-        AUGraphOpen((info?.graph)!)
+        AUGraphOpen(graph_!)
         
         //
         // Make node connections
         //
         
-        connectOUtputOfSourceNode((convertInfo!.node)!, sourceNodeOutputBus: 0, destinateNode: (mixerInfo!.node)!, destinateNodeBus: 0, inGraph: graph_!)
+        connectOUtputOfSourceNode(convertInfo!.node, sourceNodeOutputBus: 0,
+                                  destinateNode: mixerInfo!.node,
+                                  destinateNodeBus: 0, inGraph: graph_!)
         
         
         //
         // Connect mixer to output
         //
-        AUGraphConnectNodeInput(graph_!, (mixerInfo!.node)!, 0, (outputInfo!.node)!, 0)
+        AUGraphConnectNodeInput(graph_!, mixerInfo!.node, 0, outputInfo!.node, 0)
         
         //
         // Get the audio units
         //
         
-        AUGraphNodeInfo(graph_!, (convertInfo!.node)!, &converterDescription, &(convertInfo!.audioUnit)!)
+        AUGraphNodeInfo(graph_!, convertInfo!.node, &converterDescription, &convertInfo!.audioUnit)
+    
+        AUGraphNodeInfo(graph_!, mixerInfo!.node, &mixerDescription, &mixerInfo!.audioUnit)
         
-
-        AUGraphNodeInfo(graph_!, (mixerInfo!.node)!, &mixerDescription, &(mixerInfo!.audioUnit)!)
-        
-        AUGraphNodeInfo(graph_!, (outputInfo!.node)!, &outputDescription, &(outputInfo!.audioUnit)!)
+        AUGraphNodeInfo(graph_!, outputInfo!.node, &outputDescription, &outputInfo!.audioUnit)
         
         
         //
@@ -158,23 +150,19 @@ class AudioOutput: NSObject {
         var converterCallback: AURenderCallbackStruct = AURenderCallbackStruct(inputProc: { (context, actionFlags, timestamp, bus, frames, data) -> OSStatus in
            let output: AudioOutput = Utils.bridgeBack(context)
             
-            //
             // Try to ask the data source for audio data to fill out the output's
-            // buffer list
-            //
-            let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
             if let _ = output.datasource {
-                let frames_: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
+                let frames_ = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
                 let targetTimestamp = unsafeBitCast(timestamp, AudioTimeStamp.self)
                 return output.datasource!.output(output, shouldFillAudioBufferList: data,
                     withNumerOfFrames: frames_, timestamp: targetTimestamp)
             } else {
-                memset(bufferList.mBuffers.mData, 0, Int(bufferList.mBuffers.mDataByteSize))
+                memset(data[0].mBuffers.mData, 0, Int(data[0].mBuffers.mDataByteSize))
             }
 
             return noErr
             }, inputProcRefCon: Utils.bridge(self))
-        AUGraphSetNodeInputCallback(graph_!, (convertInfo!.node)!, 0, &converterCallback)
+        AUGraphSetNodeInputCallback(graph_!, convertInfo!.node, 0, &converterCallback)
 
         //
         // Set stream formats
@@ -184,17 +172,11 @@ class AudioOutput: NSObject {
         
         
         //
-        // Use the default device
-        //
-//        EZAudioDevice *currentOutputDevice = [EZAudioDevice currentOutputDevice];
-//        [self setDevice:currentOutputDevice];
-        
-        //
         // Set maximum frames per slice to 4096 to allow playback during
         // lock screen (iOS only?)
         //
         var maximumFramesPerSlice = OutputMaximumFramesPerSlide
-        AudioUnitSetProperty((mixerInfo!.audioUnit)!, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maximumFramesPerSlice, maximumFramesPerSlice)
+        AudioUnitSetProperty(mixerInfo!.audioUnit, kAudioUnitProperty_MaximumFramesPerSlice, kAudioUnitScope_Global, 0, &maximumFramesPerSlice, maximumFramesPerSlice)
         
         
         //
@@ -202,23 +184,21 @@ class AudioOutput: NSObject {
         //
         AUGraphInitialize(graph_!)
         
-        //
-        // Add render callback
-        //
         
-        AudioUnitAddRenderNotify((mixerInfo!.audioUnit)!, { (context, actionFlags, timestamp, bus, frames, data) -> OSStatus in
+        // Add render callback
+        AudioUnitAddRenderNotify(mixerInfo!.audioUnit, { (context, actionFlags, timestamp, numBus, numFrames, data) -> OSStatus in
             
             let output: AudioOutput = Utils.bridgeBack(context)
             
             if let _ = output.delegate {
-                let bufferList: AudioBufferList = unsafeBitCast(data, AudioBufferList.self)
-                let frames: UInt32 = bufferList.mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
+                let frames = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat?.mBytesPerFrame)!
                 output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
-                output.delegate?.output(output, playedAudio: (output.info?.floatData)!, withBufferSize: frames, numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
+                output.delegate?.output(output, playedAudio: (output.info!.floatData)!, withBufferSize: numFrames, numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
             }
           
             return noErr
             }, Utils.bridge(self))
+        info?.graph = graph_!
     }
     
     func setClientFormat(clientFormat: AudioStreamBasicDescription) {
@@ -232,13 +212,13 @@ class AudioOutput: NSObject {
         }
         var targetClient = targetInfo.clientFormat
         info?.clientFormat = clientFormat
-        AudioUnitSetProperty((info?.converterNodeInfo!.audioUnit)!,
+        AudioUnitSetProperty((info?.converterNodeInfo.audioUnit)!,
                              kAudioUnitProperty_StreamFormat,
                              kAudioUnitScope_Output, 0, &targetClient,
                              UInt32(sizeof(AudioStreamBasicDescription)))
         
         
-        AudioUnitSetProperty((info?.mixerNodeInfo!.audioUnit)!, kAudioUnitProperty_StreamFormat,
+        AudioUnitSetProperty((info?.mixerNodeInfo.audioUnit)!, kAudioUnitProperty_StreamFormat,
                              kAudioUnitScope_Input, 0, &targetClient, UInt32(sizeof(AudioStreamBasicDescription)))
         
         
@@ -249,7 +229,7 @@ class AudioOutput: NSObject {
     func setInputFormat(inputFormat: AudioStreamBasicDescription) {
         info?.inputFormat = inputFormat
         var copyInputFormat = inputFormat
-        AudioUnitSetProperty((info?.converterNodeInfo!.audioUnit)!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &copyInputFormat, UInt32(sizeof(AudioStreamBasicDescription)))
+        AudioUnitSetProperty((info?.converterNodeInfo.audioUnit)!, kAudioUnitProperty_StreamFormat, kAudioUnitScope_Input, 0, &copyInputFormat, UInt32(sizeof(AudioStreamBasicDescription)))
     }
     
     func startPlayback() {
@@ -262,7 +242,8 @@ class AudioOutput: NSObject {
     
     
     func connectOUtputOfSourceNode(sourceNode: AUNode, sourceNodeOutputBus: UInt32, destinateNode: AUNode, destinateNodeBus: UInt32, inGraph: AUGraph) -> OSStatus {
-        return -1
+        AUGraphConnectNodeInput(inGraph, sourceNode, sourceNodeOutputBus, destinateNode, destinateNodeBus)
+        return noErr
     }
 }
 

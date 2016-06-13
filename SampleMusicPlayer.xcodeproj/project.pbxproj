@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209771D0E7AAA003E120D /* Basic_Beat.wav */; };
+		3662097A1D0E7AAA003E120D /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209781D0E7AAA003E120D /* Fill.wav */; };
 		366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */; };
 		366B56061D06A8B300C3B2B8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56051D06A8B300C3B2B8 /* CoreAudio.framework */; };
 		366B56081D06A9BB00C3B2B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */; };
@@ -69,6 +71,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		366209771D0E7AAA003E120D /* Basic_Beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Basic_Beat.wav; path = Resources/Basic_Beat.wav; sourceTree = "<group>"; };
+		366209781D0E7AAA003E120D /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Fill.wav; path = Resources/Fill.wav; sourceTree = "<group>"; };
 		366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Samba-drum-beat-115-bpm.wav"; path = "Resources/Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
 		366B56051D06A8B300C3B2B8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -180,6 +184,8 @@
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				366209771D0E7AAA003E120D /* Basic_Beat.wav */,
+				366209781D0E7AAA003E120D /* Fill.wav */,
 				366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */,
 			);
 			name = Resources;
@@ -432,6 +438,8 @@
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
 				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
+				3662097A1D0E7AAA003E120D /* Fill.wav in Resources */,
+				366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

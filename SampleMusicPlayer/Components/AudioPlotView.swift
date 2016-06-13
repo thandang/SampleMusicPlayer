@@ -115,7 +115,7 @@ class AudioPlotView: GLKView {
         baseEffect = GLKBaseEffect()
         baseEffect.useConstantColor = GLboolean(GL_TRUE)
 //        baseEffect.light0.enabled = GLboolean(GL_TRUE)
-//        baseEffect.light0.diffuseColor = GLKVector4Make(0.4, 0.4, 0.4, 1.0)
+//        baseEffect.light0.diffuseColor = GLKVector4Make(0.7, 0.7, 0.7, 1.0)
         
         EAGLContext.setCurrentContext(localContext)
         
@@ -196,7 +196,7 @@ extension AudioPlotView {
                             gn gain: Float) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
-        let mode = GLenum(GL_TRIANGLES)
+        let mode = GLenum(GL_LINES)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)
         let yScale = 1.0 * gain
@@ -213,7 +213,7 @@ extension AudioPlotView {
                               GLsizei(sizeof(AudioPoint)),
                               nil);
         glDrawArrays(mode, 0, GLsizei(count));
-        if mirrored == true {
+        if mirrored == true { //Default is false
             baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, Float(M_PI), 1.0, 0.0, 0.0);
             baseEffect.prepareToDraw()
             glDrawArrays(mode, 0, GLsizei(count));
@@ -235,6 +235,8 @@ extension AudioPlotView {
         let points = info?.points
         if let _ = points {
             for i in 0...length {
+                points![i].x = Float(i/2)
+                points![i + 1].x = Float(i/2)
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

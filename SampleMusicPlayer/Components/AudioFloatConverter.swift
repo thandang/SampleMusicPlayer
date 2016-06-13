@@ -16,6 +16,9 @@ struct AudioFloatConverterInfo {
     var outputFormat: AudioStreamBasicDescription?
     var packetDescription: AudioStreamPacketDescription?
     var packetPerBuffer: UInt32?
+    init() {
+        packetDescription = AudioStreamPacketDescription()
+    }
 }
 
 class AudioFloatConverter: NSObject {
@@ -77,6 +80,7 @@ class AudioFloatConverter: NSObject {
             // of frames we're actually getting
             //
             var copyFrames = frames
+            audioBufferList[0].mBuffers.mDataByteSize = frames * (info?.inputFormat?.mBytesPerFrame)!
             
             AudioConverterFillComplexBuffer(info.converterRef!, { (convertRef, numberDataPackets, data, outDataPacketDescription, userData) -> OSStatus in
                 var sourceBuffer = unsafeBitCast(userData, AudioBufferList.self)

@@ -235,8 +235,6 @@ extension AudioPlotView {
         let points = info?.points
         if let _ = points {
             for i in 0...length {
-                points![i].x = Float(i/2)
-                points![i + 1].x = Float(i/2)
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

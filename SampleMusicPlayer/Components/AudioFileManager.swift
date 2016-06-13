@@ -26,7 +26,7 @@ struct AudioFileInfo {
 }
 
 class AudioFileManager: NSObject {
-    var lock: pthread_mutex_t?
+    var lock: UnsafeMutablePointer<pthread_mutex_t>?
     var info: AudioFileInfo?
     var floatConverter: AudioFloatConverter?
     var floatData: UnsafeMutablePointer<UnsafeMutablePointer<Float>>?
@@ -72,7 +72,7 @@ class AudioFileManager: NSObject {
     
     deinit {
         if let _ = lock {
-            pthread_mutex_destroy(&lock!)
+            pthread_mutex_destroy(lock!)
         }
     }
     
@@ -80,7 +80,7 @@ class AudioFileManager: NSObject {
         super.init()
         info = AudioFileInfo()
         info?.fileFortmat = Utils.defaultClientFormat()
-        pthread_mutex_init(&lock!, nil)
+        pthread_mutex_init(lock!, nil)
     }
     
     init(url: NSURL?) {
@@ -89,6 +89,8 @@ class AudioFileManager: NSObject {
         info?.fileFortmat = Utils.defaultClientFormat()
         info?.sourceURL = url
         localUrl = url
+        lock = UnsafeMutablePointer<pthread_mutex_t>.alloc(0)
+        pthread_mutex_init(lock!, nil)
         setup()
     }
     
@@ -142,15 +144,16 @@ class AudioFileManager: NSObject {
     
     
     func readFrame(frames: UInt32, audoBufferList bufferList: UnsafeMutablePointer<AudioBufferList>, bufferSize size: UnsafeMutablePointer<UInt32>, eof: UnsafeMutablePointer<Bool>) {
-        if (pthread_mutex_trylock(&lock!) == 0) {
-            ExtAudioFileRead((info?.extAudioFileRef)!, unsafeBitCast(frames, UnsafeMutablePointer<UInt32>.self), bufferList)
+        if (pthread_mutex_trylock(lock!) == 0) {
+            var targetFrame = frames
+            ExtAudioFileRead((info?.extAudioFileRef)!, &targetFrame, bufferList)
             if  let del  = delegate {
-                floatConverter?.convertDataFromAudioBufferList(bufferList, frames: frames, buffers: floatData!)
+                floatConverter?.convertDataFromAudioBufferList(bufferList, frames: targetFrame, buffers: floatData!)
                 let channels = clientFormat!.mChannelsPerFrame
-                del.audioFile(self, buffer: floatData!, bufferSize: unsafeBitCast(size, UInt32.self), numberChanels: channels)
+                del.audioFile(self, buffer: floatData!, bufferSize: targetFrame, numberChanels: channels)
             }
         }
-        pthread_mutex_unlock(&lock!);
+        pthread_mutex_unlock(lock!);
     }
 }
 

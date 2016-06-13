@@ -63,7 +63,6 @@ class BrandsView: GLKView {
     func setupVBOs() {
         glGenBuffers(1, &vertexArray!)
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vertexArray!)
-        
 //        glBufferData(GLenum(GL_ARRAY_BUFFER), 0, <#T##data: UnsafePointer<Void>##UnsafePointer<Void>#>, <#T##usage: GLenum##GLenum#>)
     }
     

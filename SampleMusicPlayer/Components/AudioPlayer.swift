@@ -64,13 +64,17 @@ extension AudioPlayer: AudioOutputDelegate {
 }
 
 extension AudioPlayer: AudioOutputDataSource {
-    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus {
+    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: UnsafePointer<AudioTimeStamp>) -> OSStatus {
         guard let audo = audioFile else {
             return noErr
         }
-        let bufferSize: UnsafeMutablePointer<UInt32> = nil
-        let eof: UnsafeMutablePointer<Bool> = nil
+        let bufferSize: UnsafeMutablePointer<UInt32> = UnsafeMutablePointer<UInt32>.alloc(0)
+        let eof: UnsafeMutablePointer<Bool> = UnsafeMutablePointer<Bool>.alloc(0)
+
         audo.readFrame(frames, audoBufferList: audioBufferList, bufferSize: bufferSize, eof: eof)
+        
+        //TODO: Handle end of file and seeking
+        
         return noErr        
     }
 }

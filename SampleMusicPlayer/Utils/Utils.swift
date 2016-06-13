@@ -16,8 +16,6 @@ let OutputDefaultSampleRate: Float64 = 44100.0
 
 
 public class Utils {
-    
-    
     static func audioBufferListWithNumerOfFrames (frames: UInt32, channels: UInt32) -> UnsafeMutablePointer<AudioBufferList> {
         let lastItem = channels - 1
         let audioBufferList = UnsafeMutablePointer<AudioBufferList>.alloc(sizeof(AudioBufferList) + sizeof(AudioBuffer) * Int(lastItem))

@@ -31,7 +31,7 @@ struct AudioOutputInfo {
     var outputNodeInfo: AudioNodeInfo
     var graph: AUGraph
     init() {
-        graph = nil
+        graph = AUGraph()
         converterNodeInfo = AudioNodeInfo()
         mixerNodeInfo = AudioNodeInfo()
         outputNodeInfo = AudioNodeInfo()
@@ -77,11 +77,13 @@ class AudioOutput: NSObject {
     }
     
     func setup() {
-        info = AudioOutputInfo()
+//        info = AudioOutputInfo()
+        info = UnsafeMutablePointer<AudioOutputInfo>.alloc(sizeof(AudioOutputInfo))[0]
         memset(&info, 0, sizeof(AudioOutputInfo))
         var graph_ = info?.graph
         
         NewAUGraph(&graph_!)
+        info?.graph  = graph_!
         
         
         var converterDescription: AudioComponentDescription = AudioComponentDescription()
@@ -90,7 +92,7 @@ class AudioOutput: NSObject {
         converterDescription.componentSubType = kAudioUnitSubType_AUConverter;
         converterDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
         var convertInfo = info?.converterNodeInfo
-        AUGraphAddNode(graph_!, &converterDescription, &convertInfo!.node)
+        AUGraphAddNode((info?.graph)!, &converterDescription, &convertInfo!.node)
         
         //
         // Add mixer node
@@ -101,7 +103,7 @@ class AudioOutput: NSObject {
         
         mixerDescription.componentManufacturer = kAudioUnitManufacturer_Apple;
         var mixerInfo = info?.mixerNodeInfo
-        AUGraphAddNode(graph_!, &mixerDescription, &mixerInfo!.node)
+        AUGraphAddNode((info?.graph)!, &mixerDescription, &mixerInfo!.node)
         
         //
         // Add output node
@@ -111,12 +113,12 @@ class AudioOutput: NSObject {
         outputDescription.componentSubType = kAudioUnitSubType_RemoteIO
         outputDescription.componentManufacturer = kAudioUnitManufacturer_Apple
         var outputInfo = info?.outputNodeInfo
-        AUGraphAddNode(graph_!, &outputDescription, &outputInfo!.node)
+        AUGraphAddNode((info?.graph)!, &outputDescription, &outputInfo!.node)
         
         //
         // Open the graph
         //
-        AUGraphOpen(graph_!)
+        AUGraphOpen((info?.graph)!)
         
         //
         // Make node connections
@@ -125,7 +127,6 @@ class AudioOutput: NSObject {
         connectOUtputOfSourceNode(convertInfo!.node, sourceNodeOutputBus: 0,
                                   destinateNode: mixerInfo!.node,
                                   destinateNodeBus: 0, inGraph: graph_!)
-        
         
         //
         // Connect mixer to output
@@ -136,11 +137,11 @@ class AudioOutput: NSObject {
         // Get the audio units
         //
         
-        AUGraphNodeInfo(graph_!, convertInfo!.node, &converterDescription, &convertInfo!.audioUnit)
+        AUGraphNodeInfo((info?.graph)!, convertInfo!.node, &converterDescription, &convertInfo!.audioUnit)
     
-        AUGraphNodeInfo(graph_!, mixerInfo!.node, &mixerDescription, &mixerInfo!.audioUnit)
+        AUGraphNodeInfo((info?.graph)!, mixerInfo!.node, &mixerDescription, &mixerInfo!.audioUnit)
         
-        AUGraphNodeInfo(graph_!, outputInfo!.node, &outputDescription, &outputInfo!.audioUnit)
+        AUGraphNodeInfo((info?.graph)!, outputInfo!.node, &outputDescription, &outputInfo!.audioUnit)
         
         
         //
@@ -153,16 +154,15 @@ class AudioOutput: NSObject {
             // Try to ask the data source for audio data to fill out the output's
             if let _ = output.datasource {
                 let frames_ = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat!.mBytesPerFrame)!
-                let targetTimestamp = unsafeBitCast(timestamp, AudioTimeStamp.self)
                 return output.datasource!.output(output, shouldFillAudioBufferList: data,
-                    withNumerOfFrames: frames_, timestamp: targetTimestamp)
+                    withNumerOfFrames: frames_, timestamp: timestamp)
             } else {
                 memset(data[0].mBuffers.mData, 0, Int(data[0].mBuffers.mDataByteSize))
             }
 
             return noErr
             }, inputProcRefCon: Utils.bridge(self))
-        AUGraphSetNodeInputCallback(graph_!, convertInfo!.node, 0, &converterCallback)
+        AUGraphSetNodeInputCallback((info?.graph)!, convertInfo!.node, 0, &converterCallback)
 
         //
         // Set stream formats
@@ -182,7 +182,7 @@ class AudioOutput: NSObject {
         //
         // Initialize all the audio units in the graph
         //
-        AUGraphInitialize(graph_!)
+        AUGraphInitialize((info?.graph)!)
         
         
         // Add render callback
@@ -193,18 +193,22 @@ class AudioOutput: NSObject {
             if let _ = output.delegate {
                 let frames = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat?.mBytesPerFrame)!
                 output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
-                output.delegate?.output(output, playedAudio: (output.info!.floatData)!, withBufferSize: numFrames, numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
+                output.delegate?.output(output, playedAudio: (output.info!.floatData)!,
+                    withBufferSize: numFrames,
+                    numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
             }
           
             return noErr
             }, Utils.bridge(self))
-        info?.graph = graph_!
     }
     
     func setClientFormat(clientFormat: AudioStreamBasicDescription) {
         if let _ = floatConverter {
             floatConverter = nil
-            //Free buffer
+            for i in 0...Int((info?.clientFormat?.mChannelsPerFrame)!) {
+                free((info?.floatData![i])!)
+            }
+            free((info?.floatData)!)
         }
         
         guard let targetInfo = info else {
@@ -248,7 +252,7 @@ class AudioOutput: NSObject {
 }
 
 protocol AudioOutputDataSource {
-    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: AudioTimeStamp) -> OSStatus
+    func output(output: AudioOutput, shouldFillAudioBufferList audioBufferList: UnsafeMutablePointer<AudioBufferList>, withNumerOfFrames frames: UInt32, timestamp tms: UnsafePointer<AudioTimeStamp>) -> OSStatus
     
 }
 

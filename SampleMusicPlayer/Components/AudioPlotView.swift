@@ -244,7 +244,7 @@ extension AudioPlotView {
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
         if let _ = points {
-            for i in 0.stride(to: length, by: 20) {
+            for i in 0.stride(to: length, by: 10) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]
@@ -253,6 +253,13 @@ extension AudioPlotView {
                 }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
+
+//                var y2  = data[i] - 1
+//                if y2 < 0 {
+//                    y2 = 0
+//                }
+//                points![i * 2 + 1].y = y2
+                
             }
             points![0].y = 0.0
             points![length - 1].y = 0.0

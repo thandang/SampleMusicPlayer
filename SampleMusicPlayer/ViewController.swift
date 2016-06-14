@@ -21,21 +21,26 @@ class ViewController: UIViewController {
     
     var resource: [String] = []
     var indexPlay: Int = 0
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        let url = NSBundle.mainBundle().pathForResource("Samba-drum-beat-115-bpm", ofType: "wav")
-        let url2 = NSBundle.mainBundle().pathForResource("Basic_Beat", ofType: "wav")
+//        let url = NSBundle.mainBundle().pathForResource("Samba-drum-beat-115-bpm", ofType: "wav")
+        let url2 = NSBundle.mainBundle().pathForResource("winamp", ofType: "wav")
         let url3 = NSBundle.mainBundle().pathForResource("Fill", ofType: "wav")
-        if let _ = url {
-            resource.append(url!)
-        }
+        let url4 = NSBundle.mainBundle().pathForResource("Basic_Beat", ofType: "wav")
+//        if let _ = url {
+//            resource.append(url!)
+//        }
         if let _ = url2 {
             resource.append(url2!)
         }
         if let _ = url3 {
             resource.append(url3!)
+        }
+        if let _ = url4 {
+            resource.append(url4!)
         }
         setupSession()
     }

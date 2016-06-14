@@ -47,6 +47,7 @@
 		367BF4C91D05691200F66593 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4C81D05691200F66593 /* CoreGraphics.framework */; };
 		367BF4CD1D05691C00F66593 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CC1D05691C00F66593 /* Foundation.framework */; };
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
+		368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 368E8EB21D1028DF002A87C8 /* winamp.wav */; };
 		369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369770A01D0964A800988AB6 /* AudioFloatConverter.swift */; };
 /* End PBXBuildFile section */
 
@@ -133,6 +134,7 @@
 		367BF4CA1D05691700F66593 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		367BF4CC1D05691C00F66593 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
+		368E8EB21D1028DF002A87C8 /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = winamp.wav; path = Resources/winamp.wav; sourceTree = "<group>"; };
 		369770A01D0964A800988AB6 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -182,6 +184,7 @@
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				368E8EB21D1028DF002A87C8 /* winamp.wav */,
 				366209771D0E7AAA003E120D /* Basic_Beat.wav */,
 				366209781D0E7AAA003E120D /* Fill.wav */,
 				366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */,
@@ -418,6 +421,7 @@
 			files = (
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
 				366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */,
+				368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */,
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
 				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,

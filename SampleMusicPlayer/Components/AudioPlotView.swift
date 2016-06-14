@@ -93,7 +93,6 @@ class AudioPlotView: GLKView {
         
         setupOpenGL()
         
-        myColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         let bgColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
         self.backgroundColor = bgColor
         let colorRef = bgColor.CGColor
@@ -194,12 +193,14 @@ extension AudioPlotView {
                             interpolated interd: Bool,
                             mird mirrored: Bool,
                             gn gain: Float) {
+        myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-        glLineWidth(20.0)
+        glLineWidth(25.0)
         let mode = GLenum(GL_LINES)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)
-        let yScale = 1.0 * gain
+        let yScale = 1.0 * gain + 0.2
+        let yScale2 = 1.0 * gain
         var transform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
         transform = GLKMatrix4Scale(transform, Float(xScale), yScale, 1.0)
         baseEffect.transform.modelviewMatrix = transform
@@ -213,12 +214,21 @@ extension AudioPlotView {
                               GLsizei(sizeof(AudioPoint)),
                               nil);
         glDrawArrays(mode, 0, GLsizei(count));
+        
+        myColor = UIColor(red: 56.0/255, green: 190.0/255, blue: 9.0/255, alpha: 1.0)
+        var newTransform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
+        newTransform = GLKMatrix4Scale(newTransform, Float(xScale), Float(yScale2), 1.0)
+        baseEffect.transform.modelviewMatrix = newTransform
+        let newMode = GLenum(GL_LINES)
+        
+        baseEffect.prepareToDraw()
+        glDrawArrays(newMode, 0, GLsizei(count))
+        
         if mirrored == true { //Default is false
             baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, Float(M_PI), 1.0, 0.0, 0.0);
             baseEffect.prepareToDraw()
             glDrawArrays(mode, 0, GLsizei(count));
         }
-        
     }
     
     /**
@@ -234,7 +244,7 @@ extension AudioPlotView {
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
         if let _ = points {
-            for i in 0.stride(to: length, by: 20) {
+            for i in 0.stride(to: length, by: 10) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

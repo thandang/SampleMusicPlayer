@@ -61,7 +61,7 @@ class ViewController: UIViewController {
         let context = EAGLContext(API: .OpenGLES2)
         bandsView = AudioPlotView(frame: view.frame, context: context)
         view.addSubview(bandsView)
-        bandsView.myColor = UIColor(red: 56.0/255, green: 90.0/255, blue: 12.0/255, alpha: 1.0)
+//        bandsView.myColor = UIColor(red: 56.0/255, green: 90.0/255, blue: 12.0/255, alpha: 1.0)
         
         try! session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
         

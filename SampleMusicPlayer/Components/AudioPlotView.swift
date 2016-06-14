@@ -253,13 +253,12 @@ extension AudioPlotView {
                 }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
-
-//                var y2  = data[i] - 1
+                
+//                var y2  = data[i]
 //                if y2 < 0 {
 //                    y2 = 0
 //                }
 //                points![i * 2 + 1].y = y2
-                
             }
             points![0].y = 0.0
             points![length - 1].y = 0.0

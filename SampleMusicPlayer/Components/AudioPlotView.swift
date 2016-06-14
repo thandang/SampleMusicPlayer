@@ -195,7 +195,7 @@ extension AudioPlotView {
                             mird mirrored: Bool,
                             gn gain: Float) {
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-        
+        glLineWidth(20.0)
         let mode = GLenum(GL_LINES)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)
@@ -234,7 +234,7 @@ extension AudioPlotView {
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
         if let _ = points {
-            for i in 0...length {
+            for i in 0.stride(to: length, by: 20) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

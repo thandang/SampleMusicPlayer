@@ -29,9 +29,9 @@ struct AudioOutputInfo {
     var converterNodeInfo: AudioNodeInfo
     var mixerNodeInfo: AudioNodeInfo
     var outputNodeInfo: AudioNodeInfo
-    var graph: AUGraph
+    var graph: AUGraph?
     init() {
-        graph = AUGraph()
+        graph = UnsafeMutablePointer<AUGraph>.alloc(0)[0]
         converterNodeInfo = AudioNodeInfo()
         mixerNodeInfo = AudioNodeInfo()
         outputNodeInfo = AudioNodeInfo()
@@ -190,12 +190,18 @@ class AudioOutput: NSObject {
             
             let output: AudioOutput = Utils.bridgeBack(context)
             
-            if let _ = output.delegate {
-                let frames = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat?.mBytesPerFrame)!
-                output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
-                output.delegate?.output(output, playedAudio: (output.info!.floatData)!,
-                    withBufferSize: numFrames,
-                    numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
+            if AudioUnitRenderActionFlags.UnitRenderAction_PostRender == actionFlags[0]{
+                print("go inside")
+                if let _ = output.delegate {
+                    let frames = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat?.mBytesPerFrame)!
+                    output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
+                    
+                    output.delegate!.output(output, playedAudio: (output.info!.floatData)!,
+                        withBufferSize: numFrames,
+                        numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
+                }
+            } else {
+                print("go outside")
             }
           
             return noErr
@@ -237,11 +243,15 @@ class AudioOutput: NSObject {
     }
     
     func startPlayback() {
-        AUGraphStart((info?.graph)!)
+        if let _ = info, _ = info?.graph {
+            AUGraphStart(info!.graph!)
+        }
     }
     
     func stopPlayback() {
-        AUGraphStop((info?.graph)!)
+        if let _ = info, _ = info?.graph {
+            AUGraphStop(info!.graph!)
+        }
     }
     
     

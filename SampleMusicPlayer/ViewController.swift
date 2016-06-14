@@ -116,8 +116,7 @@ extension ViewController: EZAudioPlayerDelegate {
 extension ViewController: AudioPlayerDelegate {
     func audioPlayer(player: AudioPlayer, buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, bufferSize: UInt32, numberOfChanels: UInt32, audioFile: AudioFileManager) {
        
-        dispatch_async(dispatch_get_main_queue()) { 
-            [unowned self] in
+        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
             self.bandsView.updateBuffer(buffer[0], withBufferSize: bufferSize)
         }
     }

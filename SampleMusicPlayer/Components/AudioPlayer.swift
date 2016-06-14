@@ -56,10 +56,12 @@ class AudioPlayer: NSObject {
 
 extension AudioPlayer: AudioOutputDelegate {
     func output(output: AudioOutput, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize size: UInt32, numberOfChannels chanels: UInt32) {
-        guard let del = delegate else {
-            return
+        if let _ = audioFile {
+            guard let del = delegate else {
+                return
+            }
+            del.audioPlayer(self, buffer: buffer, bufferSize: size, numberOfChanels: chanels, audioFile: audioFile!)
         }
-        del.audioPlayer(self, buffer: buffer, bufferSize: size, numberOfChanels: chanels, audioFile: audioFile!)
     }
 }
 
@@ -68,10 +70,10 @@ extension AudioPlayer: AudioOutputDataSource {
         guard let audo = audioFile else {
             return noErr
         }
-        let bufferSize: UnsafeMutablePointer<UInt32> = UnsafeMutablePointer<UInt32>.alloc(0)
-        let eof: UnsafeMutablePointer<Bool> = UnsafeMutablePointer<Bool>.alloc(0)
+        var bufferSize: UInt32 = 0
+        var eof: Bool = false
 
-        audo.readFrame(frames, audoBufferList: audioBufferList, bufferSize: bufferSize, eof: eof)
+        audo.readFrame(frames, audoBufferList: audioBufferList, bufferSize: &bufferSize, eof: &eof)
         
         //TODO: Handle end of file and seeking
         

@@ -81,18 +81,12 @@ class AudioFloatConverter: NSObject {
             //
             var copyFrames = frames
             audioBufferList[0].mBuffers.mDataByteSize = frames * (info?.inputFormat?.mBytesPerFrame)!
-            AudioConverterFillComplexBuffer(info.converterRef!, { (convertRef, NumberDataPackets, bufferListData, streamDescriptionList, userData) -> OSStatus in
-                
-                    return noErr
-                }, audioBufferList, &copyFrames, &info.floatAudioBufferList![0], &info.packetDescription!)
-            AudioConverterFillComplexBuffer(info.converterRef!, { (convertRef, numberDataPackets, data, userData, outDataPacketDescription) -> OSStatus in
+            AudioConverterFillComplexBuffer(info.converterRef!, { (convertRef, numberDataPackets, bufferListData, streamDescriptionList, userData) -> OSStatus in
                 
                 var sourceBuffer = unsafeBitCast(userData, AudioBufferList.self)
-                
-                var copyData = data
                 let convertNum = Int(sourceBuffer.mNumberBuffers - 1)
                 
-                memcpy(&copyData, &sourceBuffer, sizeof(AudioBufferList) + convertNum * sizeof(AudioBuffer))
+                memcpy(bufferListData, &sourceBuffer, sizeof(AudioBufferList) + convertNum * sizeof(AudioBuffer))
                 free(&sourceBuffer)
                 
                 return noErr

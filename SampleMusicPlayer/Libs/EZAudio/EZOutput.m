@@ -32,7 +32,7 @@
 #pragma mark - Constants
 //------------------------------------------------------------------------------
 
-UInt32  const EZOutputMaximumFramesPerSlice = 4096;
+UInt32  const EZOutputMaximumFramesPerSlice = 2048;//4096;
 Float64 const EZOutputDefaultSampleRate     = 44100.0f;
 
 //------------------------------------------------------------------------------

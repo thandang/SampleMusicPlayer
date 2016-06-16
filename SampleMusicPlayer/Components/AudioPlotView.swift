@@ -62,6 +62,11 @@ class AudioPlotView: GLKView {
     var displayLink: AudioDisplayLink?
     private var info: AudioGLPlotInfo!
     private var localContext: EAGLContext!
+    var timeInterval: Float = 0
+    
+    var blocks: [BlockObject] = []
+    
+    var projectionMatrix: GLKMatrix4?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -84,6 +89,8 @@ class AudioPlotView: GLKView {
     }
     
     func setup() {
+        let aspectRatio = frame.size.width / frame.size.height;
+        projectionMatrix = GLKMatrix4MakeScale(1.0, aspectRatio.f, 1.0);
         info = AudioGLPlotInfo()
         memset(&info, 0, sizeof(AudioGLPlotInfo))
         info.pointCount = DefaultMaxBufferLength
@@ -229,6 +236,14 @@ extension AudioPlotView {
             baseEffect.prepareToDraw()
             glDrawArrays(mode, 0, GLsizei(count));
         }
+        
+        if blocks.count != 0 {
+            glEnable(GLenum(GL_BLEND))
+            glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
+            for bl in blocks {
+                bl.renderWithProjection(projectionMatrix!)
+            }
+        }
     }
     
     /**
@@ -251,6 +266,9 @@ extension AudioPlotView {
                 if yValue < 0 {
                     yValue *= -1
                 }
+                if yValue > 0.1 {
+                    addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
+                }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
             }
@@ -264,12 +282,40 @@ extension AudioPlotView {
     }
 }
 
+//MARK: Draw block
+extension AudioPlotView {
+    func addBlockAtPoint(point: CGPoint) {
+        let glPoint = CGPointMake(point.x/frame.size.width, point.y/frame.size.height);
+        let aspectRatio = frame.size.width / frame.size.height;
+        
+        // Convert touch point to GL position
+        let x = (glPoint.x * 2.0) - 1.0;
+        let y = ((glPoint.y * 2.0) - 1.0) * (-1.0/aspectRatio);
+        let block = BlockObject(texture: "block_64", position: GLKVector2Make(x.f, y.f))
+        blocks.append(block)
+    }
+    
+    func updateBlock() {
+        if blocks.count > 0 {
+            var deadElements: [BlockObject] = []
+            for bl in blocks {
+                let aLive = bl.updateLifeCycle(timeInterval)
+                if aLive {
+                    deadElements.append(bl)
+                }
+            }
+            //TODO: remove object from array
+        }
+    }
+}
+
 
 //MARK: run loop display link
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
             display()
+            timeInterval += 1
         }
     }
 }

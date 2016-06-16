@@ -10,9 +10,9 @@ import Foundation
 
 class ShaderProcessor: NSObject {
 //    func buildProgram(vertexShaderSource: UnsafePointer<UnsafePointer<GLchar>>, fragmentShaderSource: UnsafePointer<UnsafePointer<GLchar>>) -> GLuint {
-    func buildProgram(vertexShaderSource: UnsafePointer<GLchar>?, fragmentShaderSource: UnsafePointer<GLchar>?) -> GLuint {
-        let vertexShader = buildShader(vertexShaderSource, shaderType: GLenum(GL_VERTEX_SHADER))
-        let fragmentShader = buildShader(fragmentShaderSource, shaderType: GLenum(GL_FRAGMENT_SHADER))
+    func buildProgram(vertexShaderSource: UnsafePointer<GLchar>?, length1: GLint, fragmentShaderSource: UnsafePointer<GLchar>?, length2: GLint) -> GLuint {
+        let vertexShader = buildShader(vertexShaderSource, shaderType: GLenum(GL_VERTEX_SHADER), length: length1)
+        let fragmentShader = buildShader(fragmentShaderSource, shaderType: GLenum(GL_FRAGMENT_SHADER), length: length2)
         let programHandle = glCreateProgram()
         
         glAttachShader(programHandle, vertexShader)
@@ -36,10 +36,11 @@ class ShaderProcessor: NSObject {
         return programHandle
     }
     
-    func buildShader(source: UnsafePointer<GLchar>?, shaderType: GLenum) -> GLuint {
+    func buildShader(source: UnsafePointer<GLchar>?, shaderType: GLenum, length: GLint) -> GLuint {
         let shaderHandle = glCreateShader(shaderType)
         var copySource = source
-        glShaderSource(shaderHandle, 1, &copySource!, nil)
+        var copyLength = length
+        glShaderSource(shaderHandle, 1, &copySource!, &copyLength)
         glCompileShader(shaderHandle)
         
         

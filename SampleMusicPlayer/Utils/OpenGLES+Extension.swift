@@ -38,6 +38,12 @@ extension Float {
     }
 }
 
+extension CGFloat {
+    public var f: Float {
+        return Float(self)
+    }
+}
+
 public enum Uniform {
     case ModelViewProjectionMatrix, NormalMatrix
 }

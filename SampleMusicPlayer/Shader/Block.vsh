@@ -1,4 +1,4 @@
-static const char * BlockVS = STRINGIFY {
+//static const char * BlockVS = STRINGIFY {
 
     //Attribute
     attribute float a_pID;
@@ -61,4 +61,4 @@ static const char * BlockVS = STRINGIFY {
         v_Growth = growth;
         v_Decay = decay;
     }
-}
+//}

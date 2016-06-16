@@ -14,11 +14,11 @@ struct Particles {
     var pVelocityOffset: Float?
     var pDecayOffset: Float?
     var pSizeOffset: Float?
-    var pColorOffset: Float?
+    var pColorOffset: GLKVector3?
 }
 
 struct Block {
-    var eParticles: [Particles]?
+    var eParticles: [Particles] = [Particles()]
     var ePosition: GLKVector2?
     var eRadius: Float?
     var eVelocity: Float?
@@ -50,43 +50,44 @@ class BlockObject: NSObject {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!)
         
         //Handle uniform
-        
-        glUniformMatrix4fv((blockShader?.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(blockShader!.u_Gravity!, gravity!.x, gravity!.y);
-        glUniform1f(blockShader!.u_Time!, timeElapse);
-        glUniform2f(blockShader!.u_ePosition!, block!.ePosition!.x, block!.ePosition!.y);
-        glUniform1f(blockShader!.u_eRadius!, block!.eRadius!);
-        glUniform1f(blockShader!.u_eVelocity!, block!.eVelocity!);
-        glUniform1f(blockShader!.u_eDecay!, block!.eDecay!);
-        glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!);
-        glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!);
-//        glUniform3f(blockShader!.u_eColorStart!, block!.eColorStart.r, block!.eColorStart.g, block!.eColorStart.b);
-//        glUniform3f(blockShader!.u_eColorEnd!, block!.eColorEnd.r, block!.eColorEnd.g, block!.eColorEnd.b);
-        glUniform1i(blockShader!.u_Texture!, 0);
-        
-        // Attributes
-        glEnableVertexAttribArray(blockShader!.a_pID!);
-        glEnableVertexAttribArray(blockShader!.a_pRadiusOffset!);
-        glEnableVertexAttribArray(blockShader!.a_pVelocityOffset!);
-        glEnableVertexAttribArray(blockShader!.a_pDecayOffset!);
-        glEnableVertexAttribArray(blockShader!.a_pSizeOffset!);
-        glEnableVertexAttribArray(blockShader!.a_pColorOffset!);
-        
-        glVertexAttribPointer(blockShader!.a_pID!, 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
-        glVertexAttribPointer(blockShader!.a_pRadiusOffset!, 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
-        glVertexAttribPointer(blockShader!.a_pVelocityOffset!, 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
-        
-        glVertexAttribPointer(blockShader!.a_pSizeOffset!, 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
-        glVertexAttribPointer(blockShader!.a_pColorOffset!, 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
-        
-        // Draw particles
-        glDrawArrays(GLenum(GL_POINTS), 0, 1);
-        glDisableVertexAttribArray(blockShader!.a_pID!);
-        glDisableVertexAttribArray(blockShader!.a_pRadiusOffset!);
-        glDisableVertexAttribArray(blockShader!.a_pVelocityOffset!);
-        glDisableVertexAttribArray(blockShader!.a_pSizeOffset!);
-        glDisableVertexAttribArray(blockShader!.a_pColorOffset!);
-        
+        if let _ = blockShader {
+            
+            glUniformMatrix4fv((blockShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+            glUniform2f(blockShader!.u_Gravity!, gravity!.x, gravity!.y);
+            glUniform1f(blockShader!.u_Time!, timeElapse);
+            glUniform2f(blockShader!.u_ePosition!, block!.ePosition!.x, block!.ePosition!.y);
+            glUniform1f(blockShader!.u_eRadius!, block!.eRadius!);
+            glUniform1f(blockShader!.u_eVelocity!, block!.eVelocity!);
+            glUniform1f(blockShader!.u_eDecay!, block!.eDecay!);
+            glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!);
+            glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!);
+            //        glUniform3f(blockShader!.u_eColorStart!, block!.eColorStart.r, block!.eColorStart.g, block!.eColorStart.b);
+            //        glUniform3f(blockShader!.u_eColorEnd!, block!.eColorEnd.r, block!.eColorEnd.g, block!.eColorEnd.b);
+            glUniform1i(blockShader!.u_Texture!, 0);
+            
+            // Attributes
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pID!));
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pRadiusOffset!));
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pVelocityOffset!));
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pDecayOffset!));
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pSizeOffset!));
+            glEnableVertexAttribArray(GLenum(blockShader!.a_pColorOffset!));
+            
+            glVertexAttribPointer(GLenum(blockShader!.a_pID!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
+            glVertexAttribPointer(GLenum(blockShader!.a_pRadiusOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
+            glVertexAttribPointer(GLenum(blockShader!.a_pVelocityOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
+            
+            glVertexAttribPointer(GLenum(blockShader!.a_pSizeOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
+            glVertexAttribPointer(GLenum(blockShader!.a_pColorOffset!), 3, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(sizeof(Particles)), nil);
+            
+            // Draw particles
+            glDrawArrays(GLenum(GL_POINTS), 0, 1);
+            glDisableVertexAttribArray(GLenum(blockShader!.a_pID!));
+            glDisableVertexAttribArray(GLenum(blockShader!.a_pRadiusOffset!));
+            glDisableVertexAttribArray(GLenum(blockShader!.a_pVelocityOffset!));
+            glDisableVertexAttribArray(GLenum(blockShader!.a_pSizeOffset!));
+            glDisableVertexAttribArray(GLenum(blockShader!.a_pColorOffset!));
+        }
     }
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
@@ -103,7 +104,9 @@ class BlockObject: NSObject {
         blockShader = BlockShader()
         if let _ = blockShader {
             blockShader!.loadShader()
-            glUseProgram(blockShader!.program!)
+            if let program = blockShader!.program {
+                glUseProgram(program)
+            }
         }
     }
     
@@ -116,19 +119,34 @@ class BlockObject: NSObject {
     
     private func loadParticles(position: GLKVector2) {
         //TODO: setup data here
-        let aBlock = Block()
+        var aBlock = Block()
         
-        // Offset bounds
+        let oDecay:Float = 0.25
         
-        let oRadius = 0.1
-        let oVelocity = 0.5
-        let oDecay = 0.25
-        let oSize = 8.0
-        let oColor = 0.25
-
+        
+        aBlock.eParticles[0].pRadiusOffset = 0.5
+        aBlock.eParticles[0].pVelocityOffset = 1.0
+        aBlock.eParticles[0].pID = GLKMathDegreesToRadians(0*360.0)
+        aBlock.eParticles[0].pDecayOffset = 0.1
+        aBlock.eParticles[0].pColorOffset = GLKVector3Make(0.1, 0.1, 0.1)
+        aBlock.eParticles[0].pSizeOffset = 4.0
+        
+        aBlock.ePosition = position
+        aBlock.eDecay = 2.0
+        aBlock.eVelocity = 3.0
+        aBlock.eRadius = 0.75
+        aBlock.eSizeEnd = 32.0
+        aBlock.eSizeStart = 32.0
+        
+        let growth = aBlock.eRadius! / aBlock.eVelocity!
+        life  = growth + aBlock.eDecay! + oDecay
+        let drag:Float = 10.0
+        gravity = GLKVector2Make(0.0, -9.81*(1.0/drag))
+        block = aBlock
+        
         
         glGenBuffers(1, &particleBuffer!);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!);
-        glBufferData(GLenum(GL_ARRAY_BUFFER), sizeof(Particles), (block!.eParticles)!, GLenum(GL_STATIC_DRAW));
+        glBufferData(GLenum(GL_ARRAY_BUFFER), sizeof(Particles), aBlock.eParticles, GLenum(GL_STATIC_DRAW));
     }
 }

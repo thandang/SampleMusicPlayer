@@ -15,12 +15,12 @@ class BlockShader: NSObject {
     var program: GLuint?
     
     //Attribute hanlde
-    var a_pID: UInt32?
-    var a_pRadiusOffset: UInt32?
-    var a_pVelocityOffset: UInt32?
-    var a_pDecayOffset: UInt32?
-    var a_pColorOffset: UInt32?
-    var a_pSizeOffset: UInt32?
+    var a_pID: Int32?
+    var a_pRadiusOffset: Int32?
+    var a_pVelocityOffset: Int32?
+    var a_pDecayOffset: Int32?
+    var a_pColorOffset: Int32?
+    var a_pSizeOffset: Int32?
     
     //Uniform handle
     var u_ProjectionMatrix: Int32?
@@ -40,7 +40,7 @@ class BlockShader: NSObject {
             return
         }
         let stringVS = try! String(contentsOfFile: path1)
-        let blockVSString = stringVS.cStringUsingEncoding(NSASCIIStringEncoding)
+        let blockVSString = stringVS.cStringUsingEncoding(NSUTF8StringEncoding)
         let blockVS = Utils.ptr(blockVSString!)
         
         let pathFS = NSBundle.mainBundle().pathForResource("Block", ofType: "fsh")
@@ -48,10 +48,10 @@ class BlockShader: NSObject {
             return
         }
         let stringFS = try! String(contentsOfFile: path2)
-        let blockFSString = stringFS.cStringUsingEncoding(NSASCIIStringEncoding)
+        let blockFSString = stringFS.cStringUsingEncoding(NSUTF8StringEncoding)
         let BlockFS = Utils.ptr(blockFSString!)
         
-        program = ShaderProcessor().buildProgram(blockVS, fragmentShaderSource: BlockFS)
+        program = ShaderProcessor().buildProgram(blockVS, length1: GLint((blockVSString?.count)!), fragmentShaderSource: BlockFS, length2: GLint((blockVSString?.count)!))
         guard let program_ = program else {
             return
         }

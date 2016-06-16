@@ -1,4 +1,4 @@
-static const char * BlockFS = STRINGIFY {
+//static const char * BlockFS = STRINGIFY {
     //Uniform
     uniform sampler2D u_Texture;
     
@@ -7,4 +7,4 @@ static const char * BlockFS = STRINGIFY {
         highp vec4 texture = texture2D(u_Texture, gl_PointCoord);
         gl_FragColor = texture;
     }
-}
+//}

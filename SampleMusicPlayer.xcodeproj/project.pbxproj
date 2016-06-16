@@ -7,6 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3641204C1D126BFB00AFBF22 /* block_16.png in Resources */ = {isa = PBXBuildFile; fileRef = 364120491D126BFB00AFBF22 /* block_16.png */; };
+		3641204D1D126BFB00AFBF22 /* block_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 3641204A1D126BFB00AFBF22 /* block_32.png */; };
+		3641204E1D126BFB00AFBF22 /* block_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3641204B1D126BFB00AFBF22 /* block_64.png */; };
+		364120531D12939C00AFBF22 /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120521D12939C00AFBF22 /* BlockShader.swift */; };
+		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
+		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
+		364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205F1D12C11D00AFBF22 /* BlockObject.swift */; };
 		366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209771D0E7AAA003E120D /* Basic_Beat.wav */; };
 		3662097A1D0E7AAA003E120D /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209781D0E7AAA003E120D /* Fill.wav */; };
 		366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */; };
@@ -69,6 +76,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		364120491D126BFB00AFBF22 /* block_16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_16.png; path = ../../../../../Desktop/block_16.png; sourceTree = "<group>"; };
+		3641204A1D126BFB00AFBF22 /* block_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_32.png; path = ../../../../../Desktop/block_32.png; sourceTree = "<group>"; };
+		3641204B1D126BFB00AFBF22 /* block_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_64.png; path = ../../../../../Desktop/block_64.png; sourceTree = "<group>"; };
+		3641204F1D127EFB00AFBF22 /* Block.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.vsh; path = Shader/Block.vsh; sourceTree = "<group>"; };
+		364120511D127F7400AFBF22 /* Block.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.fsh; path = Shader/Block.fsh; sourceTree = "<group>"; };
+		364120521D12939C00AFBF22 /* BlockShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockShader.swift; path = Shader/BlockShader.swift; sourceTree = "<group>"; };
+		364120541D1293AD00AFBF22 /* ShaderProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShaderProcessor.swift; path = Shader/ShaderProcessor.swift; sourceTree = "<group>"; };
+		3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OpenGLES+Extension.swift"; path = "Utils/OpenGLES+Extension.swift"; sourceTree = "<group>"; };
+		3641205F1D12C11D00AFBF22 /* BlockObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockObject.swift; path = Components/BlockObject.swift; sourceTree = "<group>"; };
 		366209771D0E7AAA003E120D /* Basic_Beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Basic_Beat.wav; path = Resources/Basic_Beat.wav; sourceTree = "<group>"; };
 		366209781D0E7AAA003E120D /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Fill.wav; path = Resources/Fill.wav; sourceTree = "<group>"; };
 		366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = "Samba-drum-beat-115-bpm.wav"; path = "Resources/Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
@@ -181,9 +197,32 @@
 			name = Missing;
 			sourceTree = "<group>";
 		};
+		364120501D127F0300AFBF22 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+				3641204F1D127EFB00AFBF22 /* Block.vsh */,
+				364120511D127F7400AFBF22 /* Block.fsh */,
+				364120521D12939C00AFBF22 /* BlockShader.swift */,
+				364120541D1293AD00AFBF22 /* ShaderProcessor.swift */,
+			);
+			name = Shaders;
+			sourceTree = "<group>";
+		};
+		364120591D129B1200AFBF22 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */,
+				367BF4D41D056F1A00F66593 /* Utils.swift */,
+			);
+			name = Utils;
+			sourceTree = "<group>";
+		};
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				364120491D126BFB00AFBF22 /* block_16.png */,
+				3641204A1D126BFB00AFBF22 /* block_32.png */,
+				3641204B1D126BFB00AFBF22 /* block_64.png */,
 				368E8EB21D1028DF002A87C8 /* winamp.wav */,
 				366209771D0E7AAA003E120D /* Basic_Beat.wav */,
 				366209781D0E7AAA003E120D /* Fill.wav */,
@@ -240,6 +279,7 @@
 				366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */,
 				366B56421D06C46300C3B2B8 /* AudioPlotView.swift */,
 				3603FF0B1D0EE9980027DBCF /* Missing */,
+				3641205F1D12C11D00AFBF22 /* BlockObject.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -276,9 +316,10 @@
 				367BF49D1D0568FA00F66593 /* Assets.xcassets */,
 				367BF49F1D0568FA00F66593 /* LaunchScreen.storyboard */,
 				367BF4A21D0568FA00F66593 /* Info.plist */,
-				367BF4D41D056F1A00F66593 /* Utils.swift */,
+				364120591D129B1200AFBF22 /* Utils */,
 				366B56091D06AE2D00C3B2B8 /* SampleMusicPlayer-Bridging-Header.h */,
 				366B56411D06C10900C3B2B8 /* Components */,
+				364120501D127F0300AFBF22 /* Shaders */,
 			);
 			path = SampleMusicPlayer;
 			sourceTree = "<group>";
@@ -420,10 +461,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
+				3641204C1D126BFB00AFBF22 /* block_16.png in Resources */,
 				366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */,
 				368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */,
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
+				3641204E1D126BFB00AFBF22 /* block_64.png in Resources */,
 				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
+				3641204D1D126BFB00AFBF22 /* block_32.png in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
 				3662097A1D0E7AAA003E120D /* Fill.wav in Resources */,
 				366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */,
@@ -454,11 +498,13 @@
 				366B563D1D06AE2D00C3B2B8 /* TPCircularBuffer.c in Sources */,
 				366B56301D06AE2D00C3B2B8 /* EZAudioFFT.m in Sources */,
 				366B56371D06AE2D00C3B2B8 /* EZAudioUtilities.m in Sources */,
+				3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */,
 				366B56381D06AE2D00C3B2B8 /* EZMicrophone.m in Sources */,
 				366B563B1D06AE2D00C3B2B8 /* EZRecorder.m in Sources */,
 				366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */,
 				366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */,
 				366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */,
+				364120531D12939C00AFBF22 /* BlockShader.swift in Sources */,
 				366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */,
 				366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */,
 				366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */,
@@ -471,8 +517,10 @@
 				367BF4D51D056F1A00F66593 /* Utils.swift in Sources */,
 				366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */,
 				367BF4991D0568FA00F66593 /* ViewController.swift in Sources */,
+				364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */,
 				369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */,
 				366B56341D06AE2D00C3B2B8 /* EZAudioPlayer.m in Sources */,
+				364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */,
 				366B562E1D06AE2D00C3B2B8 /* EZAudioDevice.m in Sources */,
 				367BF4971D0568FA00F66593 /* AppDelegate.swift in Sources */,
 				366B56361D06AE2D00C3B2B8 /* EZAudioPlotGL.m in Sources */,

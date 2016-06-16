@@ -170,7 +170,6 @@ class AudioOutput: NSObject {
         setClientFormat(Utils.defaultClientFormat())
         setInputFormat(Utils.defaultInputFormark())
         
-        
         //
         // Set maximum frames per slice to 4096 to allow playback during
         // lock screen (iOS only?)
@@ -188,20 +187,17 @@ class AudioOutput: NSObject {
         // Add render callback
         AudioUnitAddRenderNotify(mixerInfo!.audioUnit, { (context, actionFlags, timestamp, numBus, numFrames, data) -> OSStatus in
             
-            let output: AudioOutput = Utils.bridgeBack(context)
+            let output = Utils.bridgeBack(context) as AudioOutput
             
             if AudioUnitRenderActionFlags.UnitRenderAction_PostRender == actionFlags[0]{
-                print("go inside")
                 if let _ = output.delegate {
                     let frames = data[0].mBuffers.mDataByteSize / (output.info?.clientFormat?.mBytesPerFrame)!
-                    output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
+                    let bufferData = output.floatConverter?.convertDataFromAudioBufferList(data, frames: frames, buffers: output.info!.floatData!)
                     
-                    output.delegate!.output(output, playedAudio: (output.info!.floatData)!,
+                    output.delegate!.output(output, playedAudio: bufferData!,
                         withBufferSize: numFrames,
                         numberOfChannels: (output.info!.clientFormat?.mChannelsPerFrame)!)
                 }
-            } else {
-                print("go outside")
             }
           
             return noErr

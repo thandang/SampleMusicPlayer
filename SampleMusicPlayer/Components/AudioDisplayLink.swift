@@ -13,6 +13,27 @@ class AudioDisplayLink: NSObject {
     var delegate: AudioDisplayLinkDelegate?
     var displayLink: CADisplayLink?
     var isStopped: Bool = false
+    private var currentTimestamp: CFTimeInterval = 0
+    private var lastTimestamp: CFTimeInterval = 0
+    private var maxElapsedTime: CFTimeInterval = 0
+    private var framePerSecond: Int {
+        get {
+            let fps = 60 / (displayLink?.frameInterval)!
+            return fps
+        }
+    }
+    
+    var timeSinceLastUpdate: CFTimeInterval {
+        get {
+            currentTimestamp = CACurrentMediaTime()
+            var dt = currentTimestamp - lastTimestamp
+            if dt > maxElapsedTime {
+                dt = maxElapsedTime
+            }
+           return dt
+        }
+    }
+    
     init(delegate: AudioDisplayLinkDelegate) {
         super.init()
         self.delegate = delegate
@@ -21,7 +42,11 @@ class AudioDisplayLink: NSObject {
     
     func setup() {
         isStopped = true
+        
+        
         displayLink = CADisplayLink(target: self, selector: #selector(update))
+        displayLink?.frameInterval = 60
+        maxElapsedTime = CFTimeInterval(1 / framePerSecond)
         displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
     }
     

@@ -21,7 +21,6 @@ class ViewController: UIViewController {
     
     var resource: [String] = []
     var indexPlay: Int = 0
-
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,14 +45,15 @@ class ViewController: UIViewController {
     }
 
     deinit {
-        bandsView.displayLink?.stop()
+//        bandsView.displayLink?.stop()
         bandsView.clear()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-        bandsView.displayLink?.stop()
+//        bandsView.displayLink?.stop()
+//        bandsView.customLoop?.paused
         bandsView.clear()
     }
     
@@ -65,7 +65,10 @@ class ViewController: UIViewController {
         //TmpBand
         let context = EAGLContext(API: .OpenGLES2)
         bandsView = AudioPlotView(frame: view.frame, context: context)
-        view.addSubview(bandsView)
+        if let _ = bandsView {
+            view.addSubview(bandsView!)
+        }
+        
 //        bandsView.myColor = UIColor(red: 56.0/255, green: 90.0/255, blue: 12.0/255, alpha: 1.0)
         
         try! session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)

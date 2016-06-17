@@ -39,19 +39,22 @@ class BlockShader: NSObject {
         guard let path1 = pathVS else {
             return
         }
-        let stringVS = try! String(contentsOfFile: path1)
-        let blockVSString = stringVS.cStringUsingEncoding(NSUTF8StringEncoding)
-        let blockVS = Utils.ptr(blockVSString!)
+       
+        let stringVS: NSString = try! NSString(contentsOfFile: path1, encoding: NSUTF8StringEncoding)
+        
+        let blockVS = stringVS.UTF8String
+        let stringVSLength = GLint(Int32(stringVS.length))
         
         let pathFS = NSBundle.mainBundle().pathForResource("Block", ofType: "fsh")
         guard let path2 = pathFS else {
             return
         }
-        let stringFS = try! String(contentsOfFile: path2)
-        let blockFSString = stringFS.cStringUsingEncoding(NSUTF8StringEncoding)
-        let BlockFS = Utils.ptr(blockFSString!)
         
-        program = ShaderProcessor().buildProgram(blockVS, length1: GLint((blockVSString?.count)!), fragmentShaderSource: BlockFS, length2: GLint((blockVSString?.count)!))
+        let stringFS: NSString = try! NSString(contentsOfFile: path2, encoding: NSUTF8StringEncoding)
+        let blockFS = stringFS.UTF8String
+        let stringFSLength = GLint(Int32(stringFS.length))
+        
+        program = ShaderProcessor().buildProgram(blockVS, length1: stringVSLength, fragmentShaderSource: blockFS, length2: stringFSLength)
         guard let program_ = program else {
             return
         }

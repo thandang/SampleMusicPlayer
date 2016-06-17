@@ -68,6 +68,8 @@ class AudioPlotView: GLKView {
     
     var projectionMatrix: GLKMatrix4?
     
+    var customLoop: NTLoop?
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
@@ -85,7 +87,8 @@ class AudioPlotView: GLKView {
     }
     
     override func drawRect(rect: CGRect) {
-        redraw()
+//        redraw()
+        customDrawPoint()
     }
     
     func setup() {
@@ -100,7 +103,7 @@ class AudioPlotView: GLKView {
         
         setupOpenGL()
         
-        let bgColor = UIColor(red: 0.1, green: 0.1, blue: 0.1, alpha: 1.0)
+        let bgColor = UIColor(red: 1.0, green: 1.0, blue: 1.0, alpha: 1.0)
         self.backgroundColor = bgColor
         let colorRef = bgColor.CGColor
         let componentCount = CGColorGetNumberOfComponents(colorRef)
@@ -112,7 +115,7 @@ class AudioPlotView: GLKView {
             let alpha = components[3]
             glClearColor(Float(red), Float(green), Float(blue), Float(alpha));
         }
-        
+    
         displayLink = AudioDisplayLink.init(delegate: self)
         displayLink?.start()
     }
@@ -146,7 +149,9 @@ class AudioPlotView: GLKView {
         displayLink?.stop()
         if  let _ = info {
             glDeleteBuffers(1, &info!.vbo)
-            free(&info!.points)
+            if let _ = info!.points {
+                free(&info!.points!)
+            }
             free(&info!)
         }
         baseEffect = nil
@@ -231,11 +236,6 @@ extension AudioPlotView {
         baseEffect.prepareToDraw()
         glDrawArrays(newMode, 0, GLsizei(count))
         
-        if mirrored == true { //Default is false
-            baseEffect.transform.modelviewMatrix = GLKMatrix4Rotate(transform, Float(M_PI), 1.0, 0.0, 0.0);
-            baseEffect.prepareToDraw()
-            glDrawArrays(mode, 0, GLsizei(count));
-        }
         
         if blocks.count != 0 {
             glEnable(GLenum(GL_BLEND))
@@ -266,8 +266,22 @@ extension AudioPlotView {
                 if yValue < 0 {
                     yValue *= -1
                 }
-                if yValue > 0.1 {
-                    addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
+                if yValue > 0.3 {
+                    if blocks.count == 0 {
+                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
+                    } else {
+                        var shouldAdd = true
+                        for bl in blocks {
+                            if bl.pointStoredX == Float(i) {
+                                blocks.arrayRemovingObject(bl)
+//                                shouldAdd = false
+                                break
+                            }
+                        }
+                        if shouldAdd {
+                            addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
+                        }
+                    }
                 }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
@@ -286,25 +300,32 @@ extension AudioPlotView {
 extension AudioPlotView {
     func addBlockAtPoint(point: CGPoint) {
         let glPoint = CGPointMake(point.x/frame.size.width, point.y/frame.size.height);
-        let aspectRatio = frame.size.width / frame.size.height;
-        
-        // Convert touch point to GL position
         let x = (glPoint.x * 2.0) - 1.0;
-        let y = ((glPoint.y * 2.0) - 1.0) * (-1.0/aspectRatio);
-        let block = BlockObject(texture: "block_64", position: GLKVector2Make(x.f, y.f))
+        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
+        block.pointStoredX = point.x.f
+        block.pointStoredY = point.y.f
         blocks.append(block)
     }
     
     func updateBlock() {
         if blocks.count > 0 {
-            var deadElements: [BlockObject] = []
             for bl in blocks {
                 let aLive = bl.updateLifeCycle(timeInterval)
-                if aLive {
-                    deadElements.append(bl)
+                if !aLive {
+                    blocks.arrayRemovingObject(bl)
                 }
             }
-            //TODO: remove object from array
+        }
+    }
+    
+    private func customDrawPoint() {
+        glClearColor(0.2, 0.2, 0.2, 1.00)
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        
+        glEnable(GLenum(GL_BLEND))
+        glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
+        for bl in blocks {
+            bl.renderWithProjection(projectionMatrix!)
         }
     }
 }
@@ -315,7 +336,8 @@ extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
             display()
-            timeInterval += 1
+            timeInterval += Float(link.timeSinceLastUpdate)
+            updateBlock()
         }
     }
 }

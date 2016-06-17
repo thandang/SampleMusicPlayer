@@ -45,15 +45,14 @@ class ViewController: UIViewController {
     }
 
     deinit {
-//        bandsView.displayLink?.stop()
+        bandsView.displayLink?.stop()
         bandsView.clear()
     }
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
-//        bandsView.displayLink?.stop()
-//        bandsView.customLoop?.paused
+        bandsView.displayLink?.stop()
         bandsView.clear()
     }
     

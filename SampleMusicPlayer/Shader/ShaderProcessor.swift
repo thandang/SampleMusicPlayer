@@ -9,7 +9,6 @@
 import Foundation
 
 class ShaderProcessor: NSObject {
-//    func buildProgram(vertexShaderSource: UnsafePointer<UnsafePointer<GLchar>>, fragmentShaderSource: UnsafePointer<UnsafePointer<GLchar>>) -> GLuint {
     func buildProgram(vertexShaderSource: UnsafePointer<GLchar>?, length1: GLint, fragmentShaderSource: UnsafePointer<GLchar>?, length2: GLint) -> GLuint {
         let vertexShader = buildShader(vertexShaderSource, shaderType: GLenum(GL_VERTEX_SHADER), length: length1)
         let fragmentShader = buildShader(fragmentShaderSource, shaderType: GLenum(GL_FRAGMENT_SHADER), length: length2)

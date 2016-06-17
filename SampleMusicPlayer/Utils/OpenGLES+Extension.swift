@@ -17,6 +17,10 @@ extension Int32 {
     func __conversion() -> GLboolean {
         return GLboolean(UInt8(self))
     }
+    
+    func __conversion() -> GLsizei {
+        return GLsizei(self)
+    }
 }
 
 extension Int {

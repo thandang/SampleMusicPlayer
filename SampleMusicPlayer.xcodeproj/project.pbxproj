@@ -8,14 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		360449771D131C8500F7B159 /* block_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 360449761D131C8500F7B159 /* block_64.png */; };
-		3604497A1D13314000F7B159 /* Block.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 364120511D127F7400AFBF22 /* Block.fsh */; };
-		3604497B1D13314F00F7B159 /* Block.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 3641204F1D127EFB00AFBF22 /* Block.vsh */; };
 		364120531D12939C00AFBF22 /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120521D12939C00AFBF22 /* BlockShader.swift */; };
 		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
 		364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205F1D12C11D00AFBF22 /* BlockObject.swift */; };
 		36533D201D13F25E007D3622 /* NTLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 36533D1F1D13F25E007D3622 /* NTLoop.m */; };
 		36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36533D211D140B6A007D3622 /* SampleDotViewController.swift */; };
+		36533D231D142377007D3622 /* Block.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 3641204F1D127EFB00AFBF22 /* Block.vsh */; };
+		36533D241D14237A007D3622 /* Block.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 364120511D127F7400AFBF22 /* Block.fsh */; };
 		366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209771D0E7AAA003E120D /* Basic_Beat.wav */; };
 		3662097A1D0E7AAA003E120D /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366209781D0E7AAA003E120D /* Fill.wav */; };
 		366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 366B56021D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav */; };
@@ -465,6 +465,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
+				36533D231D142377007D3622 /* Block.vsh in Resources */,
 				360449771D131C8500F7B159 /* block_64.png in Resources */,
 				366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */,
 				368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */,
@@ -473,8 +474,7 @@
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
 				3662097A1D0E7AAA003E120D /* Fill.wav in Resources */,
 				366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */,
-				3604497B1D13314F00F7B159 /* Block.vsh in Resources */,
-				3604497A1D13314000F7B159 /* Block.fsh in Resources */,
+				36533D241D14237A007D3622 /* Block.fsh in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

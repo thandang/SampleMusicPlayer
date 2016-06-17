@@ -18,8 +18,7 @@ class AudioDisplayLink: NSObject {
     private var maxElapsedTime: CFTimeInterval = 0
     private var framePerSecond: Int {
         get {
-            let fps = 60 / (displayLink?.frameInterval)!
-            return fps
+            return 1
         }
     }
     
@@ -43,9 +42,7 @@ class AudioDisplayLink: NSObject {
     func setup() {
         isStopped = true
         
-        
         displayLink = CADisplayLink(target: self, selector: #selector(update))
-        displayLink?.frameInterval = 60
         maxElapsedTime = CFTimeInterval(1 / framePerSecond)
         displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
     }

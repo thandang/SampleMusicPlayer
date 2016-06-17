@@ -87,8 +87,7 @@ class AudioPlotView: GLKView {
     }
     
     override func drawRect(rect: CGRect) {
-//        redraw()
-        customDrawPoint()
+        redraw()
     }
     
     func setup() {
@@ -205,6 +204,7 @@ extension AudioPlotView {
                             interpolated interd: Bool,
                             mird mirrored: Bool,
                             gn gain: Float) {
+        glClearColor(0.1, 0.1, 0.1, 1.0)
         myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         glLineWidth(25.0)
@@ -258,30 +258,30 @@ extension AudioPlotView {
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
+        addBlockAtPoint(CGPointMake(0.5, 0.5))
         if let _ = points {
-            for i in 0.stride(to: length, by: 25) {
+            for i in 0.stride(to: length, by: 10) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]
                 if yValue < 0 {
                     yValue *= -1
                 }
-                if yValue > 0.3 {
-                    if blocks.count == 0 {
-                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
-                    } else {
-                        var shouldAdd = true
-                        for bl in blocks {
-                            if bl.pointStoredX == Float(i) {
-                                blocks.arrayRemovingObject(bl)
+                if yValue > 0.2 {
+//                    if blocks.count == 0 {
+//                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.3)))
+//                    } else {
+//                        var shouldAdd = true
+//                        for bl in blocks {
+//                            if bl.pointStoredX == Float(i) {
 //                                shouldAdd = false
-                                break
-                            }
-                        }
-                        if shouldAdd {
-                            addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
-                        }
-                    }
+//                                break
+//                            }
+//                        }
+//                        if shouldAdd {
+//                            addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
+//                        }
+//                    }
                 }
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
@@ -312,10 +312,12 @@ extension AudioPlotView {
             for bl in blocks {
                 let aLive = bl.updateLifeCycle(timeInterval)
                 if !aLive {
-                    blocks.arrayRemovingObject(bl)
+                    let tmp = blocks.arrayRemovingObject(bl)
+                    blocks = tmp
                 }
             }
         }
+        print("blocks count: \(blocks.count)")
     }
     
     private func customDrawPoint() {
@@ -335,9 +337,9 @@ extension AudioPlotView {
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-            display()
             timeInterval += Float(link.timeSinceLastUpdate)
             updateBlock()
+            display()
         }
     }
 }

@@ -104,7 +104,6 @@ class BlockObject: NSObject {
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
         timeElapse += timeElapsed;
-        
         if(timeElapse < life) {
             return true;
         } else {
@@ -134,10 +133,7 @@ class BlockObject: NSObject {
     }
     
     private func loadParticles(position: GLKVector2) {
-        //TODO: setup data here
         var aBlock = Block()
-        
-        
         
         // Offset bounds
         let oRadius: Float = 0.10;      // 0.0 = circle; 1.0 = ring
@@ -153,8 +149,8 @@ class BlockObject: NSObject {
         aBlock.eParticles[0].pSizeOffset = Float.random(min: -oSize, max: oSize)
         
         aBlock.ePosition = position
-        aBlock.eRadius = 0.5
-        aBlock.eDecay = 4.0
+        aBlock.eRadius = 0.75
+        aBlock.eDecay = 2.0
         aBlock.eVelocity = 1.0
         aBlock.eSizeEnd = 32.0
         aBlock.eSizeStart = 32.0
@@ -168,6 +164,7 @@ class BlockObject: NSObject {
         
         glGenBuffers(1, &particleBuffer!);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!);
-        glBufferData(GLenum(GL_ARRAY_BUFFER), sizeof(Particles), block!.eParticles, GLenum(GL_STATIC_DRAW));
+        glBufferData(GLenum(GL_ARRAY_BUFFER), 1, block!.eParticles, GLenum(GL_STATIC_DRAW));
+//        glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, 1, GLenum(GL_STATIC_DRAW))
     }
 }

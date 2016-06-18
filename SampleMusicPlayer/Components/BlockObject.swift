@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import OpenGLES
 
 struct Particles {
     var pID: Float?
@@ -39,6 +40,8 @@ class BlockObject: NSObject {
     var blockShader: BlockShader?
     var block: Block?
     
+    var baseEffect: GLKBaseEffect?
+    
     init(texture: String, position: GLKVector2) {
         super.init()
         life = 0.0
@@ -64,6 +67,7 @@ class BlockObject: NSObject {
             glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!)
             glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!)
             glUniform1i(blockShader!.u_Texture!, 0);
+            
             
             // Attributes
             glEnableVertexAttribArray(GLenum(blockShader!.a_pID!))
@@ -91,7 +95,10 @@ class BlockObject: NSObject {
             glVertexAttribPointer(GLenum(blockShader!.a_pColorOffset!), 3,
                                   GLenum(GL_FLOAT), GLboolean(GL_FALSE),
                                   GLsizei(strideof(Particles)), nil)
-            
+            if let _ = baseEffect {
+                baseEffect!.transform.modelviewMatrix = projectMatrix
+                baseEffect!.prepareToDraw()
+            }
             // Draw particles
             glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(1));
             glDisableVertexAttribArray(GLenum(blockShader!.a_pID!));
@@ -166,6 +173,6 @@ class BlockObject: NSObject {
         
         glGenBuffers(1, &particleBuffer!);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!);
-        glBufferData(GLenum(GL_ARRAY_BUFFER), 1, block!.eParticles, GLenum(GL_STATIC_DRAW));
+        glBufferData(GLenum(GL_ARRAY_BUFFER), 1, block!.eParticles, GLenum(GL_STREAM_DRAW));
     }
 }

@@ -35,6 +35,8 @@ struct AudioGLPlotInfo {
     }
 }
 
+let DefaultMaxBufferLength = 8192
+
 class AudioPlotView: GLKView {
     var myColor: UIColor? {
         didSet {
@@ -54,15 +56,14 @@ class AudioPlotView: GLKView {
             }
         }
     }
+    
     var gain: float2?
     var shouldFill: Bool = false
-    let DefaultMaxBufferLength = 8192
     
     private var baseEffect: GLKBaseEffect!
     var displayLink: AudioDisplayLink?
     private var info: AudioGLPlotInfo!
-    private var localContext: EAGLContext!
-    var timeInterval: Float = 0
+    var localContext: EAGLContext?
     
     var blocks: [BlockObject] = []
     
@@ -87,6 +88,7 @@ class AudioPlotView: GLKView {
     
     override func drawRect(rect: CGRect) {
         redraw()
+//        customDrawPoint()
     }
     
     func setup() {
@@ -123,8 +125,9 @@ class AudioPlotView: GLKView {
         baseEffect.useConstantColor = GLboolean(GL_TRUE)
 //        baseEffect.light0.enabled = GLboolean(GL_TRUE)
 //        baseEffect.light0.diffuseColor = GLKVector4Make(0.7, 0.7, 0.7, 1.0)
-        
-        EAGLContext.setCurrentContext(localContext)
+        if let _ = localContext {
+            EAGLContext.setCurrentContext(localContext!)
+        }
         
         drawableColorFormat = .RGBA8888
         drawableDepthFormat = .Format24
@@ -203,10 +206,9 @@ extension AudioPlotView {
                             interpolated interd: Bool,
                             mird mirrored: Bool,
                             gn gain: Float) {
-        glClearColor(0.1, 0.1, 0.1, 1.0)
-//        glClearColor(0.53, 0.81, 0.92, 1.00)
-        myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
+        glClearColor(0.3, 0.3, 0.3, 1.00)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
         glLineWidth(25.0)
         let mode = GLenum(GL_LINES)
         let interpolatedFator = interd ? 2.0 : 1.0
@@ -216,8 +218,11 @@ extension AudioPlotView {
         var transform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
         transform = GLKMatrix4Scale(transform, Float(xScale), yScale, 1.0)
         baseEffect.transform.modelviewMatrix = transform
+        
+        
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo);
         baseEffect.prepareToDraw()
+
         glEnableVertexAttribArray(GLuint(GLKVertexAttrib.Position.rawValue));
         glVertexAttribPointer(GLuint(GLKVertexAttrib.Position.rawValue),
                               2,
@@ -225,8 +230,9 @@ extension AudioPlotView {
                               GLboolean(GL_FALSE),
                               GLsizei(sizeof(AudioPoint)),
                               nil);
-        glDrawArrays(mode, 0, GLsizei(count));
         
+        glDrawArrays(mode, 0, GLsizei(count));
+
         myColor = UIColor(red: 56.0/255, green: 190.0/255, blue: 9.0/255, alpha: 1.0)
         var newTransform = GLKMatrix4MakeTranslation(-1.0, 0.0, 0.0)
         newTransform = GLKMatrix4Scale(newTransform, Float(xScale), Float(yScale2), 1.0)
@@ -238,11 +244,11 @@ extension AudioPlotView {
         
         
         if blocks.count != 0 {
-            glClearColor(0.53, 0.81, 0.92, 1.00)
             glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
             glEnable(GLenum(GL_BLEND))
             glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
             for bl in blocks {
+                bl.baseEffect = baseEffect
                 bl.renderWithProjection(projectionMatrix!)
             }
         }
@@ -268,22 +274,24 @@ extension AudioPlotView {
                 if yValue < 0 {
                     yValue *= -1
                 }
-                if yValue > 0.2 {
-//                    if blocks.count == 0 {
-                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.3)))
-//                    } else {
-//                        var shouldAdd = true
-//                        for bl in blocks {
-//                            if bl.pointStoredX == Float(i) {
-//                                shouldAdd = false
-//                                break
-//                            }
-//                        }
-//                        if shouldAdd {
-//                            addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.2)))
-//                        }
-//                    }
+                
+                if yValue > 0.3 {
+                    if blocks.count == 0 {
+                        addBlockAtPoint(CGPointMake(CGFloat(i), 1.0))
+                    } else {
+                        var shouldAdd = true
+                        for bl in blocks {
+                            if bl.pointStoredX == Float(i) {
+                                shouldAdd = false
+                                break
+                            }
+                        }
+                        if shouldAdd {
+                            addBlockAtPoint(CGPointMake(CGFloat(i), 1.0))
+                        }
+                    }
                 }
+                
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
             }
@@ -321,7 +329,7 @@ extension AudioPlotView {
     }
     
     private func customDrawPoint() {
-        glClearColor(0.53, 0.81, 0.92, 1.00)
+        glClearColor(0.3, 0.3, 0.3, 1.00)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         glEnable(GLenum(GL_BLEND))

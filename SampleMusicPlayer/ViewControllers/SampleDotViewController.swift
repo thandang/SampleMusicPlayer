@@ -20,7 +20,8 @@ class SampleDotViewController: GLKViewController {
     var ezAudioFile: EZAudioFile!
     var ezAudioPlayer: EZAudioPlayer!
     
-    private let topLevel: CGFloat = 0.5
+    private let topLevel: CGFloat = 1
+    private var cusPlotView: CustomPlotView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,6 +32,7 @@ class SampleDotViewController: GLKViewController {
         currentView.context = context
 
         setupView()
+        cusPlotView = CustomPlotView()
     }
     
     func setupView() {
@@ -79,12 +81,22 @@ class SampleDotViewController: GLKViewController {
         let aspectRatio = view.frame.size.width / view.frame.size.height
         let projectionMatrix = GLKMatrix4MakeScale(1.0, aspectRatio.f, 1.0)
         
+        view.drawableColorFormat = .RGBA8888
+        view.drawableDepthFormat = .Format24
+        view.drawableStencilFormat = .Format8
+        view.drawableMultisample = .Multisample4X
+        view.opaque = false
+//        view.enableSetNeedsDisplay = false
+        
+        
         // Render Emitters
         if blocks.count > 0 {
             for bl in blocks {
                 bl.renderWithProjection(projectionMatrix)
             }
         }
+        
+        cusPlotView.redraw()
     }
     
     func update() {
@@ -95,6 +107,7 @@ class SampleDotViewController: GLKViewController {
                     let tmp = blocks.arrayRemovingObject(bl)
                     blocks = tmp
                 }
+                glClearColor(0.3, 0.3, 0.3, 1.0)
             }
         }
     }
@@ -138,8 +151,8 @@ class SampleDotViewController: GLKViewController {
 extension SampleDotViewController: EZAudioPlayerDelegate {
     func audioPlayer(audioPlayer: EZAudioPlayer!, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize bufferSize: UInt32, withNumberOfChannels numberOfChannels: UInt32, inAudioFile audioFile: EZAudioFile!) {
         dispatch_async(dispatch_get_main_queue()) { [unowned self] in
-//            self.bandsView.updateBuffer(buffer[0], withBufferSize: bufferSize)
             self.setSampleData(buffer[0], length: Int(bufferSize))
+            self.cusPlotView.updateBuffer(buffer[0], withBufferSize: bufferSize)
         }
     }
     

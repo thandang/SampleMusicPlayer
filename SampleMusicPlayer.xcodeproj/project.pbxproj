@@ -56,6 +56,7 @@
 		367BF4CD1D05691C00F66593 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CC1D05691C00F66593 /* Foundation.framework */; };
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
 		368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 368E8EB21D1028DF002A87C8 /* winamp.wav */; };
+		3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692B6D61D155E8200241B5C /* CustomPlotView.swift */; };
 		369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369770A01D0964A800988AB6 /* AudioFloatConverter.swift */; };
 /* End PBXBuildFile section */
 
@@ -151,6 +152,7 @@
 		367BF4CC1D05691C00F66593 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		368E8EB21D1028DF002A87C8 /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = winamp.wav; path = Resources/winamp.wav; sourceTree = "<group>"; };
+		3692B6D61D155E8200241B5C /* CustomPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPlotView.swift; path = Components/CustomPlotView.swift; sourceTree = "<group>"; };
 		369770A01D0964A800988AB6 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -276,6 +278,7 @@
 			children = (
 				366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */,
 				366B56421D06C46300C3B2B8 /* AudioPlotView.swift */,
+				3692B6D61D155E8200241B5C /* CustomPlotView.swift */,
 				3603FF0B1D0EE9980027DBCF /* Missing */,
 				3641205F1D12C11D00AFBF22 /* BlockObject.swift */,
 			);
@@ -500,6 +503,7 @@
 				3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */,
 				366B56381D06AE2D00C3B2B8 /* EZMicrophone.m in Sources */,
 				366B563B1D06AE2D00C3B2B8 /* EZRecorder.m in Sources */,
+				3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */,
 				366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */,
 				36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */,
 				366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */,

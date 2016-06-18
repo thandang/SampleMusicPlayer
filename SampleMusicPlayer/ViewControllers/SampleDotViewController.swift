@@ -74,7 +74,7 @@ class SampleDotViewController: GLKViewController {
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
         // Set the background color
-        glClearColor(0.53, 0.81, 0.92, 1.00)
+        glClearColor(0.3, 0.3, 0.3, 1.00)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         // Set the blending function (normal w/ premultiplied alpha)
@@ -106,20 +106,38 @@ class SampleDotViewController: GLKViewController {
     }
     
     
-    
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
-        for i in 0.stride(to: length, by: 10) {
+        for i in 0.stride(to: length, by: 25) {
             var yValue: Float = data[i]
             if yValue < 0 {
                 yValue *= -1
             }
-            if yValue > 0.2 {
-                let glPoint = CGPointMake(CGFloat(i)/view.frame.size.width, yValue.g/view.frame.size.height);
-                let x = (glPoint.x * 2.0) - 1.0;
-                let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, yValue))
-                blocks.append(block)
+            if yValue > 0.3 {
+                if blocks.count == 0 {
+                    addBlock(CGPointMake(CGFloat(i), yValue.g + 0.3))
+                } else {
+                    var shouldAdd = true
+                    for bl in blocks {
+                        if bl.pointStoredX == Float(i) {
+                            shouldAdd = false
+                            break
+                        }
+                    }
+                    if shouldAdd {
+                        addBlock(CGPointMake(CGFloat(i), yValue.g + 0.3))
+                    }
+                }
             }
         }
+    }
+        
+    func addBlock(point: CGPoint) {
+        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
+        let x = (glPoint.x * 2.0) - 1.0;
+        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
+        block.pointStoredX = point.x.f
+        block.pointStoredY = point.y.f
+        blocks.append(block)
     }
 }
 

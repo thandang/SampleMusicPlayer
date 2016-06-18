@@ -39,13 +39,13 @@ class BlockObject: NSObject {
     var blockShader: BlockShader?
     var block: Block?
     
-    init(texture: String?, position: GLKVector2) {
+    init(texture: String, position: GLKVector2) {
         super.init()
         life = 0.0
         timeElapse = 0.0
         particleBuffer = 0
         loadShader()
-        loadTexture("block_64.png")
+        loadTexture(texture)
         loadParticles(position)
     }
     
@@ -103,7 +103,7 @@ class BlockObject: NSObject {
     }
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
-        timeElapse += timeElapsed;
+        timeElapse += timeElapsed
         if(timeElapse < life) {
             return true;
         } else {
@@ -165,6 +165,5 @@ class BlockObject: NSObject {
         glGenBuffers(1, &particleBuffer!);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!);
         glBufferData(GLenum(GL_ARRAY_BUFFER), 1, block!.eParticles, GLenum(GL_STATIC_DRAW));
-//        glBufferSubData(GLenum(GL_ARRAY_BUFFER), 0, 1, GLenum(GL_STATIC_DRAW))
     }
 }

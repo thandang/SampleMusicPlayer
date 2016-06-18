@@ -26,6 +26,7 @@ class AudioDisplayLink: NSObject {
         get {
             currentTimestamp = CACurrentMediaTime()
             var dt = currentTimestamp - lastTimestamp
+            lastTimestamp = currentTimestamp
             if dt > maxElapsedTime {
                 dt = maxElapsedTime
             }
@@ -43,7 +44,8 @@ class AudioDisplayLink: NSObject {
         isStopped = true
         
         displayLink = CADisplayLink(target: self, selector: #selector(update))
-        maxElapsedTime = CFTimeInterval(1 / framePerSecond)
+        maxElapsedTime = 1
+        
         displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSDefaultRunLoopMode)
     }
     

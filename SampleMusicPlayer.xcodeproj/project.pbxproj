@@ -12,7 +12,6 @@
 		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
 		364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205F1D12C11D00AFBF22 /* BlockObject.swift */; };
-		36533D201D13F25E007D3622 /* NTLoop.m in Sources */ = {isa = PBXBuildFile; fileRef = 36533D1F1D13F25E007D3622 /* NTLoop.m */; };
 		36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36533D211D140B6A007D3622 /* SampleDotViewController.swift */; };
 		36533D231D142377007D3622 /* Block.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 3641204F1D127EFB00AFBF22 /* Block.vsh */; };
 		36533D241D14237A007D3622 /* Block.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 364120511D127F7400AFBF22 /* Block.fsh */; };
@@ -85,8 +84,6 @@
 		364120541D1293AD00AFBF22 /* ShaderProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShaderProcessor.swift; path = Shader/ShaderProcessor.swift; sourceTree = "<group>"; };
 		3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OpenGLES+Extension.swift"; path = "Utils/OpenGLES+Extension.swift"; sourceTree = "<group>"; };
 		3641205F1D12C11D00AFBF22 /* BlockObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockObject.swift; path = Components/BlockObject.swift; sourceTree = "<group>"; };
-		36533D1E1D13F25E007D3622 /* NTLoop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NTLoop.h; path = "../../NTLoop-master/NTLoop.h"; sourceTree = "<group>"; };
-		36533D1F1D13F25E007D3622 /* NTLoop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NTLoop.m; path = "../../NTLoop-master/NTLoop.m"; sourceTree = "<group>"; };
 		36533D211D140B6A007D3622 /* SampleDotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleDotViewController.swift; path = ViewControllers/SampleDotViewController.swift; sourceTree = "<group>"; };
 		366209771D0E7AAA003E120D /* Basic_Beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Basic_Beat.wav; path = Resources/Basic_Beat.wav; sourceTree = "<group>"; };
 		366209781D0E7AAA003E120D /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = Fill.wav; path = Resources/Fill.wav; sourceTree = "<group>"; };
@@ -277,8 +274,6 @@
 		366B56411D06C10900C3B2B8 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				36533D1E1D13F25E007D3622 /* NTLoop.h */,
-				36533D1F1D13F25E007D3622 /* NTLoop.m */,
 				366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */,
 				366B56421D06C46300C3B2B8 /* AudioPlotView.swift */,
 				3603FF0B1D0EE9980027DBCF /* Missing */,
@@ -513,7 +508,6 @@
 				366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */,
 				366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */,
 				366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */,
-				36533D201D13F25E007D3622 /* NTLoop.m in Sources */,
 				366B56391D06AE2D00C3B2B8 /* EZOutput.m in Sources */,
 				366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */,
 				366B56351D06AE2D00C3B2B8 /* EZAudioPlot.m in Sources */,

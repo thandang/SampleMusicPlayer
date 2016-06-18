@@ -68,7 +68,6 @@ class AudioPlotView: GLKView {
     
     var projectionMatrix: GLKMatrix4?
     
-    var customLoop: NTLoop?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -205,6 +204,7 @@ extension AudioPlotView {
                             mird mirrored: Bool,
                             gn gain: Float) {
         glClearColor(0.1, 0.1, 0.1, 1.0)
+//        glClearColor(0.53, 0.81, 0.92, 1.00)
         myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         glLineWidth(25.0)
@@ -238,6 +238,8 @@ extension AudioPlotView {
         
         
         if blocks.count != 0 {
+            glClearColor(0.53, 0.81, 0.92, 1.00)
+            glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
             glEnable(GLenum(GL_BLEND))
             glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
             for bl in blocks {
@@ -258,7 +260,6 @@ extension AudioPlotView {
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
-        addBlockAtPoint(CGPointMake(0.5, 0.5))
         if let _ = points {
             for i in 0.stride(to: length, by: 10) {
                 points![i * 2].x = Float(i)
@@ -269,7 +270,7 @@ extension AudioPlotView {
                 }
                 if yValue > 0.2 {
 //                    if blocks.count == 0 {
-//                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.3)))
+                        addBlockAtPoint(CGPointMake(CGFloat(i), CGFloat(yValue + 0.3)))
 //                    } else {
 //                        var shouldAdd = true
 //                        for bl in blocks {
@@ -307,21 +308,20 @@ extension AudioPlotView {
         blocks.append(block)
     }
     
-    func updateBlock() {
+    func updateBlock(timeInterval: CFTimeInterval) {
         if blocks.count > 0 {
             for bl in blocks {
-                let aLive = bl.updateLifeCycle(timeInterval)
+                let aLive = bl.updateLifeCycle(Float(timeInterval))
                 if !aLive {
                     let tmp = blocks.arrayRemovingObject(bl)
                     blocks = tmp
                 }
             }
         }
-        print("blocks count: \(blocks.count)")
     }
     
     private func customDrawPoint() {
-        glClearColor(0.2, 0.2, 0.2, 1.00)
+        glClearColor(0.53, 0.81, 0.92, 1.00)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         glEnable(GLenum(GL_BLEND))
@@ -337,8 +337,7 @@ extension AudioPlotView {
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-            timeInterval += Float(link.timeSinceLastUpdate)
-            updateBlock()
+            updateBlock(link.timeSinceLastUpdate)
             display()
         }
     }

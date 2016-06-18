@@ -9,11 +9,16 @@
 import Foundation
 import OpenGLES
 import GLKit
+import AudioToolbox
+import AVFoundation
 
 class SampleDotViewController: GLKViewController {
     
     var blocks: [BlockObject] = []
-    
+    var resource: [String] = []
+    var indexPlay: Int = 0
+    var ezAudioFile: EZAudioFile!
+    var ezAudioPlayer: EZAudioPlayer!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,14 +28,48 @@ class SampleDotViewController: GLKViewController {
         let currentView = view as! GLKView
         currentView.context = context
         
-        let glPoint = CGPointMake(100.0/view.frame.size.width, 100.0/view.frame.size.height);
-        let x = (glPoint.x * 2.0) - 1.0;
-        let aspectRatio = view.frame.size.width / view.frame.size.height;
-        let y = ((glPoint.y * 2.0) - 1.0) * (-1.0/aspectRatio);
-        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, y.f))
-        
-        blocks.append(block)
+//        let glPoint = CGPointMake(100.0/view.frame.size.width, 100.0/view.frame.size.height);
+//        let x = (glPoint.x * 2.0) - 1.0;
+//        let aspectRatio = view.frame.size.width / view.frame.size.height;
+//        let y = ((glPoint.y * 2.0) - 1.0) * (-1.0/aspectRatio);
+//        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, y.f))
+//        
+//        blocks.append(block)
+        setupView()
 
+    }
+    
+    func setupView() {
+        let url2 = NSBundle.mainBundle().pathForResource("winamp", ofType: "wav")
+        let url3 = NSBundle.mainBundle().pathForResource("Fill", ofType: "wav")
+        let url4 = NSBundle.mainBundle().pathForResource("Basic_Beat", ofType: "wav")
+    
+        if let _ = url2 {
+            resource.append(url2!)
+        }
+        if let _ = url3 {
+            resource.append(url3!)
+        }
+        if let _ = url4 {
+            resource.append(url4!)
+        }
+        
+        let session = AVAudioSession()
+        try! session.setCategory(AVAudioSessionCategoryPlayback)
+        try! session.setActive(true)
+        
+        try! session.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker)
+        
+        ezAudioPlayer = EZAudioPlayer(delegate: self)
+        ezAudioPlayer.shouldLoop = false
+        indexPlay = 0 //initialize
+        ezAudioFile = EZAudioFile(URL: NSURL(fileURLWithPath: resource[indexPlay]))
+        guard let file = ezAudioFile else {
+            return
+        }
+        
+        ezAudioPlayer.audioFile = file
+        ezAudioPlayer.play()
     }
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
@@ -64,5 +103,47 @@ class SampleDotViewController: GLKViewController {
                 }
             }
         }
+    }
+    
+    
+    
+    func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
+        for i in 0.stride(to: length, by: 10) {
+            var yValue: Float = data[i]
+            if yValue < 0 {
+                yValue *= -1
+            }
+            if yValue > 0.2 {
+                let glPoint = CGPointMake(CGFloat(i)/view.frame.size.width, yValue.g/view.frame.size.height);
+                let x = (glPoint.x * 2.0) - 1.0;
+                let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, yValue))
+                blocks.append(block)
+            }
+        }
+    }
+}
+
+extension SampleDotViewController: EZAudioPlayerDelegate {
+    func audioPlayer(audioPlayer: EZAudioPlayer!, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize bufferSize: UInt32, withNumberOfChannels numberOfChannels: UInt32, inAudioFile audioFile: EZAudioFile!) {
+        dispatch_async(dispatch_get_main_queue()) { [unowned self] in
+//            self.bandsView.updateBuffer(buffer[0], withBufferSize: bufferSize)
+            self.setSampleData(buffer[0], length: Int(bufferSize))
+        }
+    }
+    
+    func audioPlayer(audioPlayer: EZAudioPlayer!, reachedEndOfAudioFile audioFile: EZAudioFile!) {
+        //Start to new one
+        ezAudioFile = nil
+        indexPlay += 1
+        if indexPlay > 2 {
+            indexPlay = 0;
+        }
+        ezAudioFile = EZAudioFile(URL: NSURL(fileURLWithPath: resource[indexPlay]))
+        guard let file = ezAudioFile else {
+            return
+        }
+        
+        ezAudioPlayer.audioFile = file
+        ezAudioPlayer.play()
     }
 }

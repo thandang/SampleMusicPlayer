@@ -20,6 +20,8 @@ class SampleDotViewController: GLKViewController {
     var ezAudioFile: EZAudioFile!
     var ezAudioPlayer: EZAudioPlayer!
     
+    private let topLevel: CGFloat = 0.5
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Set up context
@@ -27,16 +29,8 @@ class SampleDotViewController: GLKViewController {
         EAGLContext.setCurrentContext(context)
         let currentView = view as! GLKView
         currentView.context = context
-        
-//        let glPoint = CGPointMake(100.0/view.frame.size.width, 100.0/view.frame.size.height);
-//        let x = (glPoint.x * 2.0) - 1.0;
-//        let aspectRatio = view.frame.size.width / view.frame.size.height;
-//        let y = ((glPoint.y * 2.0) - 1.0) * (-1.0/aspectRatio);
-//        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, y.f))
-//        
-//        blocks.append(block)
-        setupView()
 
+        setupView()
     }
     
     func setupView() {
@@ -114,7 +108,7 @@ class SampleDotViewController: GLKViewController {
             }
             if yValue > 0.3 {
                 if blocks.count == 0 {
-                    addBlock(CGPointMake(CGFloat(i), yValue.g + 0.3))
+                    addBlock(CGPointMake(CGFloat(i), topLevel))
                 } else {
                     var shouldAdd = true
                     for bl in blocks {
@@ -124,7 +118,7 @@ class SampleDotViewController: GLKViewController {
                         }
                     }
                     if shouldAdd {
-                        addBlock(CGPointMake(CGFloat(i), yValue.g + 0.3))
+                        addBlock(CGPointMake(CGFloat(i), topLevel))
                     }
                 }
             }

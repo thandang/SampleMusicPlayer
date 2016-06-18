@@ -104,7 +104,9 @@ class BlockObject: NSObject {
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
         timeElapse += timeElapsed
-        if(timeElapse < life) {
+        //Hardcode life
+//        if(timeElapse < life) {
+        if(timeElapse < 1.5) {
             return true;
         } else {
             return false

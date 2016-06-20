@@ -144,7 +144,7 @@ class CustomPlotView: NSObject {
     private func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         let points = info?.points
         if let _ = points {
-            for i in 0.stride(to: length, by: 25) {
+            for i in 0.stride(to: length, by: 10) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

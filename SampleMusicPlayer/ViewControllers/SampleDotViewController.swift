@@ -20,7 +20,8 @@ class SampleDotViewController: GLKViewController {
     var ezAudioFile: EZAudioFile!
     var ezAudioPlayer: EZAudioPlayer!
     
-    private let topLevel: CGFloat = 1
+    private let topLevel: CGFloat = 0.7
+    private let reachedLevel: Float = 0.1
     private var cusPlotView: CustomPlotView!
     
     override func viewDidLoad() {
@@ -96,7 +97,7 @@ class SampleDotViewController: GLKViewController {
             }
         }
         
-        cusPlotView.redraw()
+//        cusPlotView.redraw()
     }
     
     func update() {
@@ -114,24 +115,33 @@ class SampleDotViewController: GLKViewController {
     
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
-        for i in 0.stride(to: length, by: 25) {
+        for i in 0.stride(to: length, by: 30) {
             var yValue: Float = data[i]
             if yValue < 0 {
                 yValue *= -1
             }
-            if yValue > 0.3 {
+            
+            if yValue > reachedLevel {
                 if blocks.count == 0 {
-                    addBlock(CGPointMake(CGFloat(i), topLevel))
+                    addBlock(CGPointMake(CGFloat(i), yValue.g + 0.2))
                 } else {
                     var shouldAdd = true
                     for bl in blocks {
                         if bl.pointStoredX == Float(i) {
+                            if bl.pointStoredY  > yValue + 0.2 {
+                                bl.isDown = false
+                                
+                                //Only update position if bar is moiving up
+                                bl.positionStored = GLKVector2Make(bl.positionStored.x, yValue + 0.2)
+                            } else {
+                                bl.isDown = true
+                            }
                             shouldAdd = false
                             break
                         }
                     }
                     if shouldAdd {
-                        addBlock(CGPointMake(CGFloat(i), topLevel))
+                        addBlock(CGPointMake(CGFloat(i), yValue.g + 0.2))
                     }
                 }
             }
@@ -152,7 +162,7 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
     func audioPlayer(audioPlayer: EZAudioPlayer!, playedAudio buffer: UnsafeMutablePointer<UnsafeMutablePointer<Float>>, withBufferSize bufferSize: UInt32, withNumberOfChannels numberOfChannels: UInt32, inAudioFile audioFile: EZAudioFile!) {
         dispatch_async(dispatch_get_main_queue()) { [unowned self] in
             self.setSampleData(buffer[0], length: Int(bufferSize))
-            self.cusPlotView.updateBuffer(buffer[0], withBufferSize: bufferSize)
+//            self.cusPlotView.updateBuffer(buffer[0], withBufferSize: bufferSize)
         }
     }
     

@@ -33,6 +33,7 @@ class BlockShader: NSObject {
     var u_eSizeStart: GLint?
     var u_eSizeEnd: GLint?
     var u_Texture: GLint?
+    var u_eDelta: GLint?
     
     func loadShader() {
         let pathVS = NSBundle.mainBundle().pathForResource("Block", ofType: "vsh")
@@ -76,5 +77,6 @@ class BlockShader: NSObject {
         u_eSizeStart = glGetUniformLocation(program_, "u_eSizeStart")
         u_eSizeEnd = glGetUniformLocation(program_, "u_eSizeEnd")
         u_Texture = glGetUniformLocation(program_, "u_Texture")
+        u_eDelta = glGetUniformLocation(program_, "u_eDelta")
     }
 }

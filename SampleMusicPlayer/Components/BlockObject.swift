@@ -26,17 +26,22 @@ struct Block {
     var eDecay: Float?
     var eSizeStart: Float?
     var eSizeEnd: Float?
+    
 }
 
 class BlockObject: NSObject {
+    let limittedLifeCycle: Float = 2.0
     private var life: Float = 0.0
     private var timeElapse: Float = 0.0
+    private var delta: Float = 0.0
+    var isDown: Bool = true
+
     private var particleBuffer: GLuint?
     private var gravity: GLKVector2?
     var pointStoredX: Float = 0
     var pointStoredY: Float = 0
-    
-    
+    var positionStored: GLKVector2!
+    var currentPosition: GLKVector2!
     var blockShader: BlockShader?
     var block: Block?
     
@@ -47,9 +52,12 @@ class BlockObject: NSObject {
         life = 0.0
         timeElapse = 0.0
         particleBuffer = 0
+        delta = 0.0
         loadShader()
         loadTexture(texture)
         loadParticles(position)
+        positionStored = position
+        currentPosition = position
     }
     
     func renderWithProjection(projectMatrix: GLKMatrix4) {
@@ -60,13 +68,16 @@ class BlockObject: NSObject {
             glUniformMatrix4fv((blockShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
             glUniform2f(blockShader!.u_Gravity!, gravity!.x, gravity!.y)
             glUniform1f(blockShader!.u_Time!, timeElapse)
-            glUniform2f(blockShader!.u_ePosition!, block!.ePosition!.x, block!.ePosition!.y)
+//            glUniform2f(blockShader!.u_ePosition!, block!.ePosition!.x, block!.ePosition!.y)
+            glUniform2f(blockShader!.u_ePosition!, positionStored.x, positionStored.y) //Using real time position instead
             glUniform1f(blockShader!.u_eRadius!, block!.eRadius!)
             glUniform1f(blockShader!.u_eVelocity!, block!.eVelocity!)
             glUniform1f(blockShader!.u_eDecay!, block!.eDecay!);
             glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!)
             glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!)
             glUniform1i(blockShader!.u_Texture!, 0);
+            
+            glUniform1f(blockShader!.u_eDelta!, delta)
             
             
             // Attributes
@@ -95,6 +106,8 @@ class BlockObject: NSObject {
             glVertexAttribPointer(GLenum(blockShader!.a_pColorOffset!), 3,
                                   GLenum(GL_FLOAT), GLboolean(GL_FALSE),
                                   GLsizei(strideof(Particles)), nil)
+            
+            
             if let _ = baseEffect {
                 baseEffect!.transform.modelviewMatrix = projectMatrix
                 baseEffect!.prepareToDraw()
@@ -111,13 +124,35 @@ class BlockObject: NSObject {
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
         timeElapse += timeElapsed
-        //Hardcode life
+//        timeUp -= timeElapsed
 //        if(timeElapse < life) {
-        if(timeElapse < 1.5) {
-            return true;
-        } else {
-            return false
+        //Only update yValue if bar is moving down
+        if currentPosition.y == positionStored.y {
+            isDown = true
         }
+        currentPosition = positionStored
+        if isDown {
+            delta = delta - 0.01
+            if delta < -0.5 {
+                return false
+            }
+        } else {
+            delta = 0.0
+//            delta = delta + 0.05
+        }
+        
+        if positionStored.y < 0 {
+            return false
+        } else {
+            return true
+        }
+        
+//        print("delta value: \(delta)")
+//        if(timeElapse < limittedLifeCycle) {
+//            return true;
+//        } else {
+//            return false
+//        }
     }
     
     
@@ -145,12 +180,13 @@ class BlockObject: NSObject {
         var aBlock = Block()
         
         // Offset bounds
-        let oRadius: Float = 0.10;      // 0.0 = circle; 1.0 = ring
+//        let oRadius: Float = 0.10;      // 0.0 = circle; 1.0 = ring
         let oVelocity: Float = 0.50;    // Speed
         let oDecay: Float = 0.25;       // Time
         let oSize: Float = 8.00;        // Pixels
         
-        aBlock.eParticles[0].pRadiusOffset = Float.random(min: -oRadius, max: oRadius)
+//        aBlock.eParticles[0].pRadiusOffset = Float.random(min: -oRadius, max: oRadius)
+        aBlock.eParticles[0].pRadiusOffset = 1.0
         aBlock.eParticles[0].pVelocityOffset = Float.random(min: -oVelocity, max: oVelocity)
         aBlock.eParticles[0].pID = GLKMathDegreesToRadians(0.5*360.0)
         aBlock.eParticles[0].pDecayOffset = Float.random(min: -oDecay, max: oDecay)
@@ -158,7 +194,7 @@ class BlockObject: NSObject {
         aBlock.eParticles[0].pSizeOffset = Float.random(min: -oSize, max: oSize)
         
         aBlock.ePosition = position
-        aBlock.eRadius = 0.75
+        aBlock.eRadius = 1.75
         aBlock.eDecay = 2.0
         aBlock.eVelocity = 1.0
         aBlock.eSizeEnd = 32.0

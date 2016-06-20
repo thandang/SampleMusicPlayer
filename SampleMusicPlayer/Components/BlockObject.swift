@@ -32,7 +32,6 @@ struct Block {
 class BlockObject: NSObject {
     let limittedLifeCycle: Float = 2.0
     private var life: Float = 0.0
-    private var timeElapse: Float = 0.0
     private var delta: Float = 0.0
     var isDown: Bool = true
 
@@ -50,12 +49,11 @@ class BlockObject: NSObject {
     init(texture: String, position: GLKVector2) {
         super.init()
         life = 0.0
-        timeElapse = 0.0
         particleBuffer = 0
         delta = 0.0
         loadShader()
         loadTexture(texture)
-        loadParticles(position)
+        loadParticles()
         positionStored = position
         currentPosition = position
     }
@@ -66,46 +64,12 @@ class BlockObject: NSObject {
         //Handle uniform
         if let _ = blockShader {
             glUniformMatrix4fv((blockShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-            glUniform2f(blockShader!.u_Gravity!, gravity!.x, gravity!.y)
-            glUniform1f(blockShader!.u_Time!, timeElapse)
-//            glUniform2f(blockShader!.u_ePosition!, block!.ePosition!.x, block!.ePosition!.y)
             glUniform2f(blockShader!.u_ePosition!, positionStored.x, positionStored.y) //Using real time position instead
-            glUniform1f(blockShader!.u_eRadius!, block!.eRadius!)
-            glUniform1f(blockShader!.u_eVelocity!, block!.eVelocity!)
-            glUniform1f(blockShader!.u_eDecay!, block!.eDecay!);
             glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!)
             glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!)
             glUniform1i(blockShader!.u_Texture!, 0);
             
             glUniform1f(blockShader!.u_eDelta!, delta)
-            
-            
-            // Attributes
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pID!))
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pRadiusOffset!))
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pVelocityOffset!))
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pDecayOffset!))
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pSizeOffset!))
-            glEnableVertexAttribArray(GLenum(blockShader!.a_pColorOffset!))
-            
-            glVertexAttribPointer(GLenum(blockShader!.a_pID!), 1,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
-            glVertexAttribPointer(GLenum(blockShader!.a_pRadiusOffset!), 1,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
-            glVertexAttribPointer(GLenum(blockShader!.a_pVelocityOffset!), 1,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
-            glVertexAttribPointer(GLenum(blockShader!.a_pDecayOffset!), 1,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
-            glVertexAttribPointer(GLenum(blockShader!.a_pSizeOffset!), 1,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
-            glVertexAttribPointer(GLenum(blockShader!.a_pColorOffset!), 3,
-                                  GLenum(GL_FLOAT), GLboolean(GL_FALSE),
-                                  GLsizei(strideof(Particles)), nil)
             
             
             if let _ = baseEffect {
@@ -114,18 +78,10 @@ class BlockObject: NSObject {
             }
             // Draw particles
             glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(1));
-            glDisableVertexAttribArray(GLenum(blockShader!.a_pID!));
-            glDisableVertexAttribArray(GLenum(blockShader!.a_pRadiusOffset!));
-            glDisableVertexAttribArray(GLenum(blockShader!.a_pVelocityOffset!));
-            glDisableVertexAttribArray(GLenum(blockShader!.a_pSizeOffset!));
-            glDisableVertexAttribArray(GLenum(blockShader!.a_pColorOffset!));
         }
     }
     
     func updateLifeCycle(timeElapsed: Float) -> Bool {
-        timeElapse += timeElapsed
-//        timeUp -= timeElapsed
-//        if(timeElapse < life) {
         //Only update yValue if bar is moving down
         if currentPosition.y == positionStored.y {
             isDown = true
@@ -138,7 +94,6 @@ class BlockObject: NSObject {
             }
         } else {
             delta = 0.0
-//            delta = delta + 0.05
         }
         
         if positionStored.y < 0 {
@@ -146,13 +101,6 @@ class BlockObject: NSObject {
         } else {
             return true
         }
-        
-//        print("delta value: \(delta)")
-//        if(timeElapse < limittedLifeCycle) {
-//            return true;
-//        } else {
-//            return false
-//        }
     }
     
     
@@ -176,36 +124,11 @@ class BlockObject: NSObject {
         }
     }
     
-    private func loadParticles(position: GLKVector2) {
+    private func loadParticles() { //setup VBO
         var aBlock = Block()
-        
-        // Offset bounds
-//        let oRadius: Float = 0.10;      // 0.0 = circle; 1.0 = ring
-        let oVelocity: Float = 0.50;    // Speed
-        let oDecay: Float = 0.25;       // Time
-        let oSize: Float = 8.00;        // Pixels
-        
-//        aBlock.eParticles[0].pRadiusOffset = Float.random(min: -oRadius, max: oRadius)
-        aBlock.eParticles[0].pRadiusOffset = 1.0
-        aBlock.eParticles[0].pVelocityOffset = Float.random(min: -oVelocity, max: oVelocity)
-        aBlock.eParticles[0].pID = GLKMathDegreesToRadians(0.5*360.0)
-        aBlock.eParticles[0].pDecayOffset = Float.random(min: -oDecay, max: oDecay)
-        aBlock.eParticles[0].pColorOffset = GLKVector3Make(0.7, 0.7, 0.7)
-        aBlock.eParticles[0].pSizeOffset = Float.random(min: -oSize, max: oSize)
-        
-        aBlock.ePosition = position
-        aBlock.eRadius = 1.75
-        aBlock.eDecay = 2.0
-        aBlock.eVelocity = 1.0
-        aBlock.eSizeEnd = 32.0
         aBlock.eSizeStart = 32.0
-        
-        let growth = aBlock.eRadius! / aBlock.eVelocity!
-        life  = growth + aBlock.eDecay! + oDecay
-        let drag:Float = 10.0
-        gravity = GLKVector2Make(0.0, -9.81*(1.0/drag))
+        aBlock.eSizeEnd = 32.0
         block = aBlock
-        
         
         glGenBuffers(1, &particleBuffer!);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer!);

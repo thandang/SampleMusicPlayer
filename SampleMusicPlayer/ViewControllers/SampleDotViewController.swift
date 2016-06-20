@@ -87,7 +87,6 @@ class SampleDotViewController: GLKViewController {
         view.drawableStencilFormat = .Format8
         view.drawableMultisample = .Multisample4X
         view.opaque = false
-//        view.enableSetNeedsDisplay = false
         
         
         // Render Emitters

@@ -1,16 +1,14 @@
 //
-//  BlockShader.swift
+//  BarShader.swift
 //  SampleMusicPlayer
 //
-//  Created by Than Dang on 6/16/16.
+//  Created by Than Dang on 6/21/16.
 //  Copyright © 2016 Than Dang. All rights reserved.
 //
 
 import Foundation
 
-
-class BlockShader: NSObject {
-    
+class BarShader: NSObject {
     //Program handle
     var program: GLuint?
     
@@ -26,18 +24,20 @@ class BlockShader: NSObject {
     var u_Texture: GLint?
     var u_eDelta: GLint?
     
+    var u_eColor: Int32?
+    
     func loadShader() {
-        let pathVS = NSBundle.mainBundle().pathForResource("Block", ofType: "vsh")
+        let pathVS = NSBundle.mainBundle().pathForResource("Bar", ofType: "vsh")
         guard let path1 = pathVS else {
             return
         }
-       
+        
         let stringVS: NSString = try! NSString(contentsOfFile: path1, encoding: NSUTF8StringEncoding)
         
         let blockVS = stringVS.UTF8String
         let stringVSLength = GLint(Int32(stringVS.length))
         
-        let pathFS = NSBundle.mainBundle().pathForResource("Block", ofType: "fsh")
+        let pathFS = NSBundle.mainBundle().pathForResource("Bar", ofType: "fsh")
         guard let path2 = pathFS else {
             return
         }
@@ -50,6 +50,8 @@ class BlockShader: NSObject {
         guard let program_ = program else {
             return
         }
+        
+//        u_eColor = glGetAttribLocation(program_, "SourceColor")
         
         u_ProjectionMatrix = glGetUniformLocation(program_, "u_ProjectionMatrix")
         u_ProjectionMatrix2 = glGetUniformLocation(program_, "u_ProjectionMatrix2")

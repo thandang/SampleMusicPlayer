@@ -99,7 +99,7 @@ class CustomPlotView: NSObject {
 //        glClearColor(0.3, 0.3, 0.3, 1.00)
 //        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         myColor = UIColor(red: 229.0/255, green: 181.0/255, blue: 17.0/255, alpha: 1.0)
-        glLineWidth(25.0)
+        glLineWidth(32.0)
         let interpolatedFator = interd ? 2.0 : 1.0
         let xScale = 2.0 / (Double(count) / interpolatedFator)
         let yScale = 1.0 * gain + 0.2
@@ -142,9 +142,10 @@ class CustomPlotView: NSObject {
     }
     
     private func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
+        print("point count: \(length)")
         let points = info?.points
         if let _ = points {
-            for i in 0.stride(to: length, by: 10) {
+            for i in 0.stride(to: length, by: 20) {
                 points![i * 2].x = Float(i)
                 points![i * 2 + 1].x = Float(i)
                 var yValue: Float = data[i]

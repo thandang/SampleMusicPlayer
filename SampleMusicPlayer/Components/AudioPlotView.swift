@@ -220,7 +220,7 @@ extension AudioPlotView {
         baseEffect.transform.modelviewMatrix = transform
         
         
-        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo);
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), vbo)
         baseEffect.prepareToDraw()
 
         glEnableVertexAttribArray(GLuint(GLKVertexAttrib.Position.rawValue));
@@ -229,7 +229,7 @@ extension AudioPlotView {
                               GLenum(GL_FLOAT),
                               GLboolean(GL_FALSE),
                               GLsizei(sizeof(AudioPoint)),
-                              nil);
+                              nil)
         
         glDrawArrays(mode, 0, GLsizei(count));
 

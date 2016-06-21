@@ -93,6 +93,7 @@ class SampleDotViewController: GLKViewController {
         if blocks.count > 0 {
             for bl in blocks {
                 bl.renderWithProjection(projectionMatrix)
+                bl.renderBar(projectionMatrix)
             }
         }
         
@@ -114,7 +115,7 @@ class SampleDotViewController: GLKViewController {
     
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
-        for i in 0.stride(to: length, by: 30) {
+        for i in 0.stride(to: length, by: 25) {
             var yValue: Float = data[i]
             if yValue < 0 {
                 yValue *= -1
@@ -127,7 +128,7 @@ class SampleDotViewController: GLKViewController {
                     var shouldAdd = true
                     for bl in blocks {
                         if bl.pointStoredX == Float(i) {
-                            if bl.pointStoredY  > yValue + 0.2 {
+                            if bl.pointStoredY  > yValue {
                                 bl.isDown = false
                                 
                                 //Only update position if bar is moiving up
@@ -143,7 +144,7 @@ class SampleDotViewController: GLKViewController {
                         addBlock(CGPointMake(CGFloat(i), yValue.g + 0.2))
                     }
                 }
-            }
+            }   
         }
     }
         

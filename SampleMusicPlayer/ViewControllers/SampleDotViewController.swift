@@ -15,6 +15,7 @@ import AVFoundation
 class SampleDotViewController: GLKViewController {
     
     var blocks: [BlockObject] = []
+    var bars: [BarObject] = []
     var resource: [String] = []
     var indexPlay: Int = 0
     var ezAudioFile: EZAudioFile!
@@ -64,6 +65,7 @@ class SampleDotViewController: GLKViewController {
         guard let file = ezAudioFile else {
             return
         }
+        
         
         ezAudioPlayer.audioFile = file
         ezAudioPlayer.play()
@@ -115,11 +117,12 @@ class SampleDotViewController: GLKViewController {
     
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
-        for i in 0.stride(to: length, by: 25) {
+        for i in 0.stride(to: length, by: 40) {
             var yValue: Float = data[i]
             if yValue < 0 {
                 yValue *= -1
             }
+            
             
             if yValue > reachedLevel {
                 if blocks.count == 0 {
@@ -148,13 +151,20 @@ class SampleDotViewController: GLKViewController {
         }
     }
         
-    func addBlock(point: CGPoint) {
+    private func addBlock(point: CGPoint) {
         let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
-        let x = (glPoint.x * 2.0) - 1.0;
+        let x = (glPoint.x * 2.0) - 1.0
         let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
         block.pointStoredX = point.x.f
         block.pointStoredY = point.y.f
         blocks.append(block)
+    }
+    
+    private func addBarItem(point: CGPoint) {
+        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
+        let x = (glPoint.x * 2.0) - 1.0
+        let bar = BarObject(position_: GLKVector2Make(x.f, point.y.f))
+        bars.append(bar)
     }
 }
 

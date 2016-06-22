@@ -14,10 +14,11 @@ class BarShader: NSObject {
     
     var a_pSizeOffset: GLint?
     
+    var a_pPositionYOffset: GLint?
+    
     
     //Uniform handle
     var u_ProjectionMatrix: Int32?
-    var u_ProjectionMatrix2: Int32?
     var u_ePosition: GLint?
     var u_eSizeStart: GLint?
     var u_eSizeEnd: GLint?
@@ -25,6 +26,7 @@ class BarShader: NSObject {
     var u_eDelta: GLint?
     
     var u_eColor: Int32?
+    
     
     func loadShader() {
         let pathVS = NSBundle.mainBundle().pathForResource("Bar", ofType: "vsh")
@@ -51,10 +53,10 @@ class BarShader: NSObject {
             return
         }
         
-//        u_eColor = glGetAttribLocation(program_, "SourceColor")
+        
+        a_pPositionYOffset = glGetAttribLocation(program_, "a_pPositionYOffset")
         
         u_ProjectionMatrix = glGetUniformLocation(program_, "u_ProjectionMatrix")
-        u_ProjectionMatrix2 = glGetUniformLocation(program_, "u_ProjectionMatrix2")
         
         a_pSizeOffset = glGetAttribLocation(program_, "a_pSizeOffset")
         

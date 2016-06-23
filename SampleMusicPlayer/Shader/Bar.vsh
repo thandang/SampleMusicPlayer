@@ -1,6 +1,5 @@
 
 attribute float a_pSizeOffset;
-attribute vec4  SourceColor; //Color input from vertex shader
 attribute float a_pPositionYOffset;
 
 //Uniform
@@ -13,6 +12,7 @@ uniform vec2    u_Gravity;
 
 
 varying vec4    DestinationColor; //Color output from vertex shader and also input to fragment shader
+varying float v_Growth;
 
 
 //Config for growth up first
@@ -37,5 +37,5 @@ void main(void) {
     gl_Position = u_ProjectionMatrix * vec4(position, x, 1.0);
     gl_PointSize = max(0.0, (s + a_pSizeOffset));
     
-    DestinationColor = SourceColor;
+    v_Growth = y;
 }

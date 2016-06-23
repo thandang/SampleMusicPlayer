@@ -31,6 +31,7 @@ struct Bar {
     var ePosition: GLKVector2?
     var eSizeStart: Float?
     var eSizeEnd: Float?
+    var eGrowthColor: GLKVector3?
 }
 
 struct BarColor {
@@ -50,6 +51,8 @@ class BlockObject: NSObject {
     private var particleBuffer: GLuint = 0
     private var particleBuffer2: GLuint = 0
     private var secondPostionY: Float = 0
+    private var nextSecondPositionY: Float = 0
+    private var numberOfStepItem: Int = 5 //Default value
     var pointStoredX: Float = 0
     var pointStoredY: Float = 0
     var positionStored: GLKVector2!
@@ -66,6 +69,8 @@ class BlockObject: NSObject {
     
     var firstTexture: GLuint?
     var secondTexture: GLuint?
+    
+    let topColor: GLKVector3 = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
     
     
     init(texture: String, position: GLKVector2) {
@@ -122,16 +127,18 @@ class BlockObject: NSObject {
                 glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                 glUniform1i(barShader!.u_Texture!, 0);
                 glUniform1f(barShader!.u_eDelta!, delta2)
+                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
                 
                 glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
                 glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+                
                 
                 // Draw particles
                 glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                 glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
                 
                 let step: Float = 0.05
-                for i in 1...10 {
+                for i in 1...numberOfStepItem {
                     //Draw second
                     glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
                     glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i)) //Using real time position instead
@@ -156,13 +163,15 @@ class BlockObject: NSObject {
         }
         currentPosition = positionStored
         secondPostionY = currentPosition.y - 0.08
+        nextSecondPositionY = secondPostionY - 0.5
+        numberOfStepItem = Int(currentPosition.y / 0.07) + 5
         if isDown {
             delta2 = delta2 - 0.2
-            if delta2 < -0.5 {
+            if delta2 < -0.05 {
                 shouldDisableBar = true
             }
             delta = delta - 0.05
-            if delta < -0.5 {
+            if delta < -0.7 {
                 return false
             }
         } else {
@@ -239,6 +248,7 @@ class BlockObject: NSObject {
         }
         aBar.eSizeStart = 32.0
         aBar.eSizeEnd = 32.0
+//        aBar.pSourceColor = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
         bar = aBar
         glGenBuffers(1, &particleBuffer2);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2);

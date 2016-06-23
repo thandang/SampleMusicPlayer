@@ -12,7 +12,6 @@
 		3617CC9F1D18E056003CD70B /* Bar.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 3617CC9E1D18E056003CD70B /* Bar.fsh */; };
 		3617CCA11D18E06E003CD70B /* BarShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3617CCA01D18E06E003CD70B /* BarShader.swift */; };
 		3617CCA31D191FA9003CD70B /* bar_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3617CCA21D191FA9003CD70B /* bar_64.png */; };
-		3617CCA51D192DFA003CD70B /* BarObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3617CCA41D192DFA003CD70B /* BarObject.swift */; };
 		364120531D12939C00AFBF22 /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120521D12939C00AFBF22 /* BlockShader.swift */; };
 		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
@@ -88,7 +87,6 @@
 		3617CC9E1D18E056003CD70B /* Bar.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Bar.fsh; path = Shader/Bar.fsh; sourceTree = "<group>"; };
 		3617CCA01D18E06E003CD70B /* BarShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarShader.swift; path = Shader/BarShader.swift; sourceTree = "<group>"; };
 		3617CCA21D191FA9003CD70B /* bar_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_64.png; path = Resources/bar_64.png; sourceTree = "<group>"; };
-		3617CCA41D192DFA003CD70B /* BarObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarObject.swift; path = Components/BarObject.swift; sourceTree = "<group>"; };
 		3641204F1D127EFB00AFBF22 /* Block.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.vsh; path = Shader/Block.vsh; sourceTree = "<group>"; };
 		364120511D127F7400AFBF22 /* Block.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.fsh; path = Shader/Block.fsh; sourceTree = "<group>"; };
 		364120521D12939C00AFBF22 /* BlockShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockShader.swift; path = Shader/BlockShader.swift; sourceTree = "<group>"; };
@@ -295,7 +293,6 @@
 				3692B6D61D155E8200241B5C /* CustomPlotView.swift */,
 				3603FF0B1D0EE9980027DBCF /* Missing */,
 				3641205F1D12C11D00AFBF22 /* BlockObject.swift */,
-				3617CCA41D192DFA003CD70B /* BarObject.swift */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -526,7 +523,6 @@
 				36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */,
 				366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */,
 				366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */,
-				3617CCA51D192DFA003CD70B /* BarObject.swift in Sources */,
 				364120531D12939C00AFBF22 /* BlockShader.swift in Sources */,
 				366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */,
 				366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */,

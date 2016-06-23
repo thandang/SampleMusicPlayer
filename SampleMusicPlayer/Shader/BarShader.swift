@@ -25,7 +25,7 @@ class BarShader: NSObject {
     var u_Texture: GLint?
     var u_eDelta: GLint?
     
-    var u_eColor: Int32?
+    var u_GrowthColor: Int32?
     
     
     func loadShader() {
@@ -53,7 +53,7 @@ class BarShader: NSObject {
             return
         }
         
-        
+        u_GrowthColor = glGetAttribLocation(program_, "u_GrowthColor")
         a_pPositionYOffset = glGetAttribLocation(program_, "a_pPositionYOffset")
         
         u_ProjectionMatrix = glGetUniformLocation(program_, "u_ProjectionMatrix")

@@ -15,14 +15,13 @@ import AVFoundation
 class SampleDotViewController: GLKViewController {
     
     var blocks: [BlockObject] = []
-    var bars: [BarObject] = []
     var resource: [String] = []
     var indexPlay: Int = 0
     var ezAudioFile: EZAudioFile!
     var ezAudioPlayer: EZAudioPlayer!
     
     private let topLevel: CGFloat = 0.7
-    private let reachedLevel: Float = 0.1
+    private let reachedLevel: Float = 0.05
     private var cusPlotView: CustomPlotView!
     
     override func viewDidLoad() {
@@ -73,7 +72,7 @@ class SampleDotViewController: GLKViewController {
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
         // Set the background color
-        glClearColor(0.3, 0.3, 0.3, 1.00)
+        glClearColor(0.1, 0.1, 0.1, 1.00)
         glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         // Set the blending function (normal w/ premultiplied alpha)
@@ -94,8 +93,8 @@ class SampleDotViewController: GLKViewController {
         // Render Emitters
         if blocks.count > 0 {
             for bl in blocks {
-                bl.renderWithProjection(projectionMatrix)
                 bl.renderBar(projectionMatrix)
+                bl.renderWithProjection(projectionMatrix)
             }
         }
         
@@ -158,13 +157,6 @@ class SampleDotViewController: GLKViewController {
         block.pointStoredX = point.x.f
         block.pointStoredY = point.y.f
         blocks.append(block)
-    }
-    
-    private func addBarItem(point: CGPoint) {
-        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
-        let x = (glPoint.x * 2.0) - 1.0
-        let bar = BarObject(position_: GLKVector2Make(x.f, point.y.f))
-        bars.append(bar)
     }
 }
 

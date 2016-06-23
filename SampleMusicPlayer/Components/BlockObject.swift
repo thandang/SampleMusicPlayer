@@ -147,16 +147,6 @@ class BlockObject: NSObject {
                     glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                     glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
                 }
-                
-//                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-//                glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY) //Using real time position instead
-//                
-//                glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-//                glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-//                
-//                // Draw particles
-//                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-//                glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
             }
         }
     }

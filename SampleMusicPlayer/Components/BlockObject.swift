@@ -121,27 +121,24 @@ class BlockObject: NSObject {
                 glActiveTexture(GLenum(GL_TEXTURE0))
                 glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
                 
-                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-                glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY) //Using real time position instead
                 glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                 glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                 glUniform1i(barShader!.u_Texture!, 0);
                 glUniform1f(barShader!.u_eDelta!, delta2)
                 glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
                 
-                glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-                glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-                
-                
-                // Draw particles
-                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-                glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
-                
                 let step: Float = 0.05
-                for i in 1...numberOfStepItem {
+                for i in numberOfStepItem.stride(to: 0, by: -1) {
                     //Draw second
                     glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
                     glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i)) //Using real time position instead
+                    
+                    glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
+                    glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
+                    glUniform1i(barShader!.u_Texture!, 0);
+                    glUniform1f(barShader!.u_eDelta!, delta2)
+                    glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+                    
                     
                     glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
                     glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
@@ -150,6 +147,16 @@ class BlockObject: NSObject {
                     glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                     glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
                 }
+                
+//                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+//                glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY) //Using real time position instead
+//                
+//                glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
+//                glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+//                
+//                // Draw particles
+//                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+//                glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
             }
         }
     }
@@ -248,7 +255,6 @@ class BlockObject: NSObject {
         }
         aBar.eSizeStart = 32.0
         aBar.eSizeEnd = 32.0
-//        aBar.pSourceColor = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
         bar = aBar
         glGenBuffers(1, &particleBuffer2);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2);

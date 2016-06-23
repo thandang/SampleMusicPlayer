@@ -129,6 +129,20 @@ class BlockObject: NSObject {
                 // Draw particles
                 glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                 glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
+                
+                let step: Float = 0.05
+                for i in 1...10 {
+                    //Draw second
+                    glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+                    glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i)) //Using real time position instead
+                    
+                    glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
+                    glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+                    
+                    // Draw particles
+                    glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+                    glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
+                }
             }
         }
     }
@@ -228,6 +242,6 @@ class BlockObject: NSObject {
         bar = aBar
         glGenBuffers(1, &particleBuffer2);
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2);
-        glBufferData(GLenum(GL_ARRAY_BUFFER), numberOfPointBar, bar!.eParticles, GLenum(GL_STREAM_DRAW))
+        glBufferData(GLenum(GL_ARRAY_BUFFER), strideofValue(bar!.eParticles), bar!.eParticles, GLenum(GL_STREAM_DRAW))
     }
 }

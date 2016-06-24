@@ -130,8 +130,13 @@ class BlockObject: NSObject {
                 let step: Float = 0.05
                 for i in numberOfStepItem.stride(to: 0, by: -1) {
                     //Draw second
+                    if secondPostionY - step * Float(i) + delta2 < -0.25 {
+                        break
+                    }
                     glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
                     glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i)) //Using real time position instead
+                    
+                    
                     
                     glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                     glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
@@ -147,6 +152,24 @@ class BlockObject: NSObject {
                     glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                     glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
                 }
+                
+                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+                glUniform2f(barShader!.u_ePosition!, positionStored.x, -0.25) //Using real time position instead
+                
+                glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
+                glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
+                glUniform1i(barShader!.u_Texture!, 0);
+                glUniform1f(barShader!.u_eDelta!, delta2)
+                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+                
+                
+                glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
+                glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+                
+                // Draw particles
+                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+                glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
+                
             }
         }
     }
@@ -161,12 +184,12 @@ class BlockObject: NSObject {
         currentPosition = positionStored
         secondPostionY = currentPosition.y - 0.08
         nextSecondPositionY = secondPostionY - 0.5
-        numberOfStepItem = Int(currentPosition.y / 0.07) + 5
+        numberOfStepItem = Int(currentPosition.y / 0.06) + 5
+        delta2 = delta2 - 0.2
+        if delta2 < 0.0 {
+            shouldDisableBar = true
+        }
         if isDown {
-            delta2 = delta2 - 0.2
-            if delta2 < -0.05 {
-                shouldDisableBar = true
-            }
             delta = delta - 0.05
             if delta < -0.7 {
                 return false

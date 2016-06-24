@@ -25,7 +25,7 @@ struct Block {
     
 }
 
-let numberOfPointBar: Int = 5
+let numberOfPointBar: Int = 8
 struct Bar {
     var eParticles = [Particles](count: numberOfPointBar, repeatedValue: Particles())
     var ePosition: GLKVector2?
@@ -48,8 +48,8 @@ class BlockObject: NSObject {
     private var particleBuffer2: GLuint = 0
     private var secondPostionY: Float = 0
     private var numberOfStepItem: Int = 5 //Default value
-    private let bottomY: Float = -0.25
-    private let bottomYCap: Float = -0.2
+    private let bottomY: Float = -0.3
+    private let bottomYCap: Float = -0.25
     private var blockShader: BlockShader?
     private var block: Block?
     
@@ -64,10 +64,10 @@ class BlockObject: NSObject {
     private let limittedLifeCycle: Float = 2.0
     private let stepBar: Float = 0.2
     private let stepBlock: Float = 0.05
-    private let distanceBar2Block: Float = 0.08
+    private let distanceBar2Block: Float = 0.01
     private let pointSize: Float = 32.0
     private let haftPointSize: Float = 16.0
-    private let pointSizeHeight: Float = 0.06
+    private let pointSizeHeight: Float = 0.05
     
     
     var pointStoredX: Float = 0
@@ -206,7 +206,7 @@ class BlockObject: NSObject {
         secondPostionY = currentPosition.y - distanceBar2Block
         
         //Calculate the number of item should we draw a bar
-        numberOfStepItem = Int(currentPosition.y / pointSizeHeight) + 5
+        numberOfStepItem = Int(currentPosition.y / pointSizeHeight) + 6
         delta2 = delta2 - stepBar
         if delta2 < 0.0 {
             shouldDisableBar = true

@@ -104,11 +104,7 @@ class SampleDotViewController: GLKViewController {
     func update() {
         if blocks.count > 0 {
             for bl in blocks {
-                let aLive = bl.updateLifeCycle(Float(timeSinceLastUpdate))
-                if aLive == false {
-                    let tmp = blocks.arrayRemovingObject(bl)
-                    blocks = tmp
-                }
+                bl.updateLifeCycle(Float(timeSinceLastUpdate))
                 glClearColor(0.3, 0.3, 0.3, 1.0)
             }
         }

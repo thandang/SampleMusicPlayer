@@ -88,7 +88,6 @@ class AudioPlotView: GLKView {
     
     override func drawRect(rect: CGRect) {
         redraw()
-//        customDrawPoint()
     }
     
     func setup() {
@@ -274,24 +273,6 @@ extension AudioPlotView {
                 if yValue < 0 {
                     yValue *= -1
                 }
-                
-                if yValue > 0.3 {
-                    if blocks.count == 0 {
-                        addBlockAtPoint(CGPointMake(CGFloat(i), 1.0))
-                    } else {
-                        var shouldAdd = true
-                        for bl in blocks {
-                            if bl.pointStoredX == Float(i) {
-                                shouldAdd = false
-                                break
-                            }
-                        }
-                        if shouldAdd {
-                            addBlockAtPoint(CGPointMake(CGFloat(i), 1.0))
-                        }
-                    }
-                }
-                
                 points![i * 2].y = yValue
                 points![i * 2 + 1].y = 0.0
             }
@@ -305,47 +286,11 @@ extension AudioPlotView {
     }
 }
 
-//MARK: Draw block
-extension AudioPlotView {
-    func addBlockAtPoint(point: CGPoint) {
-        let glPoint = CGPointMake(point.x/frame.size.width, point.y/frame.size.height);
-        let x = (glPoint.x * 2.0) - 1.0;
-        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
-        block.pointStoredX = point.x.f
-        block.pointStoredY = point.y.f
-        blocks.append(block)
-    }
-    
-    func updateBlock(timeInterval: CFTimeInterval) {
-        if blocks.count > 0 {
-            for bl in blocks {
-                let aLive = bl.updateLifeCycle(Float(timeInterval))
-                if !aLive {
-                    let tmp = blocks.arrayRemovingObject(bl)
-                    blocks = tmp
-                }
-            }
-        }
-    }
-    
-    private func customDrawPoint() {
-        glClearColor(0.3, 0.3, 0.3, 1.00)
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-        
-        glEnable(GLenum(GL_BLEND))
-        glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
-        for bl in blocks {
-            bl.renderWithProjection(projectionMatrix!)
-        }
-    }
-}
-
 
 //MARK: run loop display link
 extension AudioPlotView: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         if UIApplication.sharedApplication().applicationState == UIApplicationState.Active {
-            updateBlock(link.timeSinceLastUpdate)
             display()
         }
     }

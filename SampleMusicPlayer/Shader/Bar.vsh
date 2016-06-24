@@ -28,7 +28,6 @@ void main(void) {
     vec2 position = u_ePosition;
     if (u_eDelta != 0.0) {
         y = y + u_eDelta - a_pPositionYOffset;
-        s = mix(u_eSizeStart, u_eSizeEnd, 1.0);
         position = vec2(x, y) + u_ePosition;
     }
     

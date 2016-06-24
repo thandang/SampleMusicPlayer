@@ -51,8 +51,9 @@ class BlockObject: NSObject {
     private var particleBuffer: GLuint = 0
     private var particleBuffer2: GLuint = 0
     private var secondPostionY: Float = 0
-    private var nextSecondPositionY: Float = 0
     private var numberOfStepItem: Int = 5 //Default value
+    private let bottomY: Float = -0.25
+    private let bottomYCap: Float = -0.2
     var pointStoredX: Float = 0
     var pointStoredY: Float = 0
     var positionStored: GLKVector2!
@@ -96,6 +97,10 @@ class BlockObject: NSObject {
         
         //Handle uniform
         if let _ = blockShader {
+            if positionStored.y + delta < bottomYCap {
+                positionStored = GLKVector2Make(positionStored.x, bottomYCap) //Limit the bottom position for tear down
+                delta = 0.0
+            }
             glActiveTexture(GLenum(GL_TEXTURE0))
             glBindTexture(GLenum(GL_TEXTURE_2D), firstTexture!)
             glUniformMatrix4fv((blockShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
@@ -112,15 +117,11 @@ class BlockObject: NSObject {
     
     
     func renderBar(projectMatrix: GLKMatrix4) {
+        glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2)
+        glActiveTexture(GLenum(GL_TEXTURE0))
+        glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
         if !shouldDisableBar {
-            glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2)
-            
-            //Handle uniform
-            
             if let _ = barShader {
-                glActiveTexture(GLenum(GL_TEXTURE0))
-                glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
-                
                 glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                 glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                 glUniform1i(barShader!.u_Texture!, 0);
@@ -130,14 +131,11 @@ class BlockObject: NSObject {
                 let step: Float = 0.05
                 for i in numberOfStepItem.stride(to: 0, by: -1) {
                     //Draw second
-                    if secondPostionY - step * Float(i) + delta2 < -0.25 {
+                    if secondPostionY - step * Float(i) + delta2 < bottomY { //Limit the bottom for bar
                         break
                     }
                     glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-                    glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i)) //Using real time position instead
-                    
-                    
-                    
+                    glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i))
                     glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                     glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                     glUniform1i(barShader!.u_Texture!, 0);
@@ -152,58 +150,57 @@ class BlockObject: NSObject {
                     glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
                     glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
                 }
-                
-                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-                glUniform2f(barShader!.u_ePosition!, positionStored.x, -0.25) //Using real time position instead
-                
-                glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
-                glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
-                glUniform1i(barShader!.u_Texture!, 0);
-                glUniform1f(barShader!.u_eDelta!, delta2)
-                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
-                
-                
-                glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-                glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-                
-                // Draw particles
-                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-                glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
-                
             }
         }
+        
+        //We always draw a point at the bottom
+        glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+        glUniform2f(barShader!.u_ePosition!, positionStored.x, bottomY)
+        
+        glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
+        glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
+        glUniform1i(barShader!.u_Texture!, 0);
+        glUniform1f(barShader!.u_eDelta!, 0.0)
+        glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+        
+        
+        glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
+        glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+        
+        // Draw particles
+        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+        glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
     }
     
     
     
-    func updateLifeCycle(timeElapsed: Float) -> Bool {
+    func updateLifeCycle(timeElapsed: Float) {
         //Only update yValue if bar is moving down
         if currentPosition.y == positionStored.y {
             isDown = true
         }
+        //We store the current position to calculate state of moving (up or down)
         currentPosition = positionStored
+        
+        //secondPositionY is used to draw bar, it's a little down of cap position
         secondPostionY = currentPosition.y - 0.08
-        nextSecondPositionY = secondPostionY - 0.5
+        
+        //Calculate the number of item should we draw a bar
         numberOfStepItem = Int(currentPosition.y / 0.06) + 5
         delta2 = delta2 - 0.2
         if delta2 < 0.0 {
             shouldDisableBar = true
         }
+        
+        /* We calculate the velocity for cover
+         * Next time we should move the calculate to glsl to make it works on Android too
+        */
         if isDown {
             delta = delta - 0.05
-            if delta < -0.7 {
-                return false
-            }
         } else {
             shouldDisableBar = false
             delta = 0.0
             delta2 = 0.0
-        }
-        
-        if positionStored.y <= 0.0 {
-            return false
-        } else {
-            return true
         }
     }
     

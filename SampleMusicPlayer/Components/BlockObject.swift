@@ -157,7 +157,7 @@ class BlockObject: NSObject {
         //We always draw a point at the bottom
         glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
         glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(barShader!.u_ePosition!, positionStored.x - 0.01, bottomY)
+        glUniform2f(barShader!.u_ePosition!, positionStored.x - 0.013, bottomY)
         
         glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
         glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)
@@ -175,7 +175,7 @@ class BlockObject: NSObject {
         
         glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
         glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(barShader!.u_ePosition!, positionStored.x + 0.01, bottomY)
+        glUniform2f(barShader!.u_ePosition!, positionStored.x + 0.013, bottomY)
         
         glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
         glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)

@@ -65,10 +65,6 @@ class AudioPlotView: GLKView {
     private var info: AudioGLPlotInfo!
     var localContext: EAGLContext?
     
-    var blocks: [BlockObject] = []
-    
-    var projectionMatrix: GLKMatrix4?
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -91,8 +87,6 @@ class AudioPlotView: GLKView {
     }
     
     func setup() {
-        let aspectRatio = frame.size.width / frame.size.height;
-        projectionMatrix = GLKMatrix4MakeScale(1.0, aspectRatio.f, 1.0);
         info = AudioGLPlotInfo()
         memset(&info, 0, sizeof(AudioGLPlotInfo))
         info.pointCount = DefaultMaxBufferLength
@@ -240,17 +234,6 @@ extension AudioPlotView {
         
         baseEffect.prepareToDraw()
         glDrawArrays(newMode, 0, GLsizei(count))
-        
-        
-        if blocks.count != 0 {
-            glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-            glEnable(GLenum(GL_BLEND))
-            glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA))
-            for bl in blocks {
-                bl.baseEffect = baseEffect
-                bl.renderWithProjection(projectionMatrix!)
-            }
-        }
     }
     
     /**

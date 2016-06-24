@@ -30,8 +30,8 @@ void main(void) {
         y = y + u_eDelta - a_pPositionYOffset;
         position = vec2(x, y) + u_ePosition;
     }
-    
     s = mix(u_eSizeStart, u_eSizeEnd, 1.0);
+    
     
     gl_Position = u_ProjectionMatrix * vec4(position, x, 1.0);
     gl_PointSize = max(0.0, (s + a_pSizeOffset));

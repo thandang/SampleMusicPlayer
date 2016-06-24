@@ -68,8 +68,9 @@ class BlockObject: NSObject {
     
     var pointInfo: AudioGLPlotInfo!
     
-    var firstTexture: GLuint?
-    var secondTexture: GLuint?
+    private var firstTexture: GLuint?
+    private var secondTexture: GLuint?
+    private var thirdTexture: GLuint?
     
     let topColor: GLKVector3 = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
     
@@ -81,6 +82,7 @@ class BlockObject: NSObject {
         
         firstTexture = loadTexture("block_64.png")
         secondTexture = loadTexture("bar_64.png")
+        thirdTexture = loadTexture("bar_32.png")
         
         pointInfo = AudioGLPlotInfo()
         memset(&pointInfo, 0, sizeof(AudioGLPlotInfo))
@@ -107,7 +109,7 @@ class BlockObject: NSObject {
             glUniform2f(blockShader!.u_ePosition!, positionStored.x, positionStored.y) //Using real time position instead
             glUniform1f(blockShader!.u_eSizeStart!, block!.eSizeStart!)
             glUniform1f(blockShader!.u_eSizeEnd!, block!.eSizeEnd!)
-            glUniform1i(blockShader!.u_Texture!, 0);
+            glUniform1i(blockShader!.u_Texture!, 0)
             glUniform1f(blockShader!.u_eDelta!, delta)
             
             // Draw particles
@@ -119,12 +121,13 @@ class BlockObject: NSObject {
     func renderBar(projectMatrix: GLKMatrix4) {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2)
         glActiveTexture(GLenum(GL_TEXTURE0))
-        glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
+        
         if !shouldDisableBar {
             if let _ = barShader {
+                glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
                 glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                 glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
-                glUniform1i(barShader!.u_Texture!, 0);
+                glUniform1i(barShader!.u_Texture!, 0)
                 glUniform1f(barShader!.u_eDelta!, delta2)
                 glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
                 
@@ -154,12 +157,31 @@ class BlockObject: NSObject {
         }
         
         //We always draw a point at the bottom
+        glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
         glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(barShader!.u_ePosition!, positionStored.x, bottomY)
+        glUniform2f(barShader!.u_ePosition!, positionStored.x - 0.01, bottomY)
         
-        glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
-        glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
-        glUniform1i(barShader!.u_Texture!, 0);
+        glUniform1f(barShader!.u_eSizeStart!, 16.0)
+        glUniform1f(barShader!.u_eSizeEnd!, 16.0)
+        glUniform1i(barShader!.u_Texture!, 0)
+        glUniform1f(barShader!.u_eDelta!, 0.0)
+        glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+        
+        
+        glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
+        glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
+        
+        // Draw particles
+        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+        glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
+        
+        glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
+        glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+        glUniform2f(barShader!.u_ePosition!, positionStored.x + 0.01, bottomY)
+        
+        glUniform1f(barShader!.u_eSizeStart!, 16.0)
+        glUniform1f(barShader!.u_eSizeEnd!, 16.0)
+        glUniform1i(barShader!.u_Texture!, 0)
         glUniform1f(barShader!.u_eDelta!, 0.0)
         glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
         

@@ -48,7 +48,7 @@ class BlockObject: NSObject {
     private var secondPostionY: Float = 0
     private var numberOfStepItem: Int = 5 //Default value
     private let bottomY: Float = -0.3
-    private let bottomYCap: Float = -0.25
+    private let bottomYCap: Float = -0.26
     private var blockShader: BlockShader?
     private var block: Block?
     
@@ -61,7 +61,7 @@ class BlockObject: NSObject {
     
     private let topColor: GLKVector3 = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
     private let limittedLifeCycle: Float = 2.0
-    private let stepBar: Float = 0.09
+    private let stepBar: Float = 0.1
     private let stepBlock: Float = 0.04
     private let distanceBar2Block: Float = 0.01
     private let pointSize: Float = 32.0

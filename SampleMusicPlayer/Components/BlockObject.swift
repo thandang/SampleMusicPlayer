@@ -43,7 +43,6 @@ class BlockObject: NSObject {
     private var delta: Float = 0.0
     private var delta2: Float = 0.0
     
-    private var shouldDisableBar: Bool = false
     private var particleBuffer: GLuint = 0
     private var particleBuffer2: GLuint = 0
     private var secondPostionY: Float = 0
@@ -62,12 +61,13 @@ class BlockObject: NSObject {
     
     private let topColor: GLKVector3 = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
     private let limittedLifeCycle: Float = 2.0
-    private let stepBar: Float = 0.07
+    private let stepBar: Float = 0.09
     private let stepBlock: Float = 0.04
     private let distanceBar2Block: Float = 0.01
     private let pointSize: Float = 32.0
-    private let haftPointSize: Float = 16.0
-    private let pointSizeHeight: Float = 0.05
+    private let haftPointSize: Float = 18.0
+    private let pointSizeHeight: Float = 0.04
+    private let plusX: Float = 0.011
     
     
     var pointStoredX: Float = 0
@@ -120,72 +120,60 @@ class BlockObject: NSObject {
         glBindBuffer(GLenum(GL_ARRAY_BUFFER), particleBuffer2)
         glActiveTexture(GLenum(GL_TEXTURE0))
         
-        if !shouldDisableBar {
-            if let _ = barShader {
-                glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
-                
-                let step: Float = stepBlock
-                var nextPosition: Float = bottomY
-                for i in numberOfStepItem.stride(to: 0, by: -1) {
-                    nextPosition = bottomY - 0.01 + step * Float(i)
-                    if nextPosition > secondPostionY {
-                        nextPosition = secondPostionY
-                    }
-                    glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-                    glUniform2f(barShader!.u_ePosition!, positionStored.x, nextPosition)
-                    glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
-                    glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
-                    glUniform1i(barShader!.u_Texture!, 0);
-                    glUniform1f(barShader!.u_eDelta!, delta2)
-                    glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
-                    
-                    
-                    glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-                    glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-                    
-                    // Draw particles
-                    glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-                    glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
+        if let _ = barShader {
+            glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
+            
+            let step: Float = stepBlock
+            var nextPosition: Float = bottomY
+            for i in numberOfStepItem.stride(to: 0, by: -1) {
+                nextPosition = bottomY - 0.01 + step * Float(i)
+                if nextPosition > secondPostionY {
+                    nextPosition = secondPostionY
                 }
+                
+                if nextPosition + delta2 - 0.001 < bottomY {
+                    break
+                }
+                glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+                glUniform2f(barShader!.u_ePosition!, positionStored.x, nextPosition)
+                glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
+                glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
+                glUniform1i(barShader!.u_Texture!, 0);
+                glUniform1f(barShader!.u_eDelta!, delta2)
+                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+                
+                // Draw particles
+                glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
             }
+            
+            //We always draw a point at the bottom
+            glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
+            glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+            glUniform2f(barShader!.u_ePosition!, positionStored.x - plusX, bottomY)
+            
+            glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
+            glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)
+            glUniform1i(barShader!.u_Texture!, 0)
+            glUniform1f(barShader!.u_eDelta!, 0.0)
+            glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+            
+            // Draw particles
+            glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+            
+            glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
+            glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
+            glUniform2f(barShader!.u_ePosition!, positionStored.x + plusX, bottomY)
+            
+            glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
+            glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)
+            glUniform1i(barShader!.u_Texture!, 0)
+            glUniform1f(barShader!.u_eDelta!, 0.0)
+            glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+            
+            
+            // Draw particles
+            glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
         }
-        
-        //We always draw a point at the bottom
-        glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
-        glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(barShader!.u_ePosition!, positionStored.x - 0.013, bottomY)
-        
-        glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
-        glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)
-        glUniform1i(barShader!.u_Texture!, 0)
-        glUniform1f(barShader!.u_eDelta!, 0.0)
-        glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
-        
-        
-        glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-        glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-        
-        // Draw particles
-        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-        glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
-        
-        glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
-        glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-        glUniform2f(barShader!.u_ePosition!, positionStored.x + 0.013, bottomY)
-        
-        glUniform1f(barShader!.u_eSizeStart!, haftPointSize)
-        glUniform1f(barShader!.u_eSizeEnd!, haftPointSize)
-        glUniform1i(barShader!.u_Texture!, 0)
-        glUniform1f(barShader!.u_eDelta!, 0.0)
-        glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
-        
-        
-        glEnableVertexAttribArray(GLenum(barShader!.a_pPositionYOffset!))
-        glVertexAttribPointer(GLenum(barShader!.a_pPositionYOffset!), 1, GLenum(GL_FLOAT), GLboolean(GL_FALSE), GLsizei(numberOfPointBar), nil)
-        
-        // Draw particles
-        glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
-        glDisableVertexAttribArray(GLenum((barShader!.a_pPositionYOffset)!))
     }
     
     
@@ -202,11 +190,8 @@ class BlockObject: NSObject {
         secondPostionY = currentPosition.y - distanceBar2Block
         
         //Calculate the number of item should we draw a bar
-        numberOfStepItem = Int(currentPosition.y / pointSizeHeight) + 6
+        numberOfStepItem = Int(currentPosition.y / pointSizeHeight) + 8
         delta2 = delta2 - stepBar
-        if delta2 < 0.0 {
-            shouldDisableBar = true
-        }
         
         /* We calculate the velocity for cover
          * Next time we should move the calculate to glsl to make it works on Android too
@@ -214,7 +199,6 @@ class BlockObject: NSObject {
         if isDown {
             delta = delta - stepBlock
         } else {
-            shouldDisableBar = false
             delta = 0.0
             delta2 = 0.0
         }

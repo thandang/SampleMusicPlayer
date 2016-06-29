@@ -1,6 +1,5 @@
 
 attribute float a_pSizeOffset;
-attribute float a_pPositionYOffset;
 
 //Uniform
 uniform mat4    u_ProjectionMatrix;
@@ -27,7 +26,7 @@ void main(void) {
     float s = 1.0;
     vec2 position = u_ePosition;
     if (u_eDelta != 0.0) {
-        y = y + u_eDelta - a_pPositionYOffset;
+        y = y + u_eDelta;
         position = vec2(x, y) + u_ePosition;
     }
     s = mix(u_eSizeStart, u_eSizeEnd, 1.0);

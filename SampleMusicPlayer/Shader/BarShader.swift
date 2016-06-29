@@ -14,8 +14,6 @@ class BarShader: NSObject {
     
     var a_pSizeOffset: GLint?
     
-    var a_pPositionYOffset: GLint?
-    
     
     //Uniform handle
     var u_ProjectionMatrix: Int32?
@@ -54,7 +52,6 @@ class BarShader: NSObject {
         }
         
         u_GrowthColor = glGetAttribLocation(program_, "u_GrowthColor")
-        a_pPositionYOffset = glGetAttribLocation(program_, "a_pPositionYOffset")
         
         u_ProjectionMatrix = glGetUniformLocation(program_, "u_ProjectionMatrix")
         

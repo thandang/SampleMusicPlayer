@@ -135,7 +135,6 @@ class SampleDotViewController: GLKViewController {
             }
             
             if yValue > reachedLevel {
-                print("music value x: \(i) - y: \(yValue.g + 0.2)")
                 if blocks.count == 0 {
                     addBlock(CGPointMake(CGFloat(i), yValue.g + 0.2))
                 } else {
@@ -200,7 +199,7 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
 extension SampleDotViewController: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         timeElapsed += link.timeSinceLastUpdate
-        if timeElapsed > 1 {
+        if timeElapsed > 1.5 {
             timeElapsed = 0
             resetBlocks()
         }

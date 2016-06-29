@@ -62,8 +62,8 @@ class BlockObject: NSObject {
     
     private let topColor: GLKVector3 = GLKVector3Make(239.0/255.0, 160.0/255.0, 51.0/255.0)
     private let limittedLifeCycle: Float = 2.0
-    private let stepBar: Float = 0.2
-    private let stepBlock: Float = 0.05
+    private let stepBar: Float = 0.07
+    private let stepBlock: Float = 0.04
     private let distanceBar2Block: Float = 0.01
     private let pointSize: Float = 32.0
     private let haftPointSize: Float = 16.0
@@ -123,20 +123,16 @@ class BlockObject: NSObject {
         if !shouldDisableBar {
             if let _ = barShader {
                 glBindTexture(GLenum(GL_TEXTURE_2D), secondTexture!)
-                glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
-                glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
-                glUniform1i(barShader!.u_Texture!, 0)
-                glUniform1f(barShader!.u_eDelta!, delta2)
-                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
                 
                 let step: Float = stepBlock
+                var nextPosition: Float = bottomY
                 for i in numberOfStepItem.stride(to: 0, by: -1) {
-                    //Draw second
-                    if secondPostionY - step * Float(i) + delta2 < bottomY { //Limit the bottom for bar
-                        break
+                    nextPosition = bottomY - 0.01 + step * Float(i)
+                    if nextPosition > secondPostionY {
+                        nextPosition = secondPostionY
                     }
                     glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
-                    glUniform2f(barShader!.u_ePosition!, positionStored.x, secondPostionY - step * Float(i))
+                    glUniform2f(barShader!.u_ePosition!, positionStored.x, nextPosition)
                     glUniform1f(barShader!.u_eSizeStart!, bar!.eSizeStart!)
                     glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                     glUniform1i(barShader!.u_Texture!, 0);

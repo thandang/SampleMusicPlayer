@@ -23,6 +23,10 @@ class SampleDotViewController: GLKViewController {
     private let topLevel: CGFloat = 0.7
     private let reachedLevel: Float = 0.05
     private var cusPlotView: CustomPlotView!
+    private var displayLink: AudioDisplayLink!
+    
+    private let timeStamp: [Float] = [2.0, 1.5, 1.0, 0.5, 0.25, 0.1]
+    private var timeElapsed: Double = 0.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -32,8 +36,11 @@ class SampleDotViewController: GLKViewController {
         let currentView = view as! GLKView
         currentView.context = context
 
-        setupView()
+//        setupView()
+        hardcodeSampleData()
         cusPlotView = CustomPlotView()
+        displayLink = AudioDisplayLink(delegate: self)
+        displayLink.start()
     }
     
     func setupView() {
@@ -97,8 +104,6 @@ class SampleDotViewController: GLKViewController {
                 bl.renderWithProjection(projectionMatrix)
             }
         }
-        
-//        cusPlotView.redraw()
     }
     
     func update() {
@@ -111,6 +116,17 @@ class SampleDotViewController: GLKViewController {
     }
     
     
+    func hardcodeSampleData() {
+        for i in 0...timeStamp.count - 1 {
+            addBlock(CGPointMake(CGFloat(i) * 40.0 + 20, timeStamp[i].g/10))
+        }
+    }
+    
+    func resetBlocks() {
+        blocks.removeAll()
+        hardcodeSampleData()
+    }
+    
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         for i in 0.stride(to: length, by: 40) {
             var yValue: Float = data[i]
@@ -118,8 +134,8 @@ class SampleDotViewController: GLKViewController {
                 yValue *= -1
             }
             
-            
             if yValue > reachedLevel {
+                print("music value x: \(i) - y: \(yValue.g + 0.2)")
                 if blocks.count == 0 {
                     addBlock(CGPointMake(CGFloat(i), yValue.g + 0.2))
                 } else {
@@ -178,5 +194,15 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
         
         ezAudioPlayer.audioFile = file
         ezAudioPlayer.play()
+    }
+}
+
+extension SampleDotViewController: AudioDisplayLinkDelegate {
+    func displayLinkNeedDisplay(link: AudioDisplayLink) {
+        timeElapsed += link.timeSinceLastUpdate
+        if timeElapsed > 1 {
+            timeElapsed = 0
+            resetBlocks()
+        }
     }
 }

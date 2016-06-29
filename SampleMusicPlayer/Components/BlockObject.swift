@@ -47,8 +47,6 @@ class BlockObject: NSObject {
     private var particleBuffer2: GLuint = 0
     private var secondPostionY: Float = 0
     private var numberOfStepItem: Int = 5 //Default value
-    private let bottomY: Float = -0.3
-    private let bottomYCap: Float = -0.26
     private var blockShader: BlockShader?
     private var block: Block?
     
@@ -68,6 +66,8 @@ class BlockObject: NSObject {
     private let haftPointSize: Float = 18.0
     private let pointSizeHeight: Float = 0.04
     private let plusX: Float = 0.011
+    private let bottomY: Float = -0.3
+    private let bottomYCap: Float = -0.26
     
     
     var pointStoredX: Float = 0

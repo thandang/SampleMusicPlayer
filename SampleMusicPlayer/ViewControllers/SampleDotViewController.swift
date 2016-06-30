@@ -12,7 +12,7 @@ import GLKit
 import AudioToolbox
 import AVFoundation
 
-let multipleValue: Double = 5
+let multipleValue: Double = 1
 
 class SampleDotViewController: GLKViewController {
     
@@ -209,7 +209,8 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
 
 extension SampleDotViewController: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
-        timeElapsed += link.timeSinceLastUpdate
+//        timeElapsed += link.timeSinceLastUpdate
+        timeElapsed += 0.1
         if timeElapsed >= level5 {
             timeElapsed = 0
             if addedLevel != 5 {

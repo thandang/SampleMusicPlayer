@@ -12,6 +12,8 @@ import GLKit
 import AudioToolbox
 import AVFoundation
 
+let multipleValue: Double = 5
+
 class SampleDotViewController: GLKViewController {
     
     var blocks: [BlockObject] = []
@@ -27,6 +29,16 @@ class SampleDotViewController: GLKViewController {
     
     private let timeStamp: [Float] = [2.0, 1.5, 1.0, 0.5, 0.25, 0.1]
     private var timeElapsed: Double = 0.0
+
+    private let level0: Double = 0.1 * multipleValue
+    private let level1: Double = 0.25 * multipleValue
+    private let level2: Double = 0.5 * multipleValue
+    private let level3: Double = 1.0 * multipleValue
+    private let level4: Double = 1.5 * multipleValue
+    private let level5: Double = 2.0 * multipleValue
+    private let maxLevel: CGFloat = 0.2
+    
+    private var addedLevel: Int = 6 //Store added level to make sure one level added once at a time
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +49,6 @@ class SampleDotViewController: GLKViewController {
         currentView.context = context
 
 //        setupView()
-        hardcodeSampleData()
         cusPlotView = CustomPlotView()
         displayLink = AudioDisplayLink(delegate: self)
         displayLink.start()
@@ -114,18 +125,18 @@ class SampleDotViewController: GLKViewController {
             }
         }
     }
+
     
-    
-    func hardcodeSampleData() {
-        for i in 0...timeStamp.count - 1 {
-            addBlock(CGPointMake(CGFloat(i) * 40.0 + 20, timeStamp[i].g/10))
+    func addBlockAtIndex(index: Int) {
+        if blocks.count > 0 && blocks.count > index {
+            let block = blocks[index]
+            block.isDown = false
+            block.positionStored = GLKVector2Make(block.positionStored.x, maxLevel.f)
+        } else {
+            addBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
         }
     }
     
-    func resetBlocks() {
-        blocks.removeAll()
-        hardcodeSampleData()
-    }
     
     func setSampleData(data: UnsafeMutablePointer<Float>, length: Int) {
         for i in 0.stride(to: length, by: 40) {
@@ -199,9 +210,37 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
 extension SampleDotViewController: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
         timeElapsed += link.timeSinceLastUpdate
-        if timeElapsed > 1.5 {
+        if timeElapsed >= level5 {
             timeElapsed = 0
-            resetBlocks()
+            if addedLevel != 5 {
+                addedLevel = 5
+                addBlockAtIndex(5)
+            }
+        } else if timeElapsed < level5 && timeElapsed >= level4 {
+            if addedLevel != 4 {
+                addedLevel = 4
+                addBlockAtIndex(4)
+            }
+        } else if timeElapsed < level4 && timeElapsed >= level3 {
+            if addedLevel != 3 {
+                addedLevel = 3
+                addBlockAtIndex(3)
+            }
+        } else if timeElapsed < level3 && timeElapsed >= level2 {
+            if addedLevel != 2 {
+                addedLevel = 2
+                addBlockAtIndex(2)
+            }
+        } else if timeElapsed < level2 && timeElapsed >= level1 {
+            if addedLevel != 1 {
+                addedLevel = 1
+                addBlockAtIndex(1)
+            }
+        } else if timeElapsed < level1 && timeElapsed >= level0 {
+            if addedLevel != 0 {
+                addBlockAtIndex(0)
+                addedLevel = 0
+            }
         }
     }
 }

@@ -10,5 +10,8 @@
 #define player_h
 
 #include <stdio.h>
+#include <OpenGLES/ES2/gl.h>
+
+//void startRender
 
 #endif /* player_h */

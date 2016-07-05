@@ -7,11 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		360449771D131C8500F7B159 /* block_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 360449761D131C8500F7B159 /* block_64.png */; };
 		3617CC9D1D18E046003CD70B /* Bar.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 3617CC9C1D18E046003CD70B /* Bar.vsh */; };
 		3617CC9F1D18E056003CD70B /* Bar.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 3617CC9E1D18E056003CD70B /* Bar.fsh */; };
 		3617CCA11D18E06E003CD70B /* BarShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3617CCA01D18E06E003CD70B /* BarShader.swift */; };
-		3617CCA31D191FA9003CD70B /* bar_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3617CCA21D191FA9003CD70B /* bar_64.png */; };
 		361DBFA11D2A6BAD003BE1C8 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9D1D2A6BAD003BE1C8 /* AudioFileManager.swift */; };
 		361DBFA21D2A6BAD003BE1C8 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9E1D2A6BAD003BE1C8 /* AudioFloatConverter.swift */; };
 		361DBFA31D2A6BAD003BE1C8 /* AudioOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9F1D2A6BAD003BE1C8 /* AudioOutput.swift */; };
@@ -43,6 +41,10 @@
 		36378E881D2BAC99004AB0B4 /* pngwtran.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378E681D2BA976004AB0B4 /* pngwtran.c */; };
 		36378E891D2BAC99004AB0B4 /* pngwutil.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378E691D2BA976004AB0B4 /* pngwutil.c */; };
 		36378E8D1D2BAF77004AB0B4 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 36378E8C1D2BAF77004AB0B4 /* libz.tbd */; };
+		36378E8F1D2BBFE6004AB0B4 /* platform_asset_utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 36378E8E1D2BBFE6004AB0B4 /* platform_asset_utils.m */; };
+		36378E941D2BC2F5004AB0B4 /* bar_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 36378E911D2BC2F5004AB0B4 /* bar_32.png */; };
+		36378E951D2BC2F5004AB0B4 /* bar_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 36378E921D2BC2F5004AB0B4 /* bar_64.png */; };
+		36378E961D2BC2F5004AB0B4 /* block_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 36378E931D2BC2F5004AB0B4 /* block_64.png */; };
 		364120531D12939C00AFBF22 /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120521D12939C00AFBF22 /* BlockShader.swift */; };
 		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
@@ -89,7 +91,6 @@
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
 		368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 368E8EB21D1028DF002A87C8 /* winamp.wav */; };
 		3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692B6D61D155E8200241B5C /* CustomPlotView.swift */; };
-		36EF40471D1D1CB500ED5735 /* bar_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 36EF40461D1D1CB500ED5735 /* bar_32.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,11 +111,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		360449761D131C8500F7B159 /* block_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_64.png; path = Resources/block_64.png; sourceTree = "<group>"; };
 		3617CC9C1D18E046003CD70B /* Bar.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Bar.vsh; path = Shader/Bar.vsh; sourceTree = "<group>"; };
 		3617CC9E1D18E056003CD70B /* Bar.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Bar.fsh; path = Shader/Bar.fsh; sourceTree = "<group>"; };
 		3617CCA01D18E06E003CD70B /* BarShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarShader.swift; path = Shader/BarShader.swift; sourceTree = "<group>"; };
-		3617CCA21D191FA9003CD70B /* bar_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_64.png; path = Resources/bar_64.png; sourceTree = "<group>"; };
 		361DBF9D1D2A6BAD003BE1C8 /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFileManager.swift; path = Components/AudioFileManager.swift; sourceTree = "<group>"; };
 		361DBF9E1D2A6BAD003BE1C8 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
 		361DBF9F1D2A6BAD003BE1C8 /* AudioOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioOutput.swift; path = Components/AudioOutput.swift; sourceTree = "<group>"; };
@@ -160,6 +159,10 @@
 		36378E791D2BAB3B004AB0B4 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		36378E8A1D2BAEC1004AB0B4 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		36378E8C1D2BAF77004AB0B4 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		36378E8E1D2BBFE6004AB0B4 /* platform_asset_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = platform_asset_utils.m; path = Components/platform_asset_utils.m; sourceTree = "<group>"; };
+		36378E911D2BC2F5004AB0B4 /* bar_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_32.png; path = Resources/textures/bar_32.png; sourceTree = "<group>"; };
+		36378E921D2BC2F5004AB0B4 /* bar_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_64.png; path = Resources/textures/bar_64.png; sourceTree = "<group>"; };
+		36378E931D2BC2F5004AB0B4 /* block_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = block_64.png; path = Resources/textures/block_64.png; sourceTree = "<group>"; };
 		3641204F1D127EFB00AFBF22 /* Block.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.vsh; path = Shader/Block.vsh; sourceTree = "<group>"; };
 		364120511D127F7400AFBF22 /* Block.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.fsh; path = Shader/Block.fsh; sourceTree = "<group>"; };
 		364120521D12939C00AFBF22 /* BlockShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockShader.swift; path = Shader/BlockShader.swift; sourceTree = "<group>"; };
@@ -231,7 +234,6 @@
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		368E8EB21D1028DF002A87C8 /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = winamp.wav; path = Resources/winamp.wav; sourceTree = "<group>"; };
 		3692B6D61D155E8200241B5C /* CustomPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPlotView.swift; path = Components/CustomPlotView.swift; sourceTree = "<group>"; };
-		36EF40461D1D1CB500ED5735 /* bar_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_32.png; path = Resources/bar_32.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -355,6 +357,16 @@
 			name = libpng;
 			sourceTree = "<group>";
 		};
+		36378E901D2BC2E9004AB0B4 /* textures */ = {
+			isa = PBXGroup;
+			children = (
+				36378E911D2BC2F5004AB0B4 /* bar_32.png */,
+				36378E921D2BC2F5004AB0B4 /* bar_64.png */,
+				36378E931D2BC2F5004AB0B4 /* block_64.png */,
+			);
+			name = textures;
+			sourceTree = "<group>";
+		};
 		364120501D127F0300AFBF22 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
@@ -381,9 +393,7 @@
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				36EF40461D1D1CB500ED5735 /* bar_32.png */,
-				3617CCA21D191FA9003CD70B /* bar_64.png */,
-				360449761D131C8500F7B159 /* block_64.png */,
+				36378E901D2BC2E9004AB0B4 /* textures */,
 				368E8EB21D1028DF002A87C8 /* winamp.wav */,
 				366209771D0E7AAA003E120D /* Basic_Beat.wav */,
 				366209781D0E7AAA003E120D /* Fill.wav */,
@@ -442,6 +452,7 @@
 				3692B6D61D155E8200241B5C /* CustomPlotView.swift */,
 				3603FF0B1D0EE9980027DBCF /* Missing */,
 				3641205F1D12C11D00AFBF22 /* BlockObject.swift */,
+				36378E8E1D2BBFE6004AB0B4 /* platform_asset_utils.m */,
 			);
 			name = Components;
 			sourceTree = "<group>";
@@ -629,20 +640,20 @@
 			buildActionMask = 2147483647;
 			files = (
 				3617CC9F1D18E056003CD70B /* Bar.fsh in Resources */,
+				36378E961D2BC2F5004AB0B4 /* block_64.png in Resources */,
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
 				36533D231D142377007D3622 /* Block.vsh in Resources */,
-				360449771D131C8500F7B159 /* block_64.png in Resources */,
 				3617CC9D1D18E046003CD70B /* Bar.vsh in Resources */,
 				366B56031D0699FB00C3B2B8 /* Samba-drum-beat-115-bpm.wav in Resources */,
 				368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */,
-				3617CCA31D191FA9003CD70B /* bar_64.png in Resources */,
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
+				36378E951D2BC2F5004AB0B4 /* bar_64.png in Resources */,
 				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
 				3662097A1D0E7AAA003E120D /* Fill.wav in Resources */,
 				366209791D0E7AAA003E120D /* Basic_Beat.wav in Resources */,
-				36EF40471D1D1CB500ED5735 /* bar_32.png in Resources */,
 				36533D241D14237A007D3622 /* Block.fsh in Resources */,
+				36378E941D2BC2F5004AB0B4 /* bar_32.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,6 +725,7 @@
 				367BF4D51D056F1A00F66593 /* Utils.swift in Sources */,
 				3617CCA11D18E06E003CD70B /* BarShader.swift in Sources */,
 				366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */,
+				36378E8F1D2BBFE6004AB0B4 /* platform_asset_utils.m in Sources */,
 				367BF4991D0568FA00F66593 /* ViewController.swift in Sources */,
 				36378DD91D2B8AA6004AB0B4 /* shader_processor.c in Sources */,
 				36378DD31D2B89BB004AB0B4 /* buffer.c in Sources */,

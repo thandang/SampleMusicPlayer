@@ -10,5 +10,9 @@
 #define texture_h
 
 #include <stdio.h>
+#include <OpenGLES/ES2/gl.h>
+GLuint load_texture(
+                    const GLsizei width, const GLsizei height,
+                    const GLenum type, const GLvoid* pixels);
 
 #endif /* texture_h */

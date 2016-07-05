@@ -12,6 +12,17 @@
 		3617CC9F1D18E056003CD70B /* Bar.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 3617CC9E1D18E056003CD70B /* Bar.fsh */; };
 		3617CCA11D18E06E003CD70B /* BarShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3617CCA01D18E06E003CD70B /* BarShader.swift */; };
 		3617CCA31D191FA9003CD70B /* bar_64.png in Resources */ = {isa = PBXBuildFile; fileRef = 3617CCA21D191FA9003CD70B /* bar_64.png */; };
+		361DBFA11D2A6BAD003BE1C8 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9D1D2A6BAD003BE1C8 /* AudioFileManager.swift */; };
+		361DBFA21D2A6BAD003BE1C8 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9E1D2A6BAD003BE1C8 /* AudioFloatConverter.swift */; };
+		361DBFA31D2A6BAD003BE1C8 /* AudioOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBF9F1D2A6BAD003BE1C8 /* AudioOutput.swift */; };
+		361DBFA41D2A6BAD003BE1C8 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 361DBFA01D2A6BAD003BE1C8 /* AudioPlayer.swift */; };
+		36378DCD1D2B8975004AB0B4 /* texture.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DCB1D2B8975004AB0B4 /* texture.c */; };
+		36378DD01D2B8993004AB0B4 /* shader.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DCE1D2B8993004AB0B4 /* shader.c */; };
+		36378DD31D2B89BB004AB0B4 /* buffer.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DD11D2B89BB004AB0B4 /* buffer.c */; };
+		36378DD61D2B8A44004AB0B4 /* program.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DD41D2B8A44004AB0B4 /* program.c */; };
+		36378DD91D2B8AA6004AB0B4 /* shader_processor.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DD71D2B8AA6004AB0B4 /* shader_processor.c */; };
+		36378DDC1D2B8ADC004AB0B4 /* block_objects.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DDA1D2B8ADC004AB0B4 /* block_objects.c */; };
+		36378DDF1D2B8AF3004AB0B4 /* player.c in Sources */ = {isa = PBXBuildFile; fileRef = 36378DDD1D2B8AF3004AB0B4 /* player.c */; };
 		364120531D12939C00AFBF22 /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120521D12939C00AFBF22 /* BlockShader.swift */; };
 		364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364120541D1293AD00AFBF22 /* ShaderProcessor.swift */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
@@ -44,9 +55,6 @@
 		366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */; };
 		366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56421D06C46300C3B2B8 /* AudioPlotView.swift */; };
 		366B56441D06D75900C3B2B8 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CA1D05691700F66593 /* OpenGLES.framework */; };
-		366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */; };
-		366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56471D06E1A800C3B2B8 /* AudioOutput.swift */; };
-		366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */; };
 		367BF4971D0568FA00F66593 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4961D0568FA00F66593 /* AppDelegate.swift */; };
 		367BF4991D0568FA00F66593 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4981D0568FA00F66593 /* ViewController.swift */; };
 		367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 367BF49A1D0568FA00F66593 /* Main.storyboard */; };
@@ -61,7 +69,6 @@
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
 		368E8EB31D1028DF002A87C8 /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 368E8EB21D1028DF002A87C8 /* winamp.wav */; };
 		3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692B6D61D155E8200241B5C /* CustomPlotView.swift */; };
-		369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 369770A01D0964A800988AB6 /* AudioFloatConverter.swift */; };
 		36EF40471D1D1CB500ED5735 /* bar_32.png in Resources */ = {isa = PBXBuildFile; fileRef = 36EF40461D1D1CB500ED5735 /* bar_32.png */; };
 /* End PBXBuildFile section */
 
@@ -88,6 +95,24 @@
 		3617CC9E1D18E056003CD70B /* Bar.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Bar.fsh; path = Shader/Bar.fsh; sourceTree = "<group>"; };
 		3617CCA01D18E06E003CD70B /* BarShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BarShader.swift; path = Shader/BarShader.swift; sourceTree = "<group>"; };
 		3617CCA21D191FA9003CD70B /* bar_64.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_64.png; path = Resources/bar_64.png; sourceTree = "<group>"; };
+		361DBF9D1D2A6BAD003BE1C8 /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFileManager.swift; path = Components/AudioFileManager.swift; sourceTree = "<group>"; };
+		361DBF9E1D2A6BAD003BE1C8 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
+		361DBF9F1D2A6BAD003BE1C8 /* AudioOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioOutput.swift; path = Components/AudioOutput.swift; sourceTree = "<group>"; };
+		361DBFA01D2A6BAD003BE1C8 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = Components/AudioPlayer.swift; sourceTree = "<group>"; };
+		36378DCB1D2B8975004AB0B4 /* texture.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = texture.c; path = Libs/Core/texture.c; sourceTree = "<group>"; };
+		36378DCC1D2B8975004AB0B4 /* texture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = texture.h; path = Libs/Core/texture.h; sourceTree = "<group>"; };
+		36378DCE1D2B8993004AB0B4 /* shader.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = shader.c; path = Libs/Core/shader.c; sourceTree = "<group>"; };
+		36378DCF1D2B8993004AB0B4 /* shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader.h; path = Libs/Core/shader.h; sourceTree = "<group>"; };
+		36378DD11D2B89BB004AB0B4 /* buffer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = buffer.c; path = Libs/Core/buffer.c; sourceTree = "<group>"; };
+		36378DD21D2B89BB004AB0B4 /* buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = buffer.h; path = Libs/Core/buffer.h; sourceTree = "<group>"; };
+		36378DD41D2B8A44004AB0B4 /* program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = program.c; path = Libs/Core/program.c; sourceTree = "<group>"; };
+		36378DD51D2B8A44004AB0B4 /* program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = program.h; path = Libs/Core/program.h; sourceTree = "<group>"; };
+		36378DD71D2B8AA6004AB0B4 /* shader_processor.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = shader_processor.c; path = Libs/Core/shader_processor.c; sourceTree = "<group>"; };
+		36378DD81D2B8AA6004AB0B4 /* shader_processor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = shader_processor.h; path = Libs/Core/shader_processor.h; sourceTree = "<group>"; };
+		36378DDA1D2B8ADC004AB0B4 /* block_objects.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = block_objects.c; path = Libs/Core/block_objects.c; sourceTree = "<group>"; };
+		36378DDB1D2B8ADC004AB0B4 /* block_objects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = block_objects.h; path = Libs/Core/block_objects.h; sourceTree = "<group>"; };
+		36378DDD1D2B8AF3004AB0B4 /* player.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = player.c; path = Libs/Core/player.c; sourceTree = "<group>"; };
+		36378DDE1D2B8AF3004AB0B4 /* player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = player.h; path = Libs/Core/player.h; sourceTree = "<group>"; };
 		3641204F1D127EFB00AFBF22 /* Block.vsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.vsh; path = Shader/Block.vsh; sourceTree = "<group>"; };
 		364120511D127F7400AFBF22 /* Block.fsh */ = {isa = PBXFileReference; explicitFileType = sourcecode.glsl; name = Block.fsh; path = Shader/Block.fsh; sourceTree = "<group>"; };
 		364120521D12939C00AFBF22 /* BlockShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockShader.swift; path = Shader/BlockShader.swift; sourceTree = "<group>"; };
@@ -138,9 +163,6 @@
 		366B562C1D06AE2D00C3B2B8 /* TPCircularBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TPCircularBuffer.h; path = Libs/EZAudio/TPCircularBuffer.h; sourceTree = "<group>"; };
 		366B563F1D06BC3500C3B2B8 /* AudioDisplayLink.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioDisplayLink.swift; path = Components/AudioDisplayLink.swift; sourceTree = "<group>"; };
 		366B56421D06C46300C3B2B8 /* AudioPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlotView.swift; path = Components/AudioPlotView.swift; sourceTree = "<group>"; };
-		366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioPlayer.swift; path = Components/AudioPlayer.swift; sourceTree = "<group>"; };
-		366B56471D06E1A800C3B2B8 /* AudioOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioOutput.swift; path = Components/AudioOutput.swift; sourceTree = "<group>"; };
-		366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFileManager.swift; path = Components/AudioFileManager.swift; sourceTree = "<group>"; };
 		367BF4931D0568FA00F66593 /* SampleMusicPlayer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SampleMusicPlayer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		367BF4961D0568FA00F66593 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		367BF4981D0568FA00F66593 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -162,7 +184,6 @@
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		368E8EB21D1028DF002A87C8 /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = winamp.wav; path = Resources/winamp.wav; sourceTree = "<group>"; };
 		3692B6D61D155E8200241B5C /* CustomPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPlotView.swift; path = Components/CustomPlotView.swift; sourceTree = "<group>"; };
-		369770A01D0964A800988AB6 /* AudioFloatConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AudioFloatConverter.swift; path = Components/AudioFloatConverter.swift; sourceTree = "<group>"; };
 		36EF40461D1D1CB500ED5735 /* bar_32.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = bar_32.png; path = Resources/bar_32.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -201,12 +222,33 @@
 		3603FF0B1D0EE9980027DBCF /* Missing */ = {
 			isa = PBXGroup;
 			children = (
-				366B56451D06DD0600C3B2B8 /* AudioPlayer.swift */,
-				366B56471D06E1A800C3B2B8 /* AudioOutput.swift */,
-				366B56491D06E38F00C3B2B8 /* AudioFileManager.swift */,
-				369770A01D0964A800988AB6 /* AudioFloatConverter.swift */,
+				361DBF9D1D2A6BAD003BE1C8 /* AudioFileManager.swift */,
+				361DBF9E1D2A6BAD003BE1C8 /* AudioFloatConverter.swift */,
+				361DBF9F1D2A6BAD003BE1C8 /* AudioOutput.swift */,
+				361DBFA01D2A6BAD003BE1C8 /* AudioPlayer.swift */,
 			);
 			name = Missing;
+			sourceTree = "<group>";
+		};
+		36378DC81D2B8941004AB0B4 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				36378DCB1D2B8975004AB0B4 /* texture.c */,
+				36378DCC1D2B8975004AB0B4 /* texture.h */,
+				36378DCE1D2B8993004AB0B4 /* shader.c */,
+				36378DCF1D2B8993004AB0B4 /* shader.h */,
+				36378DD11D2B89BB004AB0B4 /* buffer.c */,
+				36378DD21D2B89BB004AB0B4 /* buffer.h */,
+				36378DD41D2B8A44004AB0B4 /* program.c */,
+				36378DD51D2B8A44004AB0B4 /* program.h */,
+				36378DD71D2B8AA6004AB0B4 /* shader_processor.c */,
+				36378DD81D2B8AA6004AB0B4 /* shader_processor.h */,
+				36378DDA1D2B8ADC004AB0B4 /* block_objects.c */,
+				36378DDB1D2B8ADC004AB0B4 /* block_objects.h */,
+				36378DDD1D2B8AF3004AB0B4 /* player.c */,
+				36378DDE1D2B8AF3004AB0B4 /* player.h */,
+			);
+			name = Core;
 			sourceTree = "<group>";
 		};
 		364120501D127F0300AFBF22 /* Shaders */ = {
@@ -337,6 +379,7 @@
 				366B56091D06AE2D00C3B2B8 /* SampleMusicPlayer-Bridging-Header.h */,
 				366B56411D06C10900C3B2B8 /* Components */,
 				364120501D127F0300AFBF22 /* Shaders */,
+				36378DC81D2B8941004AB0B4 /* Core */,
 			);
 			path = SampleMusicPlayer;
 			sourceTree = "<group>";
@@ -516,33 +559,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				361DBFA31D2A6BAD003BE1C8 /* AudioOutput.swift in Sources */,
+				361DBFA21D2A6BAD003BE1C8 /* AudioFloatConverter.swift in Sources */,
 				366B563D1D06AE2D00C3B2B8 /* TPCircularBuffer.c in Sources */,
+				36378DCD1D2B8975004AB0B4 /* texture.c in Sources */,
 				366B56301D06AE2D00C3B2B8 /* EZAudioFFT.m in Sources */,
 				366B56371D06AE2D00C3B2B8 /* EZAudioUtilities.m in Sources */,
 				3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */,
 				366B56381D06AE2D00C3B2B8 /* EZMicrophone.m in Sources */,
 				366B563B1D06AE2D00C3B2B8 /* EZRecorder.m in Sources */,
 				3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */,
+				361DBFA11D2A6BAD003BE1C8 /* AudioFileManager.swift in Sources */,
 				366B56401D06BC3500C3B2B8 /* AudioDisplayLink.swift in Sources */,
+				361DBFA41D2A6BAD003BE1C8 /* AudioPlayer.swift in Sources */,
+				36378DDF1D2B8AF3004AB0B4 /* player.c in Sources */,
 				36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */,
+				36378DD61D2B8A44004AB0B4 /* program.c in Sources */,
 				366B56331D06AE2D00C3B2B8 /* EZAudioFloatData.m in Sources */,
-				366B564A1D06E38F00C3B2B8 /* AudioFileManager.swift in Sources */,
 				364120531D12939C00AFBF22 /* BlockShader.swift in Sources */,
 				366B56321D06AE2D00C3B2B8 /* EZAudioFloatConverter.m in Sources */,
+				36378DDC1D2B8ADC004AB0B4 /* block_objects.c in Sources */,
 				366B563A1D06AE2D00C3B2B8 /* EZPlot.m in Sources */,
-				366B56481D06E1A800C3B2B8 /* AudioOutput.swift in Sources */,
 				366B56391D06AE2D00C3B2B8 /* EZOutput.m in Sources */,
 				366B56431D06C46300C3B2B8 /* AudioPlotView.swift in Sources */,
 				366B56351D06AE2D00C3B2B8 /* EZAudioPlot.m in Sources */,
-				366B56461D06DD0600C3B2B8 /* AudioPlayer.swift in Sources */,
 				366B562D1D06AE2D00C3B2B8 /* EZAudio.m in Sources */,
+				36378DD01D2B8993004AB0B4 /* shader.c in Sources */,
 				366B562F1D06AE2D00C3B2B8 /* EZAudioDisplayLink.m in Sources */,
 				367BF4D51D056F1A00F66593 /* Utils.swift in Sources */,
 				3617CCA11D18E06E003CD70B /* BarShader.swift in Sources */,
 				366B56311D06AE2D00C3B2B8 /* EZAudioFile.m in Sources */,
 				367BF4991D0568FA00F66593 /* ViewController.swift in Sources */,
+				36378DD91D2B8AA6004AB0B4 /* shader_processor.c in Sources */,
+				36378DD31D2B89BB004AB0B4 /* buffer.c in Sources */,
 				364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */,
-				369770A11D0964A800988AB6 /* AudioFloatConverter.swift in Sources */,
 				366B56341D06AE2D00C3B2B8 /* EZAudioPlayer.m in Sources */,
 				364120551D1293AD00AFBF22 /* ShaderProcessor.swift in Sources */,
 				366B562E1D06AE2D00C3B2B8 /* EZAudioDevice.m in Sources */,

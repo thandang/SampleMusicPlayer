@@ -19,8 +19,8 @@ struct AudioFileInfo {
     var frames: Int64?
     var sourceURL: CFURLRef?
     init() {
-        audioFileID = AudioFileID()
-        extAudioFileRef = ExtAudioFileRef()
+        audioFileID = nil
+        extAudioFileRef = nil
         frames = Int64()
     }
 }

@@ -22,15 +22,15 @@
 GLuint load_texture(
                     const GLsizei width, const GLsizei height,
                     const GLenum type, const GLvoid* pixels) {
-    GLuint texture_object_id;
-    glGenTextures(1, &texture_object_id);
-    assert(texture_object_id != 0);
+    GLuint texName;
+    glGenTextures(1, &texName);
+    assert(texName != 0);
     
-    glBindTexture(GL_TEXTURE_2D, texture_object_id);
+    glBindTexture(GL_TEXTURE_2D, texName);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
     glTexImage2D(GL_TEXTURE_2D, 0, type, width, height, 0, type, GL_UNSIGNED_BYTE, pixels);
     
     glBindTexture(GL_TEXTURE_2D, 0); //Free up data
     
-    return texture_object_id;
+    return texName;
 }

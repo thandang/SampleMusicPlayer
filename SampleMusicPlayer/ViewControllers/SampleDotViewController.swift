@@ -21,6 +21,7 @@ class SampleDotViewController: GLKViewController {
     var indexPlay: Int = 0
     var ezAudioFile: EZAudioFile!
     var ezAudioPlayer: EZAudioPlayer!
+    var inputDatas: [InputData] = []
     
     private let topLevel: CGFloat = 0.7
     private let reachedLevel: Float = 0.05
@@ -37,8 +38,10 @@ class SampleDotViewController: GLKViewController {
     private let level4: Double = 1.5 * multipleValue
     private let level5: Double = 2.0 * multipleValue
     private let maxLevel: CGFloat = 0.2
+    private let isAllowNewBlock = true
     
     private var isRunningOnce = false
+
     
     private var addedLevel: Int = 6 //Store added level to make sure one level added once at a time
     
@@ -55,8 +58,8 @@ class SampleDotViewController: GLKViewController {
         
 //        setupView()
         cusPlotView = CustomPlotView()
-//        displayLink = AudioDisplayLink(delegate: self)
-//        displayLink.start()
+        displayLink = AudioDisplayLink(delegate: self)
+        displayLink.start()
     }
     
     func setupView() {
@@ -112,11 +115,10 @@ class SampleDotViewController: GLKViewController {
         view.drawableMultisample = .Multisample4X
         view.opaque = false
         
-        let inputData = InputData(positionX: 1.0, positionY: 0.3, sizeStart: 21.0, sizeEnd: 32.0, delta: 0.1)
-        
-        if !isRunningOnce {
-            isRunningOnce = true
-            renderBlockWithStepUpdate(1.0, inputData)
+        if inputDatas.count > 0 {
+            for item in inputDatas {
+                renderBlockWithStepUpdate(0.1, item)
+            }
         }
         
         // Render Emitters
@@ -138,14 +140,40 @@ class SampleDotViewController: GLKViewController {
     }
 
     
-    func addBlockAtIndex(index: Int) {
-        if blocks.count > 0 && blocks.count > index {
-            let block = blocks[index]
-            block.isDown = false
-            block.positionStored = GLKVector2Make(block.positionStored.x, maxLevel.f)
+    private func addBlockAtIndex(index: Int) {
+        if isAllowNewBlock {
+            if inputDatas.count > 0 && inputDatas.count > index {
+                var data = inputDatas[index]
+                data.positionY = maxLevel.f
+            } else {
+                addNewBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
+            }
         } else {
-            addBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
+            if blocks.count > 0 && blocks.count > index {
+                let block = blocks[index]
+                block.isDown = false
+                block.positionStored = GLKVector2Make(block.positionStored.x, maxLevel.f)
+            } else {
+                addBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
+            }
         }
+    }
+    
+    
+    private func addBlock(point: CGPoint) {
+        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
+        let x = (glPoint.x * 2.0) - 1.0
+        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
+        block.pointStoredX = point.x.f
+        block.pointStoredY = point.y.f
+        blocks.append(block)
+    }
+    
+    private func addNewBlock(point: CGPoint) {
+        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
+        let x = (glPoint.x * 2.0) - 1.0
+        let inputData = InputData(positionX: x.f, positionY: point.y.f, sizeStart: 32.0, sizeEnd: 32.0, delta: 0.1)
+        inputDatas.append(inputData)
     }
     
     
@@ -181,15 +209,6 @@ class SampleDotViewController: GLKViewController {
                 }
             }   
         }
-    }
-        
-    private func addBlock(point: CGPoint) {
-        let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
-        let x = (glPoint.x * 2.0) - 1.0
-        let block = BlockObject(texture: "block_64.png", position: GLKVector2Make(x.f, point.y.f))
-        block.pointStoredX = point.x.f
-        block.pointStoredY = point.y.f
-        blocks.append(block)
     }
 }
 

@@ -38,6 +38,8 @@ class SampleDotViewController: GLKViewController {
     private let level5: Double = 2.0 * multipleValue
     private let maxLevel: CGFloat = 0.2
     
+    private var isRunningOnce = false
+    
     private var addedLevel: Int = 6 //Store added level to make sure one level added once at a time
     
     override func viewDidLoad() {
@@ -45,13 +47,16 @@ class SampleDotViewController: GLKViewController {
         // Set up context
         let context = EAGLContext(API: .OpenGLES2)
         EAGLContext.setCurrentContext(context)
+        self.preferredFramesPerSecond = 60;
         let currentView = view as! GLKView
         currentView.context = context
 
+        setupScreen()
+        
 //        setupView()
         cusPlotView = CustomPlotView()
-        displayLink = AudioDisplayLink(delegate: self)
-        displayLink.start()
+//        displayLink = AudioDisplayLink(delegate: self)
+//        displayLink.start()
     }
     
     func setupView() {
@@ -107,6 +112,12 @@ class SampleDotViewController: GLKViewController {
         view.drawableMultisample = .Multisample4X
         view.opaque = false
         
+        let inputData = InputData(positionX: 1.0, positionY: 0.3, sizeStart: 21.0, sizeEnd: 32.0, delta: 0.1)
+        
+        if !isRunningOnce {
+            isRunningOnce = true
+            renderBlockWithStepUpdate(1.0, inputData)
+        }
         
         // Render Emitters
         if blocks.count > 0 {

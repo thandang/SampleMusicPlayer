@@ -10,11 +10,12 @@
 #define player_h
 
 #include <stdio.h>
+#include "block_objects.h"
 #include <OpenGLES/ES2/gl.h>
 
 void setupScreen();
 
-void renderBlockWithStepUpdate(float update);
+void renderBlockWithStepUpdate(float update, InputData inputData);
 void updateLifeCycle(float timeEclapsed);
 
 #endif /* player_h */

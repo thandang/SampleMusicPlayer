@@ -10,11 +10,11 @@
 #include "buffer.h"
 
 //Generate VBO
-//PointData generatePointData(GLuint texture) {
-//    return (PointData) {texture, create_vbo(sizeof(Block.Particles), <#const GLvoid *data#>, <#const GLenum usage#>)}
-//}
+PointData generatePointData(GLuint texture, Block blockData) {
+    return (PointData) {texture, create_vbo(sizeof(blockData.particles), blockData.particles, GL_STREAM_DRAW)};
+}
 
-void renderBlock(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData) {
+void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData) {
 
     glUseProgram(texture_program->program);
     glActiveTexture(GL_TEXTURE0);

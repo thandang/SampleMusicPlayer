@@ -47,9 +47,9 @@ typedef struct {
 } ListPointData;
 
 
-PointData generatePointData(GLuint texture);
+PointData generatePointData(GLuint texture, Block blockData);
 
-void renderBlock(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData);
+void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData);
 
 void renderBar(const PointData *data, const TextureProgram *textureProgram, mat4x4 m);
 

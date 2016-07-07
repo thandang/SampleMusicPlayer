@@ -45,7 +45,6 @@
 		364D2EF81D2E172D0092340E /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF41D2E172D0092340E /* Fill.wav */; };
 		364D2EF91D2E172D0092340E /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF51D2E172D0092340E /* Samba-drum-beat-115-bpm.wav */; };
 		364D2EFA1D2E172D0092340E /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF61D2E172D0092340E /* winamp.wav */; };
-		364D2EFD1D2E1B280092340E /* table_program.c in Sources */ = {isa = PBXBuildFile; fileRef = 364D2EFB1D2E1B280092340E /* table_program.c */; };
 		36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36533D211D140B6A007D3622 /* SampleDotViewController.swift */; };
 		366B56061D06A8B300C3B2B8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56051D06A8B300C3B2B8 /* CoreAudio.framework */; };
 		366B56081D06A9BB00C3B2B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */; };
@@ -164,8 +163,6 @@
 		364D2EF41D2E172D0092340E /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fill.wav; sourceTree = "<group>"; };
 		364D2EF51D2E172D0092340E /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
 		364D2EF61D2E172D0092340E /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winamp.wav; sourceTree = "<group>"; };
-		364D2EFB1D2E1B280092340E /* table_program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = table_program.c; path = Libs/Core/table_program.c; sourceTree = "<group>"; };
-		364D2EFC1D2E1B280092340E /* table_program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = table_program.h; path = Libs/Core/table_program.h; sourceTree = "<group>"; };
 		36533D211D140B6A007D3622 /* SampleDotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleDotViewController.swift; path = ViewControllers/SampleDotViewController.swift; sourceTree = "<group>"; };
 		366B56051D06A8B300C3B2B8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -296,8 +293,6 @@
 				36378DD21D2B89BB004AB0B4 /* buffer.h */,
 				36378DD41D2B8A44004AB0B4 /* program.c */,
 				36378DD51D2B8A44004AB0B4 /* program.h */,
-				364D2EFB1D2E1B280092340E /* table_program.c */,
-				364D2EFC1D2E1B280092340E /* table_program.h */,
 				36378DD71D2B8AA6004AB0B4 /* shader_processor.c */,
 				36378DD81D2B8AA6004AB0B4 /* shader_processor.h */,
 				36378DDA1D2B8ADC004AB0B4 /* block_objects.c */,
@@ -715,7 +710,6 @@
 				36378E7F1D2BAC99004AB0B4 /* pngpread.c in Sources */,
 				36378E801D2BAC99004AB0B4 /* pngread.c in Sources */,
 				36378E811D2BAC99004AB0B4 /* pngrio.c in Sources */,
-				364D2EFD1D2E1B280092340E /* table_program.c in Sources */,
 				36378E821D2BAC99004AB0B4 /* pngrtran.c in Sources */,
 				36378E831D2BAC99004AB0B4 /* pngrutil.c in Sources */,
 				36378E841D2BAC99004AB0B4 /* pngset.c in Sources */,

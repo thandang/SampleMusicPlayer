@@ -11,11 +11,11 @@
 
 //Generate VBO
 PointData generatePointData(GLuint texture, Block blockData) {
-    return (PointData) {texture, create_vbo(sizeof(blockData.particles), blockData.particles, GL_STREAM_DRAW)};
+    return (PointData) {texture, create_vbo(1, blockData.particles, GL_STREAM_DRAW)};
 }
 
-void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData) {
-
+void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData inputData) {
+    
     glUseProgram(texture_program->program);
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, data->texture);
@@ -23,12 +23,12 @@ void renderBlockCover(const PointData *data, const TextureProgram *texture_progr
     glUniformMatrix4fv(texture_program->u_ProjectionMatrix, 1, GL_FALSE, (GLfloat*)m);
     glBindBuffer(GL_ARRAY_BUFFER, data->buffer);
     
-    glUniform2f(texture_program->u_ePosition, (GLfloat)inputData->positionX, (GLfloat)inputData->positionY);
+    glUniform2f(texture_program->u_ePosition, (GLfloat)inputData.positionX, (GLfloat)inputData.positionY);
     
-    glUniform1f(texture_program->u_eSizeStart, inputData->sizeStart);
-    glUniform1f(texture_program->u_eSizeEnd, inputData->sizeEnd);
+    glUniform1f(texture_program->u_eSizeStart, inputData.sizeStart);
+    glUniform1f(texture_program->u_eSizeEnd, inputData.sizeEnd);
     glUniform1i(texture_program->u_Texture, 0);
-    glUniform1f(texture_program->u_eDelta, inputData->delta);
+    glUniform1f(texture_program->u_eDelta, inputData.delta);
     
     glDrawArrays(GL_POINTS, 0, 1);
     

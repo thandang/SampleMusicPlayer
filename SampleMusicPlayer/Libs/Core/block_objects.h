@@ -35,7 +35,7 @@ typedef struct {
 } InputData;
 
 typedef struct {
-    Particles  particles[5];
+    Particles  particles[1];
     InputData itemData;
 } Block;
 
@@ -49,7 +49,7 @@ typedef struct {
 
 PointData generatePointData(GLuint texture, Block blockData);
 
-void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData *inputData);
+void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData inputData);
 
 void renderBar(const PointData *data, const TextureProgram *textureProgram, mat4x4 m);
 

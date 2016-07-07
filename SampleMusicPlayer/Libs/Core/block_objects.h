@@ -32,6 +32,11 @@ typedef struct {
     float sizeStart;
     float sizeEnd;
     float delta;
+    int   isDown; // 1 is true and 0 is false
+    float delta2;
+    float currentPositionY;
+    float secondPostionY;
+    int   numberOfStepItem;
 } InputData;
 
 typedef struct {

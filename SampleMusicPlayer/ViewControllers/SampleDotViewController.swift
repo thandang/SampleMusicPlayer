@@ -40,7 +40,6 @@ class SampleDotViewController: GLKViewController {
     private let maxLevel: CGFloat = 0.2
     private let isAllowNewBlock = true
     
-    private var isRunningOnce = false
 
     
     private var addedLevel: Int = 6 //Store added level to make sure one level added once at a time
@@ -55,8 +54,14 @@ class SampleDotViewController: GLKViewController {
         currentView.context = context
 
         //C function involke
-        setupScreen()
-        on_surface_changed(Int32(view.bounds.size.width), Int32(view.bounds.size.height));
+        if isAllowNewBlock {
+            setupScreen()
+            on_surface_changed(Int32(view.bounds.size.width), Int32(view.bounds.size.height));
+            for i in 0...MAX_NUM_COLUMN - 1 {
+                addNewBlock(CGPointMake(CGFloat(MAX_NUM_COLUMN - 1 - i) * 40.0 + 20, maxLevel)) //init list data already
+            }
+            initialData(&inputDatas)
+        }
         
 //        setupView()
         cusPlotView = CustomPlotView()
@@ -99,10 +104,7 @@ class SampleDotViewController: GLKViewController {
     }
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
-        // Set the background color
-//        glClearColor(0.1, 0.1, 0.1, 1.00)
-//        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-        
+        // Set the background color        
         // Set the blending function (normal w/ premultiplied alpha)
         glEnable(GLenum(GL_BLEND));
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA));
@@ -117,39 +119,58 @@ class SampleDotViewController: GLKViewController {
         view.drawableMultisample = .Multisample4X
         view.opaque = false
         
-        if inputDatas.count > 0 {
-            for item in inputDatas {
-                renderBlockWithStepUpdate(0.1, item)
-            }
-        }
-        
-        // Render Emitters
-        if blocks.count > 0 {
-            for bl in blocks {
-                bl.renderBar(projectionMatrix)
-                bl.renderWithProjection(projectionMatrix)
+//        if inputDatas.count > 0 {
+//            for i in 0...inputDatas.count - 1 {
+//                inputDatas[i] = updatePositionStored(inputDatas[i])
+//                renderBlockWithStepUpdate(inputDatas[i])
+//            }
+//        }
+        if isAllowNewBlock {
+            renderBlocks()
+        } else {
+            // Render Emitters
+            if blocks.count > 0 {
+                glClearColor(0.1, 0.1, 0.1, 1.00)
+                glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+                
+                for bl in blocks {
+                    bl.renderBar(projectionMatrix)
+                    bl.renderWithProjection(projectionMatrix)
+                }
             }
         }
     }
     
     func update() {
-        if blocks.count > 0 {
-            for bl in blocks {
-                bl.updateLifeCycle(Float(timeSinceLastUpdate))
-                glClearColor(0.3, 0.3, 0.3, 1.0)
+        if isAllowNewBlock {
+            updateBlocks()
+        } else {
+            if blocks.count > 0 {
+                for bl in blocks {
+                    bl.updateLifeCycle(Float(timeSinceLastUpdate))
+                    glClearColor(0.3, 0.3, 0.3, 1.0)
+                }
             }
         }
+        
+//        if inputDatas.count > 0 {
+//            for i in 0...inputDatas.count - 1 {
+//                inputDatas[i] = updateInputData(inputDatas[i])
+//            }
+//        }
     }
 
     
     private func addBlockAtIndex(index: Int) {
         if isAllowNewBlock {
-            if inputDatas.count > 0 && inputDatas.count > index {
-                var data = inputDatas[index]
-                data.positionY = maxLevel.f
-            } else {
-                addNewBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
-            }
+//            if inputDatas.count > 0 && inputDatas.count > index {
+//                inputDatas[index].isDown = 0;
+//                inputDatas[index].positionStoredY = maxLevel.f
+//            } else {
+//                addNewBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
+//            }
+            
+            updateBlockAtIndex(Int32(index))
         } else {
             if blocks.count > 0 && blocks.count > index {
                 let block = blocks[index]
@@ -174,7 +195,7 @@ class SampleDotViewController: GLKViewController {
     private func addNewBlock(point: CGPoint) {
         let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
         let x = (glPoint.x * 2.0) - 1.0
-        let inputData = InputData(positionX: x.f, positionY: point.y.f, sizeStart: 32.0, sizeEnd: 32.0, delta: 0.1)
+        let inputData = InputData(positionX: x.f, positionY: point.y.f, sizeStart: 32.0, sizeEnd: 32.0, delta: 0.1, isDown: 0, delta2: 0.0, currentPositionY: 0.0, secondPostionY: point.y.f, numberOfStepItem: 5)
         inputDatas.append(inputData)
     }
     
@@ -241,7 +262,6 @@ extension SampleDotViewController: EZAudioPlayerDelegate {
 
 extension SampleDotViewController: AudioDisplayLinkDelegate {
     func displayLinkNeedDisplay(link: AudioDisplayLink) {
-//        timeElapsed += link.timeSinceLastUpdate
         timeElapsed += 0.1
         if timeElapsed >= level5 {
             timeElapsed = 0
@@ -275,5 +295,10 @@ extension SampleDotViewController: AudioDisplayLinkDelegate {
                 addedLevel = 0
             }
         }
+        
+//        if timeElapsed >= 1.0 {
+//            addBlockAtIndex(0)
+//            timeElapsed = 0
+//        }
     }
 }

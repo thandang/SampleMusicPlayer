@@ -34,6 +34,9 @@ typedef struct {
     GLint u_color_location;
 } ColorProgram;
 
+
+
+
 TextureProgram get_texture_program(GLuint program);
 ColorProgram get_color_program(GLuint program);
 

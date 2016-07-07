@@ -17,5 +17,6 @@ void setupScreen();
 
 void renderBlockWithStepUpdate(float update, InputData inputData);
 void updateLifeCycle(float timeEclapsed);
+void on_surface_changed(int width, int height);
 
 #endif /* player_h */

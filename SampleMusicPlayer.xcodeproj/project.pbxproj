@@ -41,6 +41,11 @@
 		36378E8F1D2BBFE6004AB0B4 /* platform_asset_utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 36378E8E1D2BBFE6004AB0B4 /* platform_asset_utils.m */; };
 		3641205D1D129B5B00AFBF22 /* OpenGLES+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */; };
 		364120601D12C11D00AFBF22 /* BlockObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3641205F1D12C11D00AFBF22 /* BlockObject.swift */; };
+		364D2EF71D2E172D0092340E /* Basic_Beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF31D2E172D0092340E /* Basic_Beat.wav */; };
+		364D2EF81D2E172D0092340E /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF41D2E172D0092340E /* Fill.wav */; };
+		364D2EF91D2E172D0092340E /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF51D2E172D0092340E /* Samba-drum-beat-115-bpm.wav */; };
+		364D2EFA1D2E172D0092340E /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 364D2EF61D2E172D0092340E /* winamp.wav */; };
+		364D2EFD1D2E1B280092340E /* table_program.c in Sources */ = {isa = PBXBuildFile; fileRef = 364D2EFB1D2E1B280092340E /* table_program.c */; };
 		36533D221D140B6A007D3622 /* SampleDotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36533D211D140B6A007D3622 /* SampleDotViewController.swift */; };
 		366B56061D06A8B300C3B2B8 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56051D06A8B300C3B2B8 /* CoreAudio.framework */; };
 		366B56081D06A9BB00C3B2B8 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */; };
@@ -77,10 +82,6 @@
 		367BF4CD1D05691C00F66593 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 367BF4CC1D05691C00F66593 /* Foundation.framework */; };
 		367BF4D51D056F1A00F66593 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 367BF4D41D056F1A00F66593 /* Utils.swift */; };
 		3692B6D71D155E8200241B5C /* CustomPlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3692B6D61D155E8200241B5C /* CustomPlotView.swift */; };
-		36DC307C1D2CC6890054E1DA /* Basic_Beat.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36DC30781D2CC6890054E1DA /* Basic_Beat.wav */; };
-		36DC307D1D2CC6890054E1DA /* Fill.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36DC30791D2CC6890054E1DA /* Fill.wav */; };
-		36DC307E1D2CC6890054E1DA /* Samba-drum-beat-115-bpm.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36DC307A1D2CC6890054E1DA /* Samba-drum-beat-115-bpm.wav */; };
-		36DC307F1D2CC6890054E1DA /* winamp.wav in Resources */ = {isa = PBXBuildFile; fileRef = 36DC307B1D2CC6890054E1DA /* winamp.wav */; };
 		36DC30891D2CC6DB0054E1DA /* BarShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DC30821D2CC6DB0054E1DA /* BarShader.swift */; };
 		36DC308C1D2CC6DB0054E1DA /* BlockShader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DC30851D2CC6DB0054E1DA /* BlockShader.swift */; };
 		36DC308D1D2CC6DB0054E1DA /* ShaderProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36DC30861D2CC6DB0054E1DA /* ShaderProcessor.swift */; };
@@ -159,6 +160,12 @@
 		36378E8E1D2BBFE6004AB0B4 /* platform_asset_utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = platform_asset_utils.m; path = Components/platform_asset_utils.m; sourceTree = "<group>"; };
 		3641205C1D129B5B00AFBF22 /* OpenGLES+Extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "OpenGLES+Extension.swift"; path = "Utils/OpenGLES+Extension.swift"; sourceTree = "<group>"; };
 		3641205F1D12C11D00AFBF22 /* BlockObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlockObject.swift; path = Components/BlockObject.swift; sourceTree = "<group>"; };
+		364D2EF31D2E172D0092340E /* Basic_Beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Basic_Beat.wav; sourceTree = "<group>"; };
+		364D2EF41D2E172D0092340E /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fill.wav; sourceTree = "<group>"; };
+		364D2EF51D2E172D0092340E /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
+		364D2EF61D2E172D0092340E /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winamp.wav; sourceTree = "<group>"; };
+		364D2EFB1D2E1B280092340E /* table_program.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = table_program.c; path = Libs/Core/table_program.c; sourceTree = "<group>"; };
+		364D2EFC1D2E1B280092340E /* table_program.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = table_program.h; path = Libs/Core/table_program.h; sourceTree = "<group>"; };
 		36533D211D140B6A007D3622 /* SampleDotViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SampleDotViewController.swift; path = ViewControllers/SampleDotViewController.swift; sourceTree = "<group>"; };
 		366B56051D06A8B300C3B2B8 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		366B56071D06A9BB00C3B2B8 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -220,10 +227,6 @@
 		367BF4CC1D05691C00F66593 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		367BF4D41D056F1A00F66593 /* Utils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Utils.swift; path = Utils/Utils.swift; sourceTree = "<group>"; };
 		3692B6D61D155E8200241B5C /* CustomPlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomPlotView.swift; path = Components/CustomPlotView.swift; sourceTree = "<group>"; };
-		36DC30781D2CC6890054E1DA /* Basic_Beat.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Basic_Beat.wav; sourceTree = "<group>"; };
-		36DC30791D2CC6890054E1DA /* Fill.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Fill.wav; sourceTree = "<group>"; };
-		36DC307A1D2CC6890054E1DA /* Samba-drum-beat-115-bpm.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "Samba-drum-beat-115-bpm.wav"; sourceTree = "<group>"; };
-		36DC307B1D2CC6890054E1DA /* winamp.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = winamp.wav; sourceTree = "<group>"; };
 		36DC30821D2CC6DB0054E1DA /* BarShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BarShader.swift; sourceTree = "<group>"; };
 		36DC30851D2CC6DB0054E1DA /* BlockShader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BlockShader.swift; sourceTree = "<group>"; };
 		36DC30861D2CC6DB0054E1DA /* ShaderProcessor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ShaderProcessor.swift; sourceTree = "<group>"; };
@@ -293,6 +296,8 @@
 				36378DD21D2B89BB004AB0B4 /* buffer.h */,
 				36378DD41D2B8A44004AB0B4 /* program.c */,
 				36378DD51D2B8A44004AB0B4 /* program.h */,
+				364D2EFB1D2E1B280092340E /* table_program.c */,
+				364D2EFC1D2E1B280092340E /* table_program.h */,
 				36378DD71D2B8AA6004AB0B4 /* shader_processor.c */,
 				36378DD81D2B8AA6004AB0B4 /* shader_processor.h */,
 				36378DDA1D2B8ADC004AB0B4 /* block_objects.c */,
@@ -376,14 +381,22 @@
 			name = Utils;
 			sourceTree = "<group>";
 		};
+		364D2EF21D2E16F70092340E /* voices */ = {
+			isa = PBXGroup;
+			children = (
+				364D2EF31D2E172D0092340E /* Basic_Beat.wav */,
+				364D2EF41D2E172D0092340E /* Fill.wav */,
+				364D2EF51D2E172D0092340E /* Samba-drum-beat-115-bpm.wav */,
+				364D2EF61D2E172D0092340E /* winamp.wav */,
+			);
+			path = voices;
+			sourceTree = "<group>";
+		};
 		366B56041D069A0200C3B2B8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
 				36DC30931D2CF6F20054E1DA /* Assets */,
-				36DC30781D2CC6890054E1DA /* Basic_Beat.wav */,
-				36DC30791D2CC6890054E1DA /* Fill.wav */,
-				36DC307A1D2CC6890054E1DA /* Samba-drum-beat-115-bpm.wav */,
-				36DC307B1D2CC6890054E1DA /* winamp.wav */,
+				364D2EF21D2E16F70092340E /* voices */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -655,21 +668,21 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				36DC307D1D2CC6890054E1DA /* Fill.wav in Resources */,
 				36DC30B11D2CF7440054E1DA /* block_64.png in Resources */,
-				36DC307E1D2CC6890054E1DA /* Samba-drum-beat-115-bpm.wav in Resources */,
 				367BF4A11D0568FA00F66593 /* LaunchScreen.storyboard in Resources */,
+				364D2EF81D2E172D0092340E /* Fill.wav in Resources */,
+				364D2EF91D2E172D0092340E /* Samba-drum-beat-115-bpm.wav in Resources */,
 				36DC30AB1D2CF73D0054E1DA /* Block.vsh in Resources */,
 				367BF49E1D0568FA00F66593 /* Assets.xcassets in Resources */,
 				366B563C1D06AE2D00C3B2B8 /* Info.plist in Resources */,
 				367BF49C1D0568FA00F66593 /* Main.storyboard in Resources */,
 				36DC30B01D2CF7440054E1DA /* bar_64.png in Resources */,
 				36DC30A81D2CF73D0054E1DA /* Bar.fsh in Resources */,
-				36DC307F1D2CC6890054E1DA /* winamp.wav in Resources */,
-				36DC307C1D2CC6890054E1DA /* Basic_Beat.wav in Resources */,
 				36DC30A91D2CF73D0054E1DA /* Bar.vsh in Resources */,
 				36DC30AA1D2CF73D0054E1DA /* Block.fsh in Resources */,
+				364D2EFA1D2E172D0092340E /* winamp.wav in Resources */,
 				36DC30AF1D2CF7440054E1DA /* bar_32.png in Resources */,
+				364D2EF71D2E172D0092340E /* Basic_Beat.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,6 +715,7 @@
 				36378E7F1D2BAC99004AB0B4 /* pngpread.c in Sources */,
 				36378E801D2BAC99004AB0B4 /* pngread.c in Sources */,
 				36378E811D2BAC99004AB0B4 /* pngrio.c in Sources */,
+				364D2EFD1D2E1B280092340E /* table_program.c in Sources */,
 				36378E821D2BAC99004AB0B4 /* pngrtran.c in Sources */,
 				36378E831D2BAC99004AB0B4 /* pngrutil.c in Sources */,
 				36378E841D2BAC99004AB0B4 /* pngset.c in Sources */,

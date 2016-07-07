@@ -19,7 +19,6 @@ class BlockShader: NSObject {
     
     //Uniform handle
     var u_ProjectionMatrix: Int32?
-    var u_ProjectionMatrix2: Int32?
     var u_ePosition: GLint?
     var u_eSizeStart: GLint?
     var u_eSizeEnd: GLint?
@@ -52,7 +51,6 @@ class BlockShader: NSObject {
         }
         
         u_ProjectionMatrix = glGetUniformLocation(program_, "u_ProjectionMatrix")
-        u_ProjectionMatrix2 = glGetUniformLocation(program_, "u_ProjectionMatrix2")
         
         a_pSizeOffset = glGetAttribLocation(program_, "a_pSizeOffset")
         

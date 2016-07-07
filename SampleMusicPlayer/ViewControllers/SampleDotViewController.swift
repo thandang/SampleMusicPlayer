@@ -54,7 +54,9 @@ class SampleDotViewController: GLKViewController {
         let currentView = view as! GLKView
         currentView.context = context
 
+        //C function involke
         setupScreen()
+        on_surface_changed(Int32(view.bounds.size.width), Int32(view.bounds.size.height));
         
 //        setupView()
         cusPlotView = CustomPlotView()
@@ -98,8 +100,8 @@ class SampleDotViewController: GLKViewController {
     
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
         // Set the background color
-        glClearColor(0.1, 0.1, 0.1, 1.00)
-        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+//        glClearColor(0.1, 0.1, 0.1, 1.00)
+//        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
         
         // Set the blending function (normal w/ premultiplied alpha)
         glEnable(GLenum(GL_BLEND));

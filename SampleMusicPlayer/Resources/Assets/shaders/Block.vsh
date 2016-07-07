@@ -3,7 +3,6 @@ attribute float     a_pSizeOffset;
 
 //Uniform
 uniform mat4    u_ProjectionMatrix;
-uniform mat4    u_ProjectionMatrix2;
 uniform float   u_eSizeStart;
 uniform float   u_eSizeEnd;
 uniform vec2    u_ePosition;

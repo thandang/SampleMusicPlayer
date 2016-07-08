@@ -64,16 +64,22 @@ InputData storedInputDatas[MAX_NUM_COLUMN];
 
 void setupScreen() {
     glClearColor(0.3f, 0.3f, 0.3f, 1.0);
-    glEnable(GL_DEPTH_TEST);
     
     textureProgram = get_texture_program(build_program_from_assets("Block.vsh", "Block.fsh"));
     InputData inputData = {1.0f, 0.3f, 32.0f, 32.0f, 0.1f};
     Block block = {{{0.05f, 0.5f}}, inputData};
-    pointData = generatePointData(load_png_asset_into_texture("block_64.png"), block);
+    pointData = generatePointData(load_png_asset_into_texture("bar_64.png"), block);
+}
+
+
+void on_surface_changed(int width, int height) {
+    glViewport(0, 0, width, height);
+    mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 1.0f, 10.0f);
+    mat4x4_look_at(view_matrix, (vec3){0.0f, 1.2f, 2.2f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
 }
 
 /**
- Init data with six items
+    Init data with six items
  
  - returns: storedInputData to local control here
  */
@@ -84,12 +90,9 @@ void initialData(InputData listDatas[MAX_NUM_COLUMN]) {
 }
 
 void renderBlockWithStepUpdate(InputData inputData) {
-    glClearColor(0.3f, 0.3f, 0.3f, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     mat4x4_mul(view_projection_matrix, projection_matrix, view_matrix);
     mat4x4_invert(inverted_view_projection_matrix, view_projection_matrix);
-    position_object_in_scene(0.3f, 0.5f, 0.0f);
+    position_object_in_scene(0.0f, 1.0f, 0.0f);
     Block block = {{{0.1f, 0.2f}}, inputData};
     pointData = generatePointData(load_png_asset_into_texture("bar_64.png"), block);
     renderBlockCover(&pointData, &textureProgram, model_view_projection_matrix, inputData);
@@ -130,11 +133,6 @@ void renderBarObject(InputData data) {
     
 }
 
-void on_surface_changed(int width, int height) {
-    glViewport(0, 0, width, height);
-    mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 1.0f, 10.0f);
-    mat4x4_look_at(view_matrix, (vec3){0.0f, 1.2f, 2.2f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
-}
 
 
 InputData updatePositionStored(InputData data) {

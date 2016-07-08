@@ -53,7 +53,7 @@ class SampleDotViewController: GLKViewController {
         let currentView = view as! GLKView
         currentView.context = context
 
-        //C function involke
+        //C function invoke
         if isAllowNewBlock {
             setupScreen()
             on_surface_changed(Int32(view.bounds.size.width), Int32(view.bounds.size.height));
@@ -106,6 +106,9 @@ class SampleDotViewController: GLKViewController {
     override func glkView(view: GLKView, drawInRect rect: CGRect) {
         // Set the background color        
         // Set the blending function (normal w/ premultiplied alpha)
+        glClearColor(0.1, 0.1, 0.1, 1.00)
+        glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
+        
         glEnable(GLenum(GL_BLEND));
         glBlendFunc(GLenum(GL_SRC_ALPHA), GLenum(GL_ONE_MINUS_SRC_ALPHA));
         
@@ -118,21 +121,12 @@ class SampleDotViewController: GLKViewController {
         view.drawableStencilFormat = .Format8
         view.drawableMultisample = .Multisample4X
         view.opaque = false
-        
-//        if inputDatas.count > 0 {
-//            for i in 0...inputDatas.count - 1 {
-//                inputDatas[i] = updatePositionStored(inputDatas[i])
-//                renderBlockWithStepUpdate(inputDatas[i])
-//            }
-//        }
+
         if isAllowNewBlock {
             renderBlocks()
         } else {
             // Render Emitters
             if blocks.count > 0 {
-                glClearColor(0.1, 0.1, 0.1, 1.00)
-                glClear(GLbitfield(GL_COLOR_BUFFER_BIT))
-                
                 for bl in blocks {
                     bl.renderBar(projectionMatrix)
                     bl.renderWithProjection(projectionMatrix)
@@ -152,24 +146,11 @@ class SampleDotViewController: GLKViewController {
                 }
             }
         }
-        
-//        if inputDatas.count > 0 {
-//            for i in 0...inputDatas.count - 1 {
-//                inputDatas[i] = updateInputData(inputDatas[i])
-//            }
-//        }
     }
 
     
     private func addBlockAtIndex(index: Int) {
         if isAllowNewBlock {
-//            if inputDatas.count > 0 && inputDatas.count > index {
-//                inputDatas[index].isDown = 0;
-//                inputDatas[index].positionStoredY = maxLevel.f
-//            } else {
-//                addNewBlock(CGPointMake(CGFloat(5 - index) * 40.0 + 20, maxLevel))
-//            }
-            
             updateBlockAtIndex(Int32(index))
         } else {
             if blocks.count > 0 && blocks.count > index {
@@ -295,10 +276,5 @@ extension SampleDotViewController: AudioDisplayLinkDelegate {
                 addedLevel = 0
             }
         }
-        
-//        if timeElapsed >= 1.0 {
-//            addBlockAtIndex(0)
-//            timeElapsed = 0
-//        }
     }
 }

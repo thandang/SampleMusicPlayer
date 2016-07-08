@@ -22,7 +22,6 @@ void renderBlockCover(const PointData *data, const TextureProgram *texture_progr
     
     glUniformMatrix4fv(texture_program->u_ProjectionMatrix, 1, GL_FALSE, (GLfloat*)m);
     glBindBuffer(GL_ARRAY_BUFFER, data->buffer);
-    
     glUniform2f(texture_program->u_ePosition, (GLfloat)inputData.positionX, (GLfloat)inputData.positionY);
     
     glUniform1f(texture_program->u_eSizeStart, inputData.sizeStart);

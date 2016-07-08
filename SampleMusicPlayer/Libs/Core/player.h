@@ -17,20 +17,13 @@ static const int MAX_NUM_COLUMN = 6;
 
 void setupScreen();
 void on_surface_changed(int width, int height);
-
-
-
-void renderBarObject(InputData inputData);
-void updateLifeCycle(float timeEclapsed);
-
-//Private
-InputData updateInputData(InputData data);
-InputData updatePositionStored(InputData data);
+void initialData(InputData listDatas[MAX_NUM_COLUMN]);
 
 void renderBlocks();
-void renderBlockWithStepUpdate(InputData inputData);
 void updateBlocks();
 void updateBlockAtIndex(int index);
-void initialData(InputData listDatas[MAX_NUM_COLUMN]);
+
+void renderBarObject(InputData inputData);
+
 
 #endif /* player_h */

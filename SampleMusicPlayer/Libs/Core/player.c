@@ -54,8 +54,11 @@ static mat4x4 model_view_projection_matrix;
 static mat4x4 inverted_view_projection_matrix;
 
 
+//Private function
 static void position_object_in_scene(float x, float y, float z);
-
+static InputData updateInputData(InputData data);
+static InputData updatePositionStored(InputData data);
+static void renderBlockWithStepUpdate(InputData inputData);
 static inline float deg_to_radf(float deg) {
     return deg * (float)M_PI / 180.0f;
 }

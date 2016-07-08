@@ -14,6 +14,7 @@
 #include "linmath.h"
 #include <OpenGLES/ES2/gl.h>
 
+
 typedef struct {
     GLuint texture;
     GLuint buffer;
@@ -37,6 +38,7 @@ typedef struct {
     float currentPositionY;
     float secondPostionY;
     int   numberOfStepItem;
+    float nextPosition;
 } InputData;
 
 typedef struct {
@@ -44,6 +46,10 @@ typedef struct {
     InputData itemData;
 } Block;
 
+typedef struct {
+    Particles particles[8]; //TODO: we should synchronize with NUM_POINTS 
+    InputData itemData;
+}Bar;
 
 typedef struct {
     vec4 color;
@@ -53,9 +59,12 @@ typedef struct {
 
 
 PointData generatePointData(GLuint texture, Block blockData);
+PointData generateBarPointData(GLuint texture, Bar barData);
 
 void renderBlockCover(const PointData *data, const TextureProgram *texture_program, mat4x4 m, const InputData inputData);
 
-void renderBar(const PointData *data, const TextureProgram *textureProgram, mat4x4 m);
+void renderBar(const PointData *data, const TextureProgram *textureProgram, mat4x4 m, const InputData inputData);
+
+void renderBottomBar(const PointData *data, const TextureProgram *textureProgram, mat4x4 m, const InputData inputData, float plus);
 
 #endif /* block_objects_h */

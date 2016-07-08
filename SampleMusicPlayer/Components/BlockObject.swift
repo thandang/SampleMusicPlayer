@@ -140,7 +140,7 @@ class BlockObject: NSObject {
                 glUniform1f(barShader!.u_eSizeEnd!, bar!.eSizeEnd!)
                 glUniform1i(barShader!.u_Texture!, 0);
                 glUniform1f(barShader!.u_eDelta!, delta2)
-                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
+//                glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
                 
                 // Draw particles
                 glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
@@ -158,7 +158,7 @@ class BlockObject: NSObject {
             glUniform3f(barShader!.u_GrowthColor!, topColor.r, topColor.g, topColor.b)
             
             // Draw particles
-            glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+            glDrawArrays(GLenum(GL_POINTS), 0, 1)
             
             glBindTexture(GLenum(GL_TEXTURE_2D), thirdTexture!)
             glUniformMatrix4fv((barShader!.u_ProjectionMatrix)!, 1, GLboolean(GL_FALSE), projectMatrix.array)
@@ -172,7 +172,7 @@ class BlockObject: NSObject {
             
             
             // Draw particles
-            glDrawArrays(GLenum(GL_POINTS), 0, GLsizei(numberOfPointBar))
+            glDrawArrays(GLenum(GL_POINTS), 0, 1)
         }
     }
     

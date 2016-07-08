@@ -14,6 +14,9 @@
 #include <OpenGLES/ES2/gl.h>
 
 static const int MAX_NUM_COLUMN = 6;
+static const int NUM_POINTS = 8;
+static const float BOTTOM_Y = -0.3;
+static const float HALF_POINT_SIZE = 17.0f;
 
 void setupScreen();
 void on_surface_changed(int width, int height);
@@ -22,8 +25,6 @@ void initialData(InputData listDatas[MAX_NUM_COLUMN]);
 void renderBlocks();
 void updateBlocks();
 void updateBlockAtIndex(int index);
-
-void renderBarObject(InputData inputData);
 
 
 #endif /* player_h */

@@ -175,7 +175,7 @@ class SampleDotViewController: GLKViewController {
     private func addNewBlock(point: CGPoint) {
         let glPoint = CGPointMake(point.x/view.frame.size.width, point.y/view.frame.size.height);
         let x = (glPoint.x * 2.0) - 1.0
-        let inputData = InputData(positionX: x.f, positionY: point.y.f, sizeStart: 32.0, sizeEnd: 32.0, delta: 0.1, isDown: 0, delta2: 0.0, currentPositionY: 0.0, secondPostionY: point.y.f, numberOfStepItem: 5)
+        let inputData = InputData(positionX: x.f, positionY: point.y.f, sizeStart: 32.0, sizeEnd: 32.0, delta: 0.1, isDown: 0, delta2: 0.0, currentPositionY: 0.0, secondPostionY: point.y.f, numberOfStepItem: 5, nextPosition: 0.0)
         inputDatas.append(inputData)
     }
     

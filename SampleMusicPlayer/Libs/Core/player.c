@@ -14,24 +14,15 @@
 #include "shader_processor.h"
 #include "linmath.h"
 
-
-float delta;
-float delta2;
-float currentPositionY;
-int isDown = 0; // 1 is true and 0 is false
-float secondPostionY;
-int numberOfStepItem = 5;
-
-
-//static const float plusX = 0.011;
-//static const float bottomY = -0.3;
-//static const float halfPointSize = 18.0;
+static const float plusX = 0.014;
 static const float bottomYCap = -0.26;
 static const float stepBlock = 0.05;
 static const float stepBar = 0.1;
 static const float pointSizeHeight = 0.04;
-static const float distanceBar2Block = 0.01;
+static const float distanceBar2Block = 0.05;
 static const float MAX_LEVEL = 0.2;
+static const float fixedSizeOffset = 0.1;
+static const float fixedPositionOffset = 0.5;
 
 float positionStoredY;
 
@@ -41,6 +32,7 @@ GLuint bottomBarTexture;
 
 TextureProgram textureProgram;
 TextureProgram textureProgram2;
+TextureProgram textureProgram3;
 
 PointData pointData;
 
@@ -59,26 +51,27 @@ static void position_object_in_scene(float x, float y, float z);
 static InputData updateInputData(InputData data);
 static InputData updatePositionStored(InputData data);
 static void renderBlockWithStepUpdate(InputData inputData);
+static void renderBarObject(InputData inputData);
 static inline float deg_to_radf(float deg) {
     return deg * (float)M_PI / 180.0f;
 }
 
 InputData storedInputDatas[MAX_NUM_COLUMN];
 
+
+#pragma mark - public functions
 void setupScreen() {
     glClearColor(0.3f, 0.3f, 0.3f, 1.0);
     
     textureProgram = get_texture_program(build_program_from_assets("Block.vsh", "Block.fsh"));
-    InputData inputData = {1.0f, 0.3f, 32.0f, 32.0f, 0.1f};
-    Block block = {{{0.05f, 0.5f}}, inputData};
-    pointData = generatePointData(load_png_asset_into_texture("bar_64.png"), block);
+    textureProgram2 = get_texture_program(build_program_from_assets("Bar.vsh", "Bar.fsh"));
 }
 
 
 void on_surface_changed(int width, int height) {
     glViewport(0, 0, width, height);
-    mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 1.0f, 10.0f);
-    mat4x4_look_at(view_matrix, (vec3){0.0f, 1.2f, 2.2f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
+    mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 10.0f, 10.0f);
+    mat4x4_look_at(view_matrix, (vec3){0.0f, 0.0f, 5.0f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
 }
 
 /**
@@ -92,21 +85,12 @@ void initialData(InputData listDatas[MAX_NUM_COLUMN]) {
     }
 }
 
-void renderBlockWithStepUpdate(InputData inputData) {
-    mat4x4_mul(view_projection_matrix, projection_matrix, view_matrix);
-    mat4x4_invert(inverted_view_projection_matrix, view_projection_matrix);
-    position_object_in_scene(0.4f, 0.0f, 0.0f);
-    Block block = {{{0.1f, 0.2f}}, inputData};
-    pointData = generatePointData(load_png_asset_into_texture("bar_64.png"), block);
-    renderBlockCover(&pointData, &textureProgram, model_view_projection_matrix, inputData);
-}
-
-
 void renderBlocks() {
     for (int i = 0; i < MAX_NUM_COLUMN; i++) {
         InputData item = updatePositionStored(storedInputDatas[i]);
         storedInputDatas[i] = item;
         renderBlockWithStepUpdate(item);
+        renderBarObject(item);
     }
 }
 
@@ -132,13 +116,42 @@ void updateBlockAtIndex(int index) {
     storedInputDatas[index].positionY = MAX_LEVEL;
 }
 
-void renderBarObject(InputData data) {
-    
+
+#pragma mark - Static function
+static void renderBlockWithStepUpdate(InputData inputData) {
+    mat4x4_mul(view_projection_matrix, projection_matrix, view_matrix);
+    mat4x4_invert(inverted_view_projection_matrix, view_projection_matrix);
+    position_object_in_scene(0.7f, 0.0f, 0.0f);
+    Block block = {{{0.0f, 0.0f}}, inputData};
+    pointData = generatePointData(load_png_asset_into_texture("block_64.png"), block);
+    renderBlockCover(&pointData, &textureProgram, model_view_projection_matrix, inputData);
 }
 
-
-
-InputData updatePositionStored(InputData data) {
+static void renderBarObject(InputData inputData) {
+    float step = stepBlock;
+    float nextPosition = BOTTOM_Y;
+    for (int i = inputData.numberOfStepItem; i >= 0; i--) {
+        nextPosition = BOTTOM_Y + 0.02 + step * i;
+        if (nextPosition > inputData.secondPostionY) {
+            nextPosition = inputData.secondPostionY;
+        }
+        if (nextPosition + inputData.delta2 < BOTTOM_Y) {
+            break;
+        }
+        inputData.nextPosition = nextPosition;
+        
+        Bar bar = {{{fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}, {fixedSizeOffset, fixedPositionOffset}}, inputData};
+        PointData data = generateBarPointData(load_png_asset_into_texture("bar_64.png"), bar);
+        renderBar(&data, &textureProgram2, model_view_projection_matrix, inputData);
+    }
+    
+    Bar bottomBar = {{0.05, 0.5}, inputData};
+    PointData dataBottom = generateBarPointData(load_png_asset_into_texture("bar_32.png"), bottomBar);
+    renderBottomBar(&dataBottom, &textureProgram2, model_view_projection_matrix, inputData, plusX);
+    
+    renderBottomBar(&dataBottom, &textureProgram2, model_view_projection_matrix, inputData, -plusX);
+}
+static InputData updatePositionStored(InputData data) {
     InputData inputData = data;
     if (inputData.positionY + inputData.delta < bottomYCap) { //Limit the bottom position for tear down
         inputData.positionY = bottomYCap;
@@ -147,7 +160,7 @@ InputData updatePositionStored(InputData data) {
     return inputData;
 }
 
-InputData updateInputData(InputData data) {
+static InputData updateInputData(InputData data) {
     InputData tmp = data;
     //Only update yValue if bar is moving down
     if (tmp.currentPositionY == tmp.positionY) {

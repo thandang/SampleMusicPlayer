@@ -49,7 +49,6 @@ class SampleDotViewController: GLKViewController {
         // Set up context
         let context = EAGLContext(API: .OpenGLES2)
         EAGLContext.setCurrentContext(context)
-        self.preferredFramesPerSecond = 60;
         let currentView = view as! GLKView
         currentView.context = context
 
@@ -58,7 +57,7 @@ class SampleDotViewController: GLKViewController {
             setupScreen()
             on_surface_changed(Int32(view.bounds.size.width), Int32(view.bounds.size.height));
             for i in 0...MAX_NUM_COLUMN - 1 {
-                addNewBlock(CGPointMake(CGFloat(MAX_NUM_COLUMN - 1 - i) * 40.0 + 20, maxLevel)) //init list data already
+                addNewBlock(CGPointMake(CGFloat(MAX_NUM_COLUMN - 1 - i) * 20.0 + 20, maxLevel)) //init list data already
             }
             initialData(&inputDatas)
         }

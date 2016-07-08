@@ -92,7 +92,7 @@ void initialData(InputData listDatas[MAX_NUM_COLUMN]) {
 void renderBlockWithStepUpdate(InputData inputData) {
     mat4x4_mul(view_projection_matrix, projection_matrix, view_matrix);
     mat4x4_invert(inverted_view_projection_matrix, view_projection_matrix);
-    position_object_in_scene(0.0f, 1.0f, 0.0f);
+    position_object_in_scene(0.4f, 0.0f, 0.0f);
     Block block = {{{0.1f, 0.2f}}, inputData};
     pointData = generatePointData(load_png_asset_into_texture("bar_64.png"), block);
     renderBlockCover(&pointData, &textureProgram, model_view_projection_matrix, inputData);

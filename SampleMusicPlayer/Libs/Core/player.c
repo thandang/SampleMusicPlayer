@@ -71,7 +71,7 @@ void setupScreen() {
 void on_surface_changed(int width, int height) {
     glViewport(0, 0, width, height);
     mat4x4_perspective(projection_matrix, deg_to_radf(45), (float) width / (float) height, 10.0f, 10.0f);
-    mat4x4_look_at(view_matrix, (vec3){0.0f, 0.0f, 5.0f}, (vec3){0.0f, 0.0f, 0.0f}, (vec3){0.0f, 1.0f, 0.0f});
+    mat4x4_look_at(view_matrix, (vec3){0.0f, 0.0f, 5.0f}, (vec3){0.3f, 0.2f, 0.1f}, (vec3){0.0f, 1.0f, 0.0f});
 }
 
 /**

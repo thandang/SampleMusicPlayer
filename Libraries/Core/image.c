@@ -8,7 +8,7 @@
 
 #include "image.h"
 #include <assert.h>
-#include <png.h>
+#include "png.h"
 #include <string.h>
 #include <stdlib.h>
 #include "platform_log.h"

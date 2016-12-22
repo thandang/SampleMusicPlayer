@@ -233,8 +233,19 @@ class BlockObject: NSObject {
         let width = CGImageGetWidth(refImage)
         let height = CGImageGetHeight(refImage)
         let refData = UnsafeMutablePointer<Void>.alloc(width * height * 4)
-        let imageContext = CGBitmapContextCreate(refData, width, height, 8, width * 4, CGImageGetColorSpace(refImage), CGImageAlphaInfo.PremultipliedLast.rawValue)
-        CGContextDrawImage(imageContext, CGRectMake(0.0, 0.0, CGFloat(width), CGFloat(height)), refImage)
+        
+        
+        guard let refColorSpace = CGImageGetColorSpace(refImage) else {
+            print("nil ref color space")
+            return 0
+        }
+        let imageContext = CGBitmapContextCreate(refData, width, height, 8, width * 4, refColorSpace, CGImageAlphaInfo.PremultipliedLast.rawValue)
+        guard  let imContext = imageContext else {
+            print("nul image context")
+            return 0
+        }
+        CGContextDrawImage(imContext, CGRectMake(0.0, 0.0, CGFloat(width), CGFloat(height)), refImage)
+        
         
         var textName: GLuint = 0
         glGenTextures(1, &textName)
